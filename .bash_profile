@@ -15,6 +15,9 @@ function cht {
 
 export PATH="$PATH:~/bin"
 
+export HISTCONTROL=ignoredups
+export HISTSIZE=1000
+
 
 # Setting PATH for Python 3.4
 export PATH="/Library/Frameworks/Python.framework/Versions/3.4/bin:${PATH}"
