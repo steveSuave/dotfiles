@@ -3,7 +3,7 @@
 # alternative way to validate sha checksums
 
 x=$(shasum $3 $4 $1)
-[ ${x% *} == $2 ] && echo clean || echo dirty
+[ ${x%% *} == $2 ] && echo clean || echo dirty
 
 # usage: 
 # shawk filename copied_hash -a 512
