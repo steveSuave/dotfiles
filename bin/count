@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# go to dir if given
+#=========================
+if [[ -n "$1" && $1 != "-a" ]]; then
+	cd $1
+fi
+#=========================
+if [ -n "$2" ]; then
+	cd $2
+fi
+
+#also count hidden files
+#=========================
+if [ "$1" == "-a"  ]; then
+	x=$(ls -1a | wc -l)
+	echo $(($x-2)) # subtract . and ..
+else
+	x=$(ls -1 | wc -l)
+	echo $x
+fi
+#=========================
+
+#usage: 
+#count
+#count -a
+#count "dir"
+#count -a "dir"
+
