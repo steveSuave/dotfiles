@@ -9,8 +9,9 @@ alias python=python3
 
 abyss=/dev/null
 
-#start | stop | restart
-db=/usr/local/mysql-8.0.15-macos10.14-x86_64/support-files/mysql.server
+updlct=/usr/libexec/locate.updatedb
+
+db=/usr/local/mysql-8.0.15-macos10.14-x86_64/support-files/mysql.server #start | stop | restart
 
 # see helpful examples of command usage and more
 function cht {
