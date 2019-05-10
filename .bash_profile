@@ -3,10 +3,14 @@ date
 # Show previous command's exit status at prompt
 export PS1="[\$?] $PS1"
 
-alias ls="ls -F"
+alias ls="ls -GFh"
 alias rm="rm -i"
+alias python=python3
 
 abyss=/dev/null
+
+#start | stop | restart
+db=/usr/local/mysql-8.0.15-macos10.14-x86_64/support-files/mysql.server
 
 # see helpful examples of command usage and more
 function cht {
