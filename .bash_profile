@@ -15,7 +15,7 @@ db=/usr/local/mysql-8.0.15-macos10.14-x86_64/support-files/mysql.server #start |
 
 # see helpful examples of command usage and more
 function cht {
-	curl https://cht.sh/${1}
+	curl https://cht.sh/$1 $2 $3
 }
 
 export PATH="$PATH:~/bin"
