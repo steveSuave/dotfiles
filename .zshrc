@@ -16,3 +16,6 @@ SAVEHIST=1000
 setopt appendhistory autocd extendedglob notify hist_ignore_all_dups hist_ignore_space 
 
 bindkey -v
+
+RPROMPT=%t
+PROMPT="(%?) %m: %1~ %# "
