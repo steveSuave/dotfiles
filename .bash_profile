@@ -1,11 +1,11 @@
 date
 
 # Show previous command's exit status at prompt
-export PS1="[\$?] $PS1"
+export PS1="[\$?] \u: \W \$ "
 
 alias ls="ls -GFh"
 alias rm="rm -i"
-alias python=python3
+alias py=python3
 
 abyss=/dev/null
 
