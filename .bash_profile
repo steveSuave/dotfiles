@@ -13,6 +13,19 @@ updlct=/usr/libexec/locate.updatedb
 
 db=/usr/local/mysql-8.0.15-macos10.14-x86_64/support-files/mysql.server #start | stop | restart
 
+function run {
+	open /Applications/${1}.app
+}
+
+function quit {
+	pkill -Ili $1
+}
+
+function cl {
+	cd "$1"
+	ls -haltFG
+}
+
 # see helpful examples of command usage and more
 function cht {
 	curl https://cht.sh/$1 $2 $3
