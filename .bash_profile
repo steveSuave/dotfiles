@@ -9,16 +9,19 @@ alias py=python3
 
 abyss=/dev/null
 
-updlct=/usr/libexec/locate.updatedb
+updlct=/usr/libexec/locate.updatedb #sudo
 
-db=/usr/local/mysql-8.0.15-macos10.14-x86_64/support-files/mysql.server #start | stop | restart
+#start | stop | restart
+db=/usr/local/mysql-8.0.15-macos10.14-x86_64/support-files/mysql.server 
 
 function run {
 	open /Applications/${1}.app
 }
 
 function quit {
-	pkill -Ili $1
+	pkill -Ili $1 
+	#a little aggresive, in a mac could use applescript
+	#osascript -e "quit app \"$1\""
 }
 
 function cl {
