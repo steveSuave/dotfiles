@@ -6,10 +6,11 @@ export PS1="[\$?] \u: \W \$ "
 alias ls="ls -GFh"
 alias rm="rm -i"
 alias py=python3
+alias ducks='du -cks * | sort -rn | head' #largest dirs or files from current dir"
 
 abyss=/dev/null
 
-updlct=/usr/libexec/locate.updatedb #sudo
+updlct=/usr/libexec/locate.updatedb  #sudo
 
 #start | stop | restart
 db=/usr/local/mysql-8.0.15-macos10.14-x86_64/support-files/mysql.server 
@@ -20,8 +21,8 @@ function run {
 
 function quit {
 	pkill -Ili $1 
-	#a little aggresive, in a mac could use applescript
-	#osascript -e "quit app \"$1\""
+	# a little aggresive, in a mac could use applescript
+	# osascript -e "quit app \"$1\""
 }
 
 function cl {
@@ -31,8 +32,13 @@ function cl {
 
 # see helpful examples of command usage and more
 function cht {
-	curl https://cht.sh/$1 $2 $3
+	curl https://cht.sh/$*
 }
+
+function check {
+	ps -ef | grep -i $1 | head -1
+}
+
 
 export PATH="$PATH:~/bin"
 
