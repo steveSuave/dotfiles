@@ -16,7 +16,7 @@ updlct=/usr/libexec/locate.updatedb  #sudo
 db=/usr/local/mysql-8.0.15-macos10.14-x86_64/support-files/mysql.server 
 
 function run {
-	open /Applications/${1}.app
+	open -a "$1"
 }
 
 function quit {
@@ -27,7 +27,7 @@ function quit {
 
 function cl {
 	cd "$1"
-	ls -haltFG
+	ls -althFG
 }
 
 # see helpful examples of command usage and more
@@ -39,6 +39,10 @@ function check {
 	ps -ef | grep -i $1 | head -1
 }
 
+# Merges, or joins multiple PDF files into "joined.pdf"
+joinpdf () {
+    gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=joined.pdf "$@"
+}
 
 export PATH="$PATH:~/bin"
 
