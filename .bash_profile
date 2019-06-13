@@ -12,8 +12,10 @@ abyss=/dev/null
 
 updlct=/usr/libexec/locate.updatedb  #sudo
 
-#start | stop | restart
-db=/usr/local/mysql-8.0.15-macos10.14-x86_64/support-files/mysql.server 
+alias mysql.start="sudo /usr/local/mysql/support-files/mysql.server start"
+alias mysql.stop="sudo /usr/local/mysql/support-files/mysql.server stop"
+alias mysql.restart="sudo /usr/local/mysql/support-files/mysql.server restart"
+alias mysql.status="sudo /usr/local/mysql/support-files/mysql.server status"
 
 function run {
 	open -a "$1"
