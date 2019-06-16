@@ -1,10 +1,11 @@
 date
 
 # Show previous command's exit status at prompt
-export PS1="[\$?] \u: \W \$ "
+export PS1="(\$?) \u: \W \$ "
 
 alias ls="ls -GFh"
 alias rm="rm -i"
+alias grep='grep --color=auto'
 alias py=python3
 alias ducks='du -cks * | sort -rn | head' #largest dirs or files from current dir"
 
