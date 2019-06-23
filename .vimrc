@@ -1,15 +1,15 @@
 set nu
 
-set tabstop=4
-
+set tabstop=4 shiftwidth=4
+set autoindent
 set nocompatible
 
 syntax enable
 
 filetype plugin on
 
-set path+=**
-set wildmenu
+"set path+=**
+"set wildmenu
 
 "display all matching files when we tab complete
 "hit tab to :find by partial match
