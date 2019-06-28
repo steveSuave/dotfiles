@@ -1,0 +1,18 @@
+#!/bin/bash
+exec &>/dev/null
+brake=0 
+while [ true ]; do     
+	if [ $brake -eq 20 ]; then         
+		osascript -e 'tell application (path to frontmost application as text) to display dialog "look away" buttons {"OK"} with icon note'         
+		brake=0     
+	else         
+		sleep 60 
+		brake=$[ $brake+1 ]     
+	fi 
+done
+
+# simple pomodoro-like little program for macos
+# to alert each 20 minutes for you to rest your eyes
+# better to run it in the background
+
+# for windows cmder, line 6 would be: msg /time:4 $USERNAME "look away"
