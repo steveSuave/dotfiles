@@ -4,7 +4,8 @@ date
 export PS1="(\$?) \u: \W \$ "
 
 alias ls="ls -GFh"
-alias rm="rm -i"
+alias rmi="rm -i"
+alias rmt="rmtrash"
 alias grep='grep --color=auto'
 alias py=python3
 alias ducks='du -cks * | sort -rn | head' #largest dirs or files from current dir"

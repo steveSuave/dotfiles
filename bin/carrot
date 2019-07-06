@@ -3,7 +3,7 @@ exec &>/dev/null
 brake=0 
 while [ true ]; do     
 	if [ $brake -eq 20 ]; then         
-		osascript -e 'tell application (path to frontmost application as text) to display dialog "look away" buttons {"OK"} with icon note'         
+		osascript -e 'tell application (path to frontmost application as text) to display dialog "look away" buttons {"OK"} with icon note giving up after 4'
 		brake=0     
 	else         
 		sleep 60 
@@ -11,8 +11,5 @@ while [ true ]; do
 	fi 
 done
 
-# simple pomodoro-like little program for macos
-# to alert each 20 minutes for you to rest your eyes
-# better to run it in the background
+# for windows cmder: msg.exe /time:4 $USERNAME "look away"
 
-# for windows cmder, line 6 would be: msg /time:4 $USERNAME "look away"
