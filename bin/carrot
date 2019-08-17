@@ -11,7 +11,7 @@ stand=0
 
 small() {
 	osascript -e 'display notification "20 secs" with title "look away"'
-    brake=0
+    	brake=0
 	stand=$(( $stand+1 )) 
 }
 
@@ -31,13 +31,13 @@ braek() {
 }
 
 while true; do         
-    if [ $brake -eq 20 ] && [ $stand -eq 2 ]; then
+	if [ $brake -eq 20 ] && [ $stand -eq 2 ]; then
 		big
 	elif [ $brake -eq 20 ]; then             
 		small
-    else             
+	else             
 		braek
-    fi  
+	fi 
 done
 
 # could alias 'kill -[8|14] [running pid]' to reset the stages
