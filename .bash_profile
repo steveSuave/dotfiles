@@ -12,8 +12,7 @@ alias ducks='du -cks * | sort -rn | head' #largest dirs or files from current di
 
 abyss=/dev/null
 
-updlct=/usr/libexec/locate.updatedb  #sudo
-
+alias updlct='/usr/libexec/locate.updatedb'  #sudo
 alias mysql.start="sudo /usr/local/mysql/support-files/mysql.server start"
 alias mysql.stop="sudo /usr/local/mysql/support-files/mysql.server stop"
 alias mysql.restart="sudo /usr/local/mysql/support-files/mysql.server restart"
