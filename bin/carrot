@@ -40,5 +40,5 @@ while true; do
 	fi 
 done
 
-# could alias 'kill -[8|14] [running pid]' to reset the stages
+# could alias 'kill -[8|14] $(pgrep -f carrot)' to reset the stages
 # for windows cmder: msg.exe /time:4 $USERNAME "look away"
