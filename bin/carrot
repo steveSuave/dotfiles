@@ -4,7 +4,7 @@
 # to rest his eyes and move his body
 
 trap 'small; stand=1' 8
-trap 'bigs' 14
+trap 'big' 14
 
 brake=0 
 stand=0
