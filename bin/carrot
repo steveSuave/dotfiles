@@ -32,7 +32,7 @@ braek() {
 
 small() {
 	osascript -e 'display notification "20 secs" with title "look away"'
-    brake=0
+    	brake=0
 	stand=$(( stand+1 ))
 }
 
@@ -66,8 +66,8 @@ if mkdir "$lockdir" 2> /dev/null
 then
 	main	
 else
-    # echo "cannot acquire lock"
-    exit 1
+	# echo "cannot acquire lock"
+	exit 1
 fi
 
 # for windows subsystem for linux 
