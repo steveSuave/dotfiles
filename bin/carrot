@@ -18,40 +18,40 @@ trap 'log' SIGINFO
 trap 'loop=1; rm -rf "$lockdir"; exit' SIGTERM SIGHUP SIGINT SIGQUIT
 
 loop=0
-brake=0 
+minutes=0 
 stand=0
 
 braek() {
-	local minute=0
-	until (( minute == 60 )); do
+	local counter=0
+	until (( counter == 60 )); do
 		sleep 1
-		minute=$(( minute+1 ))
+		counter=$(( counter+1 ))
 	done
-	brake=$(( brake+1 ))
+	minutes=$(( minutes+1 ))
 }
 
 small() {
 	osascript -e 'display notification "20 secs" with title "look away"'
-    	brake=0
+    	minutes=0
 	stand=$(( stand+1 ))
 }
 
 big() {
 	osascript -e 'display notification "do some walkin" with title "GIT UP"'
 	stand=0
-	brake=0
+	minutes=0
 }
 
 log() {
-	osascript -e "display notification \"===============\" with title \"Break: $brake	Stand: $stand\""
+	osascript -e "display notification \"===============\" with title \"Break: $minutes	Stand: $stand\""
 }
 
 main() {
 	while (( loop == 0 )); do         
-		if (( brake == 20 )) && (( stand == 2 ))
+		if (( minutes == 20 )) && (( stand == 2 ))
 		then
 			big
-		elif (( brake == 20 )); then             
+		elif (( minutes == 20 )); then             
 			small
 		else             
 			braek
