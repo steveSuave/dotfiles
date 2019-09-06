@@ -18,27 +18,28 @@ alias mysql.stop="sudo /usr/local/mysql/support-files/mysql.server stop"
 alias mysql.restart="sudo /usr/local/mysql/support-files/mysql.server restart"
 alias mysql.status="sudo /usr/local/mysql/support-files/mysql.server status"
 
-function run {
+run() {
 	open -a "$1"
+	# mac specific
 }
 
-function quit {
+quit() {
 	pkill -Ili $1 
 	# a little aggresive, in a mac could use applescript
 	# osascript -e "quit app \"$1\""
 }
 
-function cl {
+cl() {
 	cd "$1"
 	ls -althFG
 }
 
 # see helpful examples of command usage and more
-function cht {
+cht() {
 	curl https://cht.sh/$*
 }
 
-function check {
+check() {
 	ps -ef | grep -i $1 | head -1
 }
 
