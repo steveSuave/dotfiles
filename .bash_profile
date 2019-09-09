@@ -24,23 +24,23 @@ run() {
 }
 
 quit() {
-	pkill -Ili $1 
+	pkill -Ili "$1" 
 	# a little aggresive, in a mac could use applescript
 	# osascript -e "quit app \"$1\""
 }
 
 cl() {
-	cd "$1"
+	cd "$1" || exit 
 	ls -althFG
 }
 
 # see helpful examples of command usage and more
 cht() {
-	curl https://cht.sh/$*
+	curl https://cht.sh/"$*"
 }
 
 check() {
-	ps -ef | grep -i $1 | head -1
+	pgrep -f "$1"
 }
 
 # Merges, or joins multiple PDF files into "joined.pdf"

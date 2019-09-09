@@ -3,21 +3,21 @@
 # go to dir if given
 #=========================
 if [[ -n "$1" && $1 != "-a" ]]; then
-	cd $1
+	cd "$1" || exit 1
 fi
 #=========================
 if [ -n "$2" ]; then
-	cd $2
+	cd "$2" || exit 1
 fi
 
 #also count hidden files
 #=========================
 if [ "$1" == "-a"  ]; then
 	x=$(ls -1a | wc -l)
-	echo $(($x-2)) # subtract . and ..
+	echo $((x-2)) # subtract . and ..
 else
 	x=$(ls -1 | wc -l)
-	echo $x
+	echo "$x"
 fi
 #=========================
 
