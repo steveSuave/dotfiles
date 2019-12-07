@@ -1,12 +1,18 @@
-set nu
-
-set tabstop=4 shiftwidth=4
-set autoindent
 set nocompatible
+set nu
+set tabstop=4 shiftwidth=4
+set expandtab
+set autoindent
 
 syntax enable
-
 filetype plugin on
+
+"scheme quick run
+map <F4> :w !scheme <CR>
+"python save and run
+autocmd FileType python nnoremap <buffer> <F5> <Esc>:w<CR>:exec '!clear; python3' shellescape(@%, 1)<cr>
+"insert line break at cursor point
+map <c-b> <esc>i<cr><esc>
 
 "set path+=**
 "set wildmenu

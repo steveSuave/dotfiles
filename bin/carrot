@@ -12,10 +12,10 @@ trap 'big' SIGWINCH
 # print the timer
 trap 'log' SIGINFO
 # traps to be aliased in some dotfile
-# kill -x $(pgrep -f carrot)
+# kill -SIG{x} $(pgrep -f carrot)
 
 # remove lockdir before exiting
-trap 'loop=1; rm -rf "$lockdir"; exit' SIGTERM SIGHUP SIGINT SIGQUIT
+trap 'loop=1; rm -rf "$lockdir"; exit' SIGTERM SIGHUP SIGQUIT SIGINT 
 
 loop=0
 minutes=0 
@@ -73,6 +73,6 @@ fi
 # for windows subsystem for linux 
 # could notify with powershell or:
 # msg.exe /time:4 $USERNAME "look away"
-# for ubuntu: notify-send
+# for some linux distros: notify-send
 # on linux could acquire lock with flock(1)
 

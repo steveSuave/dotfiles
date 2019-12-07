@@ -43,15 +43,27 @@ check() {
 	pgrep -f "$1"
 }
 
+paest() {
+	curl -F 'f:1=<-' http://ix.io
+}
+
 # Merges, or joins multiple PDF files into "joined.pdf"
 joinpdf () {
     gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=joined.pdf "$@"
 }
 
+# usage:
+# sep "vid-name" "time to start cutting" "how much time to last from starting point" "output name"
+# time format for $2 and $3: 00:00:00.00
+# example: sep "dr john guitar.mp4" 00:45:23 00:05:00 nawlinz.mp4
+sep() {
+	ffmpeg -i "$1" -ss "$2" -t "$3" -c copy "$4"
+}
+
 export PATH="$PATH:~/bin"
 
 export HISTCONTROL=ignoredups
-export HISTSIZE=1000
+export HISTSIZE=1111
 
 #############################
 
