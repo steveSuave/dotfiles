@@ -23,7 +23,7 @@ for file in "${files[@]}"; do
         "-- ================" \
         "-- ${file##*/} --" \
         "-- ================" >> merged.sql 
-        while IFS= read -r line || [[ -n "$line" ]]; do
-                printf '%s\n' "$line" >> merged.sql
-        done < "$file"
+    while IFS= read -r line || [[ -n "$line" ]]; do
+            printf '%s\n' "$line" >> merged.sql
+    done < "$file"
 done
