@@ -5,7 +5,8 @@
 # bash 4+ is required and also the globstar option to be set.
 
 # Usage:
-# copy all folders containing sql files to a new-folder
+# create a new-folder and copy there
+# all folders containing sql files
 # cd to new-folder and run 'gluesql'
 # alternatively from anywhere run 'gluesql new-folder'
 
@@ -16,9 +17,11 @@ cd "$currentdir" || exit 1
 
 mapfile -d '' files < <(printf '%s\0' **/*.sql | sort -zV)
 for file in "${files[@]}"; do
-    printf '\n%s\n%s\n%s\n\n' \
+    printf '\n\n%s\n%s\n%s\n\n' \
         "-- ================" \
         "-- ${file##*/} --" \
         "-- ================" >> merged.sql 
-	cat "$file" >> merged.sql
+        while IFS= read -r line || [[ -n "$line" ]]; do
+                printf '%s\n' "$line" >> merged.sql
+        done < "$file"
 done
