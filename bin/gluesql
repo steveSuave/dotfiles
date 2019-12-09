@@ -1,14 +1,16 @@
 #!/bin/bash
 
-# Merges the sql scripts of all folders and subfolders
-# starting from a given dir. Outputs a 'merged.sql' file.
-# bash 4+ is required and also the globstar option to be set.
+# Merges the sql scripts sorted according to version number
+# of all folders and subfolders starting from a given dir. 
+# Outputs a 'merged.sql' file. Bash 4+ is required and also 
+# the globstar option to be set.
 
 # Usage:
 # create a new-folder and copy there
 # all folders containing sql files
 # cd to new-folder and run 'gluesql'
-# alternatively from anywhere run 'gluesql new-folder'
+# alternatively from anywhere run 
+# gluesql new-folder
 
 shopt -s globstar
 
