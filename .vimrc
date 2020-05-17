@@ -1,5 +1,5 @@
 set nocompatible
-set nu
+set number
 set tabstop=4 shiftwidth=4
 set expandtab
 set autoindent
@@ -9,10 +9,13 @@ filetype plugin on
 
 "scheme quick run
 map <F4> :w !scheme <CR>
-"python save and run
-autocmd FileType python nnoremap <buffer> <F5> <Esc>:w<CR>:exec '!clear; python3' shellescape(@%, 1)<cr>
+"python quick run
+map <F5> :w !python3 <CR>
+"go quick run
+map <F6> :!go run % <CR>
+
 "insert line break at cursor point
-map <c-b> <esc>i<cr><esc>
+map <c-k> <esc>i<cr><esc>
 
 "set path+=**
 "set wildmenu
