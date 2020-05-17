@@ -31,5 +31,4 @@ command! MakeTags !ctags -R .
 "use ^] to jump to tag under cursor
 "use g^] for ambiguous tags
 "use ^t to jump back up the tag stack
-"things to consider:
-"this doesn't help if you want a visual list of tags
+
