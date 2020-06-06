@@ -1,0 +1,123 @@
+#########
+# ALIAS #
+#########
+
+alias mysql.start="sudo /usr/local/mysql/support-files/mysql.server start"
+alias mysql.stop="sudo /usr/local/mysql/support-files/mysql.server stop"
+alias mysql.restart="sudo /usr/local/mysql/support-files/mysql.server restart"
+alias mysql.status="sudo /usr/local/mysql/support-files/mysql.server status"
+
+alias lsa='ls -lahFG'
+alias grep='grep --color=auto'
+alias ducks='du -cks * | sort -rn | head'
+alias ls="ls -GFh"
+alias rmi="rm -i"
+alias rmt="rmtrash"
+alias py=python3
+alias cmus='screen -S cmus cmus'
+alias nboat=newsboat
+alias vboat="newsboat -u ~/.newsboat/yturls -c ~/.newsboat/ytcache.db -C ~/.newsboat/ytconfig"
+alias boat='nboat && vboat'
+
+alias ytd='youtube-dl -o "%(title)s.%(ext)s"'
+alias ytdv='youtube-dl -o "%(title)s.%(ext)s" -f mp4'
+alias ytda='youtube-dl -o "%(title)s.%(ext)s" -x --audio-format mp3'
+alias ytdp='youtube-dl -o "%(playlist_index)s - %(title)s.%(ext)s"' # -f mp4
+alias ytds='youtube-dl --write-sub --sub-lang en --skip-download' # --sub-format ass/srt/best
+
+alias irc='screen -S irc irssi;'
+alias cafrc='caffeinate -w $(pgrep irssi)&'
+
+alias mo='~/.bin/bach|uniq|sed -n "$(( ($RANDOM % 324) + 1))p"'
+
+alias prot='sudo renice -n -20 -p $(pgrep -f karoto)'
+alias kar='kill -SIGINFO $(pgrep -f karoto)'
+alias dodis='kill -SIGWINCH $(pgrep -f karoto)'
+alias fir='kill -SIGUSR1 $(pgrep -f karoto)'
+alias sec='kill -SIGUSR2 $(pgrep -f karoto)'
+
+#############
+# FUNCTIONS #
+#############
+
+adiar() {
+	{ sleep $(( $1 * 60 )) && dodis; }&
+}
+
+run() { 
+	open -a "$1" 
+}
+
+quit() {
+	osascript -e "quit app \"$1\""
+	#pkill -Ili "$1"
+}
+
+check() {
+	pgrep -lf "$*" 
+
+}
+
+cht() {	
+	curl https://cht.sh/"$*" 
+
+}
+
+cl() {
+	cd "$1" || return
+	ls -haltFG
+}
+
+pst() {
+	curl -F 'f:1=<-' http://ix.io
+}
+
+# usage:
+# sep "vid-name" "time to start cutting" "how much time to last from starting point" "output name"
+# time format for $2 and $3: 00:00:00.00
+# example: sep "dr john guitar.mp4" 00:45:23 00:05:00 nawlinz.mp4
+sep() {
+	ffmpeg -i "$1" -ss "$2" -t "$3" -c copy "$4"
+}
+
+## usage:
+## -- gif "from-sec" "for-sec" "movie.mp4" "out"
+## -- gif 538.7 5.2 the-trip.mkv stick
+gif() {
+    ffmpeg -ss "$1" -t "$2" -i "$3" -f gif "${4}.gif"
+}
+
+# Merges, or joins multiple PDF files into "joined.pdf"
+joinpdf () {
+    gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=joined.pdf "$@"
+}
+
+# mpv with subtitles
+mpvs() { 
+    mpv --sub-auto=exact --sub-font-size=33 "$1"; 
+}
+
+#########
+# RADIO #
+#########
+
+# classical music
+alias trito='mpv https://radiostreaming.ert.gr/ert-trito &>/dev/null &'
+
+# jazz
+jazz24() {
+    mpv https://live.wostreaming.net/direct/ppm-jazz24mp3-ibc1 2>/dev/null \
+     | awk '/icy-title/{$1="";print | "tee -a ~/Documents/TEXTFILES/jazz24Log.txt"}'
+}
+jtracks="~/Documents/TEXTFILES/jazz24.txt"
+jlog="~/TEXTFILES/jazz24Log.txt"
+alias jsave="tail -1 $jlog >> $jtracks"
+
+# hip-hop
+gtronic() {
+    mpv http://s1.castserver.net:8014/stream?type=.mp3 2>/dev/null \
+	 | awk '/icy-title/{$1="";print | "tee -a ~/Documents/TEXTFILES/gtronicLog.txt"}'
+}
+gtracks='~/Documents/TEXTFILES/gtronic.txt'
+gtlog='~/Documents/TEXTFILES/gtronicLog.txt'
+alias gsave="tail -1 $gtlog >> $gtracks"

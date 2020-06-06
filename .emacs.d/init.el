@@ -1,14 +1,6 @@
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
 (package-initialize)
 
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
@@ -16,20 +8,22 @@
  '(auto-save-file-name-transforms (quote ((".*" "~/.emacs.d/autosaves/\\1" t))))
  '(backup-directory-alist (quote ((".*" . "~/.emacs.d/backups/"))))
  '(custom-enabled-themes (quote (wombat)))
+ '(newsticker-url-list
+    (quote
+      (("slashdot" "http://rss.slashdot.org/Slashdot/slashdotMain" nil nil nil)
+       ("thalassoporoi" "https://greatnavigators.com/feed" nil nil nil)
+       ("eli-bendersky" "https://eli.thegreenplace.net/feeds/all.atom.xml" nil nil nil))))
  '(package-selected-packages (quote (sml-mode))))
 
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
+)
 
 ;; create the autosave dir if necessary, since emacs won't.
 (make-directory "~/.emacs.d/autosaves/" t)
 
 ;; ===========================
-;; from here on starts my shit
+;; from here on starts my stuff
 (setq calendar-latitude 37.9)
 (setq calendar-longitude 23.7)
 
@@ -37,8 +31,6 @@
 (delete-selection-mode t)
 (show-paren-mode t)
 (menu-bar-mode -1)
-;(ido-mode 1)
-;(ido-everywhere 1)
 
 (setq-default indent-tabs-mode nil)
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -95,3 +87,11 @@ With a prefix argument, insert a newline above the current line."
 ; ;; unset a key
 ; (global-unset-key (kbd "C-b"))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(global-set-key (kbd "ESC <up>") 'scroll-down-line)
+(global-set-key (kbd "ESC <down>") 'scroll-up-line)
+
+(defun annot (num char)
+  (interactive "nColumn to send cursor? \nsComment symbol to insert? ")
+  (move-to-column num t)
+  (insert char))
