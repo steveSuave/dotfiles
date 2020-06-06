@@ -109,8 +109,8 @@ jazz24() {
     mpv https://live.wostreaming.net/direct/ppm-jazz24mp3-ibc1 2>/dev/null \
      | awk '/icy-title/{$1="";print | "tee -a ~/Documents/TEXTFILES/jazz24Log.txt"}'
 }
+jlog="~/Documents/TEXTFILES/jazz24Log.txt"
 jtracks="~/Documents/TEXTFILES/jazz24.txt"
-jlog="~/TEXTFILES/jazz24Log.txt"
 alias jsave="tail -1 $jlog >> $jtracks"
 
 # hip-hop
