@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# taken from Doug McIlroy's home page
+
 leave() {
 	seq 2 1000000
 }

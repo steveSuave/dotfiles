@@ -7,6 +7,7 @@ alias mysql.stop="sudo /usr/local/mysql/support-files/mysql.server stop"
 alias mysql.restart="sudo /usr/local/mysql/support-files/mysql.server restart"
 alias mysql.status="sudo /usr/local/mysql/support-files/mysql.server status"
 
+alias kk="clear && printf '\e[3J'"
 alias lsa='ls -lahFG'
 alias grep='grep --color=auto'
 alias ducks='du -cks * | sort -rn | head'

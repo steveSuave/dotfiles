@@ -95,3 +95,4 @@ With a prefix argument, insert a newline above the current line."
   (interactive "nColumn to send cursor? \nsComment symbol to insert? ")
   (move-to-column num t)
   (insert char))
+
