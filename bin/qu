@@ -13,3 +13,4 @@ if [[ -f "$query" ]]; then
 else
 	mysql -uroot -pXXXX -B --skip-column-names -D "$schema" -e "$query" 2>/dev/null 
 fi
+

@@ -24,8 +24,9 @@ export PATH="$PATH:~/Projects/apache-maven-3.6.1/bin"
 export PATH="$PATH:/usr/local/mysql/bin"
 
 # set path for my stuff
-export PATH="$PATH:/Users/duamba/.bin"
+export PATH="$PATH:~/.bin"
 
 if [[ "$TERM_PROGRAM" != 'vscode' ]]; then
     karoto&
 fi
+

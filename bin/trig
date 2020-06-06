@@ -38,5 +38,3 @@ sierp(600,5)
 
 myWin.exitonclick()
 
-	
-		

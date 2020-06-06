@@ -35,3 +35,4 @@ if [[ $wcode -gt 1 ]]; then
     echo "wget returned $wcode"
     cat "$log"
 fi
+

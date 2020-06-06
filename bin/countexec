@@ -12,3 +12,4 @@ do
 echo "$directory - $count"
 count=0 
 done
+

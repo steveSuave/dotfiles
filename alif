@@ -121,3 +121,4 @@ gtronic() {
 gtracks='~/Documents/TEXTFILES/gtronic.txt'
 gtlog='~/Documents/TEXTFILES/gtronicLog.txt'
 alias gsave="tail -1 $gtlog >> $gtracks"
+

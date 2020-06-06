@@ -1,4 +1,4 @@
-source ~/.bin/alif
+source ~/alif
 
 umask 027
 
