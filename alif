@@ -17,7 +17,7 @@ alias rmt="rmtrash"
 alias py=python3
 alias cmus='screen -S cmus cmus'
 alias nboat=newsboat
-alias vboat="newsboat -u ~/.newsboat/yturls -c ~/.newsboat/ytcache.db -C ~/.newsboat/ytconfig"
+alias vboat="newsboat -u $HOME/.newsboat/yturls -c $HOME/.newsboat/ytcache.db -C $HOME/.newsboat/ytconfig"
 alias boat='nboat && vboat'
 
 alias ytd='youtube-dl -o "%(title)s.%(ext)s"'
@@ -29,7 +29,7 @@ alias ytds='youtube-dl --write-sub --sub-lang en --skip-download' # --sub-format
 alias irc='screen -S irc irssi;'
 alias cafrc='caffeinate -w $(pgrep irssi)&'
 
-alias mo='~/.bin/bach|uniq|sed -n "$(( ($RANDOM % 324) + 1))p"'
+alias mo='$HOME/.bin/bach|uniq|sed -n "$(( ($RANDOM % 324) + 1))p"'
 
 alias prot='sudo renice -n -20 -p $(pgrep -f karoto)'
 alias kar='kill -SIGINFO $(pgrep -f karoto)'
@@ -45,7 +45,7 @@ adiar() {
 	{ sleep $(( $1 * 60 )) && dodis; }&
 }
 
-run() { 
+start() { 
 	open -a "$1" 
 }
 
@@ -56,12 +56,10 @@ quit() {
 
 check() {
 	pgrep -lf "$*" 
-
 }
 
 cht() {	
 	curl https://cht.sh/"$*" 
-
 }
 
 cl() {
@@ -108,18 +106,18 @@ alias trito='mpv https://radiostreaming.ert.gr/ert-trito &>/dev/null &'
 # jazz
 jazz24() {
     mpv https://live.wostreaming.net/direct/ppm-jazz24mp3-ibc1 2>/dev/null \
-     | awk '/icy-title/{$1="";print | "tee -a ~/Documents/TEXTFILES/jazz24Log.txt"}'
+     | awk '/icy-title/{$1="";print | "tee -a $HOME/Documents/TEXTFILES/jazz24Log.txt"}'
 }
-jlog="~/Documents/TEXTFILES/jazz24Log.txt"
-jtracks="~/Documents/TEXTFILES/jazz24.txt"
+jlog="$HOME/Documents/TEXTFILES/jazz24Log.txt"
+jtracks="$HOME/Documents/TEXTFILES/jazz24.txt"
 alias jsave="tail -1 $jlog >> $jtracks"
 
 # hip-hop
 gtronic() {
     mpv http://s1.castserver.net:8014/stream?type=.mp3 2>/dev/null \
-	 | awk '/icy-title/{$1="";print | "tee -a ~/Documents/TEXTFILES/gtronicLog.txt"}'
+	 | awk '/icy-title/{$1="";print | "tee -a $HOME/Documents/TEXTFILES/gtronicLog.txt"}'
 }
-gtracks='~/Documents/TEXTFILES/gtronic.txt'
-gtlog='~/Documents/TEXTFILES/gtronicLog.txt'
+gtracks="$HOME/Documents/TEXTFILES/gtronic.txt"
+gtlog="$HOME/Documents/TEXTFILES/gtronicLog.txt"
 alias gsave="tail -1 $gtlog >> $gtracks"
 
