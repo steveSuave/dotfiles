@@ -45,7 +45,7 @@ adiar() {
 	{ sleep $(( $1 * 60 )) && dodis; }&
 }
 
-start() { 
+begin() { 
 	open -a "$1" 
 }
 
