@@ -16,7 +16,7 @@ function sh {
 
 function sonar {
     cd "$($args)"
-	maven sonar:sonar -Dsonar.analysis.mode=preview -Dsonar.issuesReport.console.enable=true -Dsonar.issuesReport.html.enable=true
+	mvn sonar:sonar -Dsonar.analysis.mode=preview -Dsonar.issuesReport.console.enable=true -Dsonar.issuesReport.html.enable=true
 }
 
 function glog {
