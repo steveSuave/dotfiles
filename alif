@@ -45,7 +45,7 @@ adiar() {
 	{ sleep $(( $1 * 60 )) && dodis; }&
 }
 
-begin() { 
+start() { 
 	open -a "$1" 
 }
 
@@ -115,7 +115,7 @@ alias jsave="tail -1 $jlog >> $jtracks"
 # hip-hop
 gtronic() {
     mpv http://s1.castserver.net:8014/stream?type=.mp3 2>/dev/null \
-	 | awk '/icy-title/{$1="";print | "tee -a $HOME/Documents/TEXTFILES/gtronicLog.txt"}'
+     | awk '/icy-title/{$1="";print | "tee -a $HOME/Documents/TEXTFILES/gtronicLog.txt"}'
 }
 gtracks="$HOME/Documents/TEXTFILES/gtronic.txt"
 gtlog="$HOME/Documents/TEXTFILES/gtronicLog.txt"
