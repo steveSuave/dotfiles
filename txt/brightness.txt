@@ -1,0 +1,4 @@
+3856189
+/sys/class/backlight/intel_backlight/brightness
+
+added /etc/X11/xorg.conf and binding to i3 config to make it work
