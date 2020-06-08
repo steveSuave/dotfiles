@@ -76,7 +76,7 @@ pst() {
 # time format for $2 and $3: 00:00:00.00
 # example: sep 00:45:23 00:05:00 "dr john guitar.mp4" nawlinz.mp4
 sep() {
-	ffmpeg -ss "$1" -t "$2" -i "$3" -c copy "$4"
+    ffmpeg -ss "$1" -t "$2" -i "$3" -c copy "$4"
 }
 
 ## usage:

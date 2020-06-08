@@ -1,7 +1,7 @@
 # $oldpath = (Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATH).path
 # $newpath = "$oldpath;c:\path\to\folder"
 # Set-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATH -Value $newPath
-#
+
 # ($env:path).split(";")
 
 $env:path += ";D:\emacs\bin"
@@ -16,7 +16,7 @@ function sh {
 
 function sonar {
     cd "$($args)"
-	mvn sonar:sonar -Dsonar.analysis.mode=preview -Dsonar.issuesReport.console.enable=true -Dsonar.issuesReport.html.enable=true
+    mvn sonar:sonar -Dsonar.analysis.mode=preview -Dsonar.issuesReport.console.enable=true -Dsonar.issuesReport.html.enable=true
 }
 
 function glog {

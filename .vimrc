@@ -3,6 +3,9 @@ set number
 set tabstop=4 shiftwidth=4
 set expandtab
 set autoindent
+set noerrorbells
+set colorcolumn=100
+highlight ColorColumn ctermbg=235 guibg=#2c2d27
 
 syntax enable
 filetype plugin on
