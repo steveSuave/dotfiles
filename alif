@@ -72,11 +72,11 @@ pst() {
 }
 
 # usage:
-# sep "vid-name" "time to start cutting" "how much time to last from starting point" "output name"
+# sep "time to start cutting" "how much time to last from starting point" "vid-name" "output name"
 # time format for $2 and $3: 00:00:00.00
 # example: sep "dr john guitar.mp4" 00:45:23 00:05:00 nawlinz.mp4
 sep() {
-	ffmpeg -i "$1" -ss "$2" -t "$3" -c copy "$4"
+	ffmpeg -ss "$1" -t "$2" -i "$3" -c copy "$4"
 }
 
 ## usage:
