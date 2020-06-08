@@ -70,9 +70,15 @@ else
 	exit 1
 fi
 
+# on linux could acquire lock with flock(1)
+
+# could start and end the karoto cycle from
+# either bash_profile / bash_logout
+# or by binding it and its signals 
+# to shortcuts with e.g. karabiner
+
 # for windows subsystem for linux 
 # could notify with powershell or:
 # msg.exe /time:4 $USERNAME "look away"
 # for some linux distros: notify-send
-# on linux could acquire lock with flock(1)
 
