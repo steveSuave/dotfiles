@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+# Usage info
+show_help() {
+
+cat << EOF
+
+    Usage: ${0##*/} [-h] [-c COMMENT-SYMBOL] [-d DIRNAME] [-e EXTENSION]
+
+    Recursively concatenate files of a given dir
+    sorted according to version number,
+    with an optional extension and comment symbol.
+    Outputs a "cattd" file. Bash 4+ is required.
+
+    cd to a dir and run 'glue [options]'
+    alternatively from anywhere run 
+    glue [options] -d /full/path/to/dir
+
+    ex.
+    glue -e py -c '# '
+
+        -h                  display this help and exit
+        -c COMMENT-SYMBOL   comment out the names of each file inside the cattd file
+        -d DIRNAME          concatenate the files of DIRNAME directory
+        -e EXTENSION        concatenate only the EXTENSION files, outputs cattd.{EXTENSION}
+
+EOF
+
+}
+
+shopt -s globstar
+
+while getopts c:d:e:h opt; do
+    case "$opt" in
+        c) com="$OPTARG" ;;
+        d) dir="$OPTARG" ;; 
+        e) ext=".${OPTARG}" ;;
+        h) show_help; exit 0 ;;
+        *) exit 1 ;;
+    esac
+done
+
+cd "$dir" || exit 1
+
+mapfile -d '' files < <(printf -- '%s\0' **/*"${ext}" | sort -zV)
+for file in "${files[@]}"; do
+    if file "$file" | grep -q text$; then
+        printf '\n\n%s\n%s\n%s\n\n' \
+            "${com}================" \
+            "${com}${file##*/}" \
+            "${com}================" >> cattd"${ext}" 
+        cat "$file" >> cattd"${ext}"
+    fi
+done
+

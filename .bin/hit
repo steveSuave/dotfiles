@@ -1,0 +1,38 @@
+#!/bin/bash
+
+if [[ $# -eq 0 ]]; then
+cat << END
+  usage:
+    -- hit get whateva
+    -- hit put 'some/where' updateReq.json
+    -- hit post some/where '{"straight":"data"}'
+END
+exit
+fi
+
+base="http://127.0.0.1:8080/"
+endpoint="$2"
+url="${base}${endpoint}"
+data="$3"
+log="~/testRes/${1}_${endpoint//\//-}_$(date +%H%M%S).txt"
+
+if [[ -f "$data" ]]; then
+    data="--body-file=${data}"
+elif [[ ! "$data" ]]; then
+    :
+else
+    data="--body-data=$data"
+fi
+
+# credentials can be inserted in a safer way
+wget -O- --content-on-error=on --user=theUser --password='XXXX' \
+    --header='Accept:application/json' --header='Content-Type:application/json' \
+    --method="${1^^}" "$url" "$data" -o "$log"
+
+wcode=$?
+if [[ $wcode -gt 1 ]]; then
+    echo -e "\n"
+    echo "wget returned $wcode"
+    cat "$log"
+fi
+

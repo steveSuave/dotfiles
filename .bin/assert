@@ -1,0 +1,30 @@
+#!/bin/bash
+
+if [[ $# -eq 0 ]]; then
+cat << END
+usage:
+    for strings:
+     -- assert "$x" "mic checka"
+    the second arg can be regex:
+     -- assert "$x" "mic.*ka"
+    one string arg can use tests flags:
+     -- assert '-z ""'
+    for numbers:
+     -- assert '3 > 2'
+     -- assert '4.5 == (9/2)' 
+END
+exit
+fi
+
+if [[ ! "$1" =~ [[:alpha:]] ]] && [[ "$1" =~ [[:digit:]] ]]; then
+    if (( ! $(bc -l <<< "$1") )); then
+        echo "$1" is wrong
+        exit 99
+    fi 
+elif [[ $# -eq 1 ]]; then
+    eval [[ "$1" ]] || { echo "$1" is wrong; exit 99; }
+elif [[ ! ${1} =~ ${2} ]]; then 
+    echo "${2}" should be "${1}"; 
+    exit 99
+fi
+

@@ -1,0 +1,10 @@
+URxvt*transparent: true
+URxvt*shading: 40
+URxvt*saveLines: 12000
+URxvt*foreground: LightBlue
+URxvt*font: xft:DejaVu Sans Mono:pixelsize=12:antialias=true:hinting=true
+URxvt*boldFont: xft:DejaVu Sans Mono:bold:pixelsize=12:antialias=true:hinting=true
+URxvt*scrollBar: true
+URxvt*scrollBar_right: false
+URxvt*scrollstyle: rxvt
+

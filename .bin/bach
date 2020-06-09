@@ -1,0 +1,15 @@
+#!/usr/bin/env python3 
+
+# prints the permutations of four numbers
+# where at least one of them is repeated
+# if numbers are seen as musical notes
+# it could be helpful in motivic development
+
+import itertools
+x=[1,2,3,1,2,3]
+y=list(itertools.permutations(x,4))
+for i in y:
+    print(i)
+
+# alias mo='bach|uniq|sed -n "$(( ($RANDOM % 324) + 1))p"'
+

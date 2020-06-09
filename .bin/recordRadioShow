@@ -1,0 +1,8 @@
+#!/bin/bash
+
+today=$(date +"%Y-%m-%d")
+
+sleep $(( 10 * 60 )) && pkill mpv & 
+mpv --stream-record=$HOME/Music/wordInfo--${today}.mp3 \
+  https://radiostreaming.ert.gr/ert-trito
+

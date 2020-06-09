@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# taken from Doug McIlroy's home page
+
+leave() {
+	seq 2 1000000
+}
+cull() {
+	while true; do
+		read n
+		(($n % $1 != 0)) && echo $n
+	done
+}
+sink() {
+	read p
+	echo $p
+	cull $p | sink &
+}
+
+leave | sink
+
