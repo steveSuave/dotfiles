@@ -67,6 +67,7 @@ cl() {
 	ls -haltFG
 }
 
+# paste text online and get a link
 pst() {
 	curl -F 'f:1=<-' http://ix.io
 }
@@ -105,8 +106,8 @@ alias trito='mpv https://radiostreaming.ert.gr/ert-trito &>/dev/null &'
 
 # jazz
 jazz24() {
-    mpv https://live.wostreaming.net/direct/ppm-jazz24mp3-ibc1 2>/dev/null \
-     | awk '/icy-title/{$1="";print | "tee -a $HOME/Documents/TEXTFILES/jazz24Log.txt"}'
+    mpv https://live.wostreaming.net/direct/ppm-jazz24mp3-ibc1 2>/dev/null |
+       awk '/icy-title/{$1="";print | "tee -a $HOME/Documents/TEXTFILES/jazz24Log.txt"}'
 }
 jlog="$HOME/Documents/TEXTFILES/jazz24Log.txt"
 jtracks="$HOME/Documents/TEXTFILES/jazz24.txt"
@@ -114,8 +115,8 @@ alias jsave="tail -1 $jlog >> $jtracks"
 
 # hip-hop
 gtronic() {
-    mpv http://s1.castserver.net:8014/stream?type=.mp3 2>/dev/null \
-     | awk '/icy-title/{$1="";print | "tee -a $HOME/Documents/TEXTFILES/gtronicLog.txt"}'
+    mpv http://104.251.118.50:8878/stream 2>/dev/null |
+       awk '/icy-title/{$1="";print | "tee -a $HOME/Documents/TEXTFILES/gtronicLog.txt"}'
 }
 gtracks="$HOME/Documents/TEXTFILES/gtronic.txt"
 gtlog="$HOME/Documents/TEXTFILES/gtronicLog.txt"

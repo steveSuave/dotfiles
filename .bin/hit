@@ -10,29 +10,31 @@ END
 exit
 fi
 
-base="http://127.0.0.1:8080/"
+user='theUser'
+pass='thePassword'
+base="http://127.0.0.1:8080"
 endpoint="$2"
-url="${base}${endpoint}"
+url="${base}/${endpoint}"
 data="$3"
-log="~/testRes/${1}_${endpoint//\//-}_$(date +%H%M%S).txt"
+log="$HOME/bin/testrest/logs/${1}--${endpoint//\//_}--$(date +%H%M%S).txt"
 
-if [[ -f "$data" ]]; then
-    data="--body-file=${data}"
-elif [[ ! "$data" ]]; then
+if [[ ! "$data" ]]; then
     :
+elif [[ -f "$data" ]]; then
+    data="--body-file=${data}"
 else
-    data="--body-data=$data"
+    data="--body-data=${data}"
 fi
 
-# credentials can be inserted in a safer way
-wget -O- --content-on-error=on --user=theUser --password='XXXX' \
+wget -O- --content-on-error=on --user="$user" --password="$pass" \
     --header='Accept:application/json' --header='Content-Type:application/json' \
-    --method="${1^^}" "$url" "$data" -o "$log"
+    --method="${1^^}" "$url" "$data" -o "$log" | tee -a "$log"
 
 wcode=$?
 if [[ $wcode -gt 1 ]]; then
-    echo -e "\n"
-    echo "wget returned $wcode"
-    cat "$log"
+    echo -e "\n" >&2
+    echo "wget returned $wcode" >&2
+    cat "$log" >&2
+    exit $wcode
 fi
 

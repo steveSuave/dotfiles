@@ -1,16 +1,26 @@
 #!/bin/bash
 
-## usage:
-## -- qu db-yo scr.sql
-## -- qu db-whaat "select * from lm;"
+if [[ $# -eq 0 ]]; then
+cat << END
+   usage:
+     -- qu db-whaat scr.sql
+     -- qu db-yo "select * from lm;"
+END
+exit
+fi
 
+user='theUser'
+pass='thePassword'
 schema="$1"
 query="$2"
 
-# credentials can be inserted in a safer way
 if [[ -f "$query" ]]; then
-	mysql -uroot -pXXXX -B --skip-column-names -D "$schema" < "$query" 2>/dev/null 
+	mysql -u"$user" -p"$pass" \
+              -B --skip-column-names \
+              -D "$schema" < "$query" 2>/dev/null
 else
-	mysql -uroot -pXXXX -B --skip-column-names -D "$schema" -e "$query" 2>/dev/null 
+	mysql -u"$user" -p"$pass" \
+              -B --skip-column-names \
+              -D "$schema" -e "$query" 2>/dev/null
 fi
 

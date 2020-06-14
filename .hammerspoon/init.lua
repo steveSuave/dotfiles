@@ -79,8 +79,19 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "N", function()
   win:setFrame(f)
 end)
 
--- bind window to left and right
+-- maximize app window
+hs.hotkey.bind({"cmd", "alt"}, "F", function()
+local win = hs.window.focusedWindow()
+win:maximize()
+end)
 
+-- app window to full screen
+hs.hotkey.bind({"cmd", "alt"}, "G", function()
+local win = hs.window.focusedWindow()
+win:toggleFullScreen()
+end)
+
+-- bind window to left and right
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Left", function()
   local win = hs.window.focusedWindow()
   local f = win:frame()
