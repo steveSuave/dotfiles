@@ -119,9 +119,27 @@
       column-number-mode t
       inhibit-startup-screen t
       initial-scratch-message ";; let's do dis\n\n"
-      ;; no visible or audible bells, please
+      ;; no visible or audible bells
       visible-bell nil
       ring-bell-function (lambda nil (message "")))
+
+(defun annot (num char)
+  (interactive "nColumn to send cursor? \nsComment symbol to insert? ")
+  (move-to-column num t)
+  (insert char))
+
+;; navigate between visible windows
+(defun other-window-backward (&optional n)
+  (interactive "p")
+  (if n
+      (other-window (- n))
+    (other-frame -1)))
+
+;; Interpret shell escapes
+(defun display-ansi-colors ()
+  (interactive)
+  (let ((inhibit-read-only t))
+    (ansi-color-apply-on-region (point-min) (point-max))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; someones functions to emulate vi o and O
@@ -178,9 +196,6 @@
 (global-set-key "\C-cf" 'find-dired)
 (global-set-key "\C-cF" 'grep-find)
 
-(global-set-key (kbd "<C-tab>") 'completion-at-point)
-(global-set-key (kbd "<C-return>") 'company-complete)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; ;; unset a key
 ; (global-set-key (kbd "C-b") nil)
@@ -188,24 +203,6 @@
 ; ;; unset a key
 ; (global-unset-key (kbd "C-b"))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defun annot (num char)
-  (interactive "nColumn to send cursor? \nsComment symbol to insert? ")
-  (move-to-column num t)
-  (insert char))
-
-;; navigate between visible windows
-(defun other-window-backward (&optional n)
-  (interactive "p")
-  (if n
-      (other-window (- n))
-    (other-frame -1)))
-
-;; Interpret shell escapes
-(defun display-ansi-colors ()
-  (interactive)
-  (let ((inhibit-read-only t))
-    (ansi-color-apply-on-region (point-min) (point-max))))
 
 (setq auto-mode-alist
       (append

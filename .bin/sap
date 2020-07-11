@@ -1,0 +1,34 @@
+#!/bin/bash
+
+if [[ ! "$1" == "-v" ]]; then
+    mpvParams='--no-video'
+else
+    shift
+fi
+
+if [[ ! $1 =~ [123456789] ]]; then
+    echo 'usage:'
+    echo 'sap [-v] "[1-9]" "youtube search query"'
+    echo 'sap 1 "kool g rap letters"'
+    echo 'optional -v plays video instead of only audio'
+    exit 1
+else
+    resNum=$1
+fi
+
+query="${2// /+}"
+
+youtube="https://www.youtube.com"
+searchLink="${youtube}/results?search_query=${query}"
+ytsearch=$(curl "$searchLink" 2>/dev/null)
+allvideos=$(grep -E -o "watch\?v=.{11}" <<< "$ytsearch")
+videoParam=$(echo "$allvideos" | awk "FNR==$resNum")
+
+theLink="${youtube}/${videoParam}"
+# an attempt at getting a title
+title=$(curl "$theLink" 2>/dev/null | grep 'og:title' | awk -F\" '{print $4}')
+
+echo "$videoParam"
+echo "$title"
+mpv --no-video "$theLink" || exit $?
+

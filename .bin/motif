@@ -11,5 +11,5 @@ y=list(itertools.permutations(x,4))
 for i in y:
     print(i)
 
-# alias mo='bach|uniq|sed -n "$(( ($RANDOM % 324) + 1))p"'
+# alias mo='motif|uniq|sed -n "$(( ($RANDOM % 324) + 1))p"'
 
