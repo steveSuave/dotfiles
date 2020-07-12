@@ -30,5 +30,5 @@ title=$(curl "$theLink" 2>/dev/null | grep 'og:title' | awk -F\" '{print $4}')
 
 echo "$videoParam"
 echo "$title"
-mpv --no-video "$theLink" || exit $?
+mpv $mpvParams "$theLink" || exit $?
 
