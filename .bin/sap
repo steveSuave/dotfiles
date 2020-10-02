@@ -28,8 +28,10 @@ allvideos=$(grep -E -o "watch\?v=.{11}" <<< "$ytsearch")
 videoParam=$(echo "$allvideos" | awk "FNR==$resNum")
 theLink="${youtube}/${videoParam}"
 # an attempt at getting a title
-title=$(curl "$theLink" 2>/dev/null | grep 'og:title' | awk -F\" '{print $4}')
-
+title=$(curl "$theLink" 2>/dev/null |
+        grep 'og:title' |
+        awk -F\" '{print $4}' |
+        python3 -c 'import html, sys; [print(html.unescape(l), end="") for l in sys.stdin]')
 echo
 echo "$videoParam"
 echo "$title"

@@ -29,8 +29,6 @@ alias ytds='youtube-dl --write-sub --sub-lang en --skip-download' # --sub-format
 alias irc='screen -S irc irssi;'
 alias cafrc='caffeinate -w $(pgrep irssi)&'
 
-alias mo='$HOME/.bin/motif|uniq|sed -n "$(( ($RANDOM % 324) + 1))p"'
-
 alias prot='sudo renice -n -20 -p $(pgrep -f karoto)'
 alias kar='kill -SIGINFO $(pgrep -f karoto)'
 alias dodis='kill -SIGWINCH $(pgrep -f karoto)'
