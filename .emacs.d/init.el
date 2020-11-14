@@ -77,27 +77,22 @@
               (insert "public class LetsDoDis {\n\n\n\n}")
               (previous-line 2))))
 
-(defun json-format ()
+(defun json-format (&optional bool)
   (interactive)
+  (if (eq t bool)
+      (setq jq "jq -c")
+      (setq jq "jq"))
   (save-excursion
     (shell-command-on-region (region-beginning)
                              (region-end)
-                             "jq"
+                             jq
                              (buffer-name)
                              t)))
-(defun json-minify ()
-  (interactive)
-  (save-excursion
-    (shell-command-on-region (region-beginning)
-                             (region-end)
-                             "jq -c"
-                             (buffer-name)
-                             t)))  
 
 (defun my-json-hooks ()
   "For use in `js-mode-hook'."
-  (local-set-key "\C-cj" #'json-format)
-  (local-set-key "\C-cJ" #'json-minify))
+  (local-set-key "\C-cj" (lambda () (interactive) (json-format)))
+  (local-set-key "\C-cJ" (lambda () (interactive) (json-format t))))
 
 (add-hook 'js-mode-hook 'my-js-hooks)
 (add-hook 'restclient-mode-hook 'my-rest-hooks)
@@ -169,8 +164,9 @@
       visible-bell nil
       ring-bell-function (lambda nil (message "")))
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ----------------------------------------
 ;; someones functions to emulate vi o and O
+;; ----------------------------------------
 (defun vi-open-line-above ()
   "Insert a newline above the current line and put point at beginning."
   (interactive)
@@ -194,8 +190,8 @@
   (if abovep
       (vi-open-line-above)
     (vi-open-line-below)))
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; ----------------------------------------
 ;; could emulate vi o with this (typou makro)
 ;;(global-set-key "\C-co" "\C-a\C-j\C-p")
 
