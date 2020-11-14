@@ -1,0 +1,35 @@
+#!/bin/bash
+
+if [[ $# == 0 ]]; then
+cat << EOF
+usage:
+  loop "speed" "segment starting second" "segment ending second" "path/to/song" 
+  loop 1 76 98 ~/music/tom-waits/sins-of-my-father
+  loop 0.4 01:31 01:35 ~/music/tom-waits/sins-of-my-father
+EOF
+exit
+fi
+
+tempo=$1
+start=$2
+end=$3
+song=$4
+mpv --start="${start}" --ab-loop-a="${start}" --ab-loop-b="${end}" --speed="${tempo}" "$song"
+
+###############################################################################
+## ffplay alpha version
+# tempo=$1
+# factor=$(( 1 / $tempo ))
+# start=$(( $factor * $2 ))
+# end=$(( $factor * $3 ))
+# song=$4
+# loop=$5
+# if [ -z "$loop" ]; then
+#     loop=5
+# fi
+# ffplay -autoexit -loop $loop -af "atempo=${tempo},atrim=${start}:${end}" "$song" 2>/dev/null
+# # -nodisp hides video but no display = no key events = no pause etc
+# # bonus: generate a frequency (440=A)
+# # ffplay -f lavfi -i "sine=frequency=440:duration=5" -autoexit -nodisp
+###############################################################################
+ 
