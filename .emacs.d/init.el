@@ -101,6 +101,10 @@
 
 (add-hook 'js-mode-hook 'my-js-hooks)
 (add-hook 'restclient-mode-hook 'my-rest-hooks)
+(add-hook 'markdown-mode-hook 'flyspell-mode)
+(add-hook 'sql-interactive-mode-hook
+          '(lambda ()
+             (company-mode)))
 
 (when (fboundp 'sql-mode)
   (defun now ()
@@ -118,11 +122,11 @@
          (sql-server "127.0.0.1")
          (sql-port 3306))))
 
-(defun sql-cidb-local ()
+(defun sql-db-local ()
   (interactive)
   (sql-connect 'db-local))
 
-(global-set-key "\C-cq" 'sql-cidb-local)
+(global-set-key "\C-cq" 'sql-db-local)
 
 (defun scratch-with-prefix-arg ()
   (interactive)
@@ -144,11 +148,6 @@
 (global-display-line-numbers-mode 1)
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")
-
-(add-hook 'markdown-mode-hook 'flyspell-mode)
-(add-hook 'sql-interactive-mode-hook
-          '(lambda ()
-             (company-mode)))
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq-default indent-tabs-mode nil)
@@ -308,82 +307,11 @@
          ("\\.rest$" . restclient-mode)
          )))
 
-(load-theme 'wombat)
-
-;;-----------------
-;; xah cycle buffer
-;;-----------------
-
-(defun xah-next-user-buffer ()
-  "Switch to the next user buffer.
-  “user buffer” is determined by `xah-user-buffer-q'.
-  URL `http://ergoemacs.org/emacs/elisp_next_prev_user_buffer.html'
-  Version 2016-06-19"
-  (interactive)
-  (next-buffer)
-  (let ((i 0))
-    (while (< i 20)
-      (if (not (xah-user-buffer-q))
-          (progn (next-buffer)
-                 (setq i (1+ i)))
-        (progn (setq i 100))))))
-
-(defun xah-previous-user-buffer ()
-  "Switch to the previous user buffer.
-  “user buffer” is determined by `xah-user-buffer-q'.
-  URL `http://ergoemacs.org/emacs/elisp_next_prev_user_buffer.html'
-  Version 2016-06-19"
-  (interactive)
-  (previous-buffer)
-  (let ((i 0))
-    (while (< i 20)
-      (if (not (xah-user-buffer-q))
-          (progn (previous-buffer)
-                 (setq i (1+ i)))
-        (progn (setq i 100))))))
-
-(defun xah-user-buffer-q ()
-  "Return t if current buffer is a user buffer, else nil.
-  Typically, if buffer name starts with *, it's not considered a user buffer.
-  This function is used by buffer switching command and close buffer command, so that next buffer shown is a user buffer.
-  You can override this function to get your idea of “user buffer”.
-  version 2016-06-18"
-  (interactive)
-  (cond ((string-equal major-mode "dired-mode") nil)
-        ((or (string-equal "*java*" (buffer-name))
-             (string-equal "*javascript*" (buffer-name))
-             (string-equal "*scratch*" (buffer-name))) t)
-        ((string-equal "*" (substring (buffer-name) 0 1)) nil)
-        (t t)))
-
-(defun xah-next-emacs-buffer ()
-  "Switch to the next emacs buffer.
-  “emacs buffer” here is buffer whose name starts with *.
-  URL `http://ergoemacs.org/emacs/elisp_next_prev_user_buffer.html'
-  Version 2016-06-19"
-  (interactive)
-  (next-buffer)
-  (let ((i 0))
-    (while (and (not (string-equal "*" (substring (buffer-name) 0 1))) (< i 20))
-      (setq i (1+ i)) (next-buffer))))
-
-(defun xah-previous-emacs-buffer ()
-  "Switch to the previous emacs buffer.
-  “emacs buffer” here is buffer whose name starts with *.
-  URL `http://ergoemacs.org/emacs/elisp_next_prev_user_buffer.html'
-  Version 2016-06-19"
-  (interactive)
-  (previous-buffer)
-  (let ((i 0))
-    (while (and (not (string-equal "*" (substring (buffer-name) 0 1))) (< i 20))
-      (setq i (1+ i)) (previous-buffer))))
-
-(global-set-key (kbd "<f5>") 'xah-previous-user-buffer)
-(global-set-key (kbd "<f6>") 'xah-next-user-buffer)
-
-(global-set-key (kbd "<S-f5>") 'xah-previous-emacs-buffer)
-(global-set-key (kbd "<S-f6>") 'xah-next-emacs-buffer)
-
 (put 'upcase-region 'disabled nil)
 (put 'dired-find-alternate-file 'disabled nil)
 (put 'scroll-left 'disabled nil)
+
+(load-theme 'wombat)
+
+(require 'customies)
+
