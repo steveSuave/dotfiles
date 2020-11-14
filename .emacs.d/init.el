@@ -353,9 +353,8 @@
         ((or (string-equal "*java*" (buffer-name))
              (string-equal "*javascript*" (buffer-name))
              (string-equal "*scratch*" (buffer-name))) t)
-        (string-equal "*sql*" (buffer-name))) t)
-((string-equal "*" (substring (buffer-name) 0 1)) nil)
-(t t)))
+        ((string-equal "*" (substring (buffer-name) 0 1)) nil)
+        (t t)))
 
 (defun xah-next-emacs-buffer ()
   "Switch to the next emacs buffer.
