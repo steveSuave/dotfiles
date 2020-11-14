@@ -26,9 +26,12 @@ else
     data="--body-data=${data}"
 fi
 
-wget -O- --content-on-error=on --user="$user" --password="$pass" \
-    --header='Accept:application/json' --header='Content-Type:application/json' \
-    --method="${1^^}" "$url" "$data" -o "$log" | tee -a "$log"
+wget -O- --content-on-error=on \
+     --user="$user" \
+     --password="$pass" \
+     --header='Accept:application/json' \
+     --header='Content-Type:application/json' \
+     --method="${1^^}" "$url" "$data" -o "$log" | tee -a "$log"
 
 wcode=$?
 if [[ $wcode -gt 1 ]]; then
