@@ -16,6 +16,8 @@
 ;; create the autosave dir if necessary, since emacs won't.
 (make-directory "~/.emacs.d/autosaves/" t)
 
+(set-face-attribute 'default (selected-frame) :height 140)
+
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (package-initialize)
@@ -94,8 +96,9 @@
   (local-set-key "\C-cj" (lambda () (interactive) (json-format)))
   (local-set-key "\C-cJ" (lambda () (interactive) (json-format t))))
 
-(add-hook 'js-mode-hook 'my-js-hooks)
-(add-hook 'restclient-mode-hook 'my-rest-hooks)
+(add-hook 'js-mode-hook 'my-json-hooks)
+(add-hook 'restclient-mode-hook 'my-json-hooks)
+(add-hook 'dired-mode-hook 'dired-hide-details-mode)
 (add-hook 'markdown-mode-hook 'flyspell-mode)
 (add-hook 'sql-interactive-mode-hook
           '(lambda ()
@@ -185,7 +188,7 @@
 
 (defun vi-open-line (&optional abovep)
   "Insert a newline below the current line and put point at beginning.
-    With a prefix argument, insert a newline above the current line."
+   With a prefix argument, insert a newline above the current line."
   (interactive "P")
   (if abovep
       (vi-open-line-above)
@@ -210,7 +213,7 @@
 ;; toggle numbers
 (global-set-key "\C-cn" 'display-line-numbers-mode)
 
-(global-set-key (kbd "<M-down>") 'scroll-up-line)
+(global-set-key (kbd "<M-down>") 'scroll-up-line)  ;; or (kbd "ESC <down>")
 (global-set-key (kbd "<M-up>") 'scroll-down-line)
 
 (global-set-key "\C-x\C-n" 'other-window)
@@ -229,13 +232,13 @@
 
 ;;(global-set-key (kbd "C-S-s") 'isearch-forward-symbol-at-point)
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ;; unset a key
 ;; (global-set-key (kbd "C-b") nil)
 
 ;; ;; unset a key
 ;; (global-unset-key (kbd "C-b"))
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun annot (num char)
   (interactive "nColumn to send cursor? \nsComment symbol to insert? ")
