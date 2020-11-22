@@ -40,6 +40,8 @@
   "Format code using google-java-format."
   :group 'tools)
 
+;; a file containing a shebang and:
+;; java -jar /path/to/google/java/format/jar "$@"
 (defcustom google-java-format-executable
   "~/.bin/google-java-format"
   "Location of the google-java-format executable.
