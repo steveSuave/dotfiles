@@ -1,4 +1,6 @@
 (custom-set-variables
+ '(ediff-window-setup-function 'ediff-setup-windows-plain)
+ '(ediff-split-window-function 'split-window-horizontally)
  '(auto-save-file-name-transforms (quote ((".*" "~/.emacs.d/autosaves/\\1" t))))
  '(backup-directory-alist (quote ((".*" . "~/.emacs.d/backups/"))))
  '(newsticker-url-list
@@ -26,28 +28,95 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-(when (string= system-type "darwin")
-  (setq dired-use-ls-dired nil))
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+(require 'customies)
+(require 'metar)
+
+(when (eq system-type 'darwin) ;; mac specific settings
+  (setq dired-use-ls-dired nil)
+  (when (display-graphic-p)
+    (setq mac-option-modifier 'control)
+    (setq mac-command-modifier 'meta)
+    (global-set-key (kbd "<C-tab>") 'xah-next-user-buffer)
+    (global-set-key (kbd "<C-S-tab>") 'xah-previous-user-buffer)))
+
+;; mac-function-modifier
+;; mac-control-modifier
+;; mac-command-modifier
+;; mac-option-modifier
+;; mac-right-command-modifier
+;; mac-right-control-modifier
+;; mac-right-option-modifier
+;; values can be 'control, 'alt, 'meta, 'super, 'hyper, nil (setting to nil allows the OS to assign values)
+
+(use-package yasnippet :config (yas-global-mode))
+;; (use-package yasnippet-snippets :ensure t)
+(use-package company)
+(use-package which-key :config (which-key-mode))
+(use-package flycheck)
+(use-package hydra)
+(use-package treemacs
+  :ensure t
+  :commands (treemacs)
+  :after (lsp-mode))
+(use-package lsp-treemacs)
+(use-package helm                                                                                                                 
+  :ensure t                                                                                                                       
+  :init                                                                                                                           
+  (helm-mode 1)                                                                                                                   
+  (progn (setq helm-buffers-fuzzy-matching t))                                                                                    
+  :bind                                                                                                                           
+  (("C-c h" . helm-command-prefix))                                                                                               
+  (("M-x" . helm-M-x))                                                                                                            
+  (("C-x C-f" . helm-find-files))                                                                                                 
+  (("C-x b" . helm-buffers-list))                                                                                                 
+  (("C-c b" . helm-bookmarks))                                                                                                    
+  (("C-c C-f" . helm-recentf))   ;; Add new key to recentf
+  ;; (("C-c g" . helm-grep-do-git-grep)) ;; Search using grep in a git project
+  )
+(use-package helm-descbinds
+  :ensure t
+  :bind ("C-h b" . helm-descbinds))
+(use-package helm-lsp)
+(use-package lsp-mode
+  :ensure t
+  :hook ((lsp-mode . lsp-enable-which-key-integration)
+         (java-mode . #'lsp-deferred))
+  :init (setq 
+         lsp-keymap-prefix "C-c l" ; this is for which-key integration documentation, need to use lsp-mode-map
+         lsp-enable-file-watchers nil
+         ;read-process-output-max (* 1024 1024)  ; 1 mb
+         lsp-completion-provider :capf
+         lsp-idle-delay 0.500)
+  :config 
+  (setq lsp-intelephense-multi-root nil) ; don't scan unnecessary projects
+  (with-eval-after-load 'lsp-intelephense
+    (setf (lsp--client-multi-root (gethash 'iph lsp-clients)) nil))
+  (define-key lsp-mode-map (kbd "C-c l") lsp-command-map))
+(use-package lsp-java :config (add-hook 'java-mode-hook 'lsp))
+(use-package lsp-ui)
+(use-package dap-mode
+  :ensure t
+  :after (lsp-mode)
+  :functions dap-hydra/nil
+  :config
+  (require 'dap-java)
+  :bind (:map lsp-mode-map
+              ("<f8>" . dap-debug)
+              ("M-<f8>" . dap-hydra))
+  :hook ((dap-mode . dap-ui-mode)
+         ;; (dap-session-created . (lambda (&_rest) (dap-hydra)))
+         ;; (dap-terminated . (lambda (&_rest) (dap-hydra/nil))))
+         ))
+(use-package dap-java :ensure nil)
+(use-package projectile 
+  :ensure t
+  :init (projectile-mode +1)
+  :config 
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
 (require 'lsp-java)
 (add-hook 'java-mode-hook #'lsp)
-
-(use-package projectile)
-(use-package flycheck)
-(use-package yasnippet :config (yas-global-mode))
-(use-package lsp-mode :hook ((lsp-mode . lsp-enable-which-key-integration))
-  :config (setq lsp-completion-enable-additional-text-edit nil))
-(use-package hydra)
-(use-package company)
-(use-package lsp-ui)
-(use-package which-key :config (which-key-mode))
-(use-package lsp-java :config (add-hook 'java-mode-hook 'lsp))
-(use-package dap-mode :after lsp-mode :config (dap-auto-configure-mode))
-(use-package dap-java :ensure nil)
-(use-package helm-lsp)
-(use-package helm
-  :config (helm-mode))
-(use-package lsp-treemacs)
 
 (when (fboundp 'java-mode)
   (defun my-java-hooks ()
@@ -65,7 +134,10 @@
     (local-set-key "\C-cr" #'lsp-treemacs-references)
     (local-set-key "\C-cR" #'lsp-treemacs-implementations)
     (local-set-key "\C-cs" #'lsp-treemacs-symbols)
-    (local-set-key "\C-cl" #'helm-semantic-or-imenu)
+    (local-set-key "\M-n" #'dap-next)
+    (local-set-key "\M-N" #'dap-continue)
+    (local-set-key "\M-q" #'dap-disconnect)
+    (setq dap-auto-configure-features '(locals)) ;controls tooltip sessions
     (setq lsp-ui-doc-enable nil)
     (setq lsp-ui-sideline-enable nil))
   (add-hook 'java-mode-hook 'my-java-hooks)
@@ -83,7 +155,7 @@
   (interactive)
   (if (eq t bool)
       (setq jq "jq -c")
-      (setq jq "jq"))
+    (setq jq "jq"))
   (save-excursion
     (shell-command-on-region (region-beginning)
                              (region-end)
@@ -111,8 +183,9 @@
     (replace-match "NOW()"))    
   (defun my-sql-hooks ()
     "For use in `sql-mode-hook'."
-    (local-set-key "\C-ct" #'now)
-    (add-hook 'sql-mode-hook 'my-sql-hooks)))
+    (local-set-key "\C-ccq" (sql-set-sqli-buffer))
+    (local-set-key "\C-ct" #'now))
+  (add-hook 'sql-mode-hook 'my-sql-hooks))
 
 (setq sql-connection-alist
       '((db-local
@@ -131,6 +204,15 @@
   (setq current-prefix-arg '(4)) ; C-u
   (call-interactively 'scratch))
 
+(defun met-with-prefix-arg ()
+  (interactive)
+  (setq current-prefix-arg '(16)) ; C-u C-u
+  (call-interactively 'metar))
+;; (metar-decode (metar-get-record "LGAV"))
+
+(global-set-key "\C-cw" #'met-with-prefix-arg)
+
+(global-set-key "\C-cm" #'treemacs)
 (global-set-key (kbd "C-c c s") 'scratch-with-prefix-arg)
 
 (global-set-key "\C-c$" 'toggle-truncate-lines)
@@ -145,11 +227,16 @@
 (global-company-mode 1)
 (global-display-line-numbers-mode 1)
 
-(add-to-list 'load-path "~/.emacs.d/lisp/")
+;; (require 'sql-completion)
+;; (setq sql-interactive-mode-hook
+;;       (lambda ()
+;;         (define-key sql-interactive-mode-map "\t" 'comint-dynamic-complete)
+;;         (sql-mysql-completion-init)))
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq-default indent-tabs-mode nil)
 
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
 (setq completion-ignore-case  t)
 (setq read-file-name-completion-ignore-case t)
 (setq read-buffer-completion-ignore-case t)
@@ -213,7 +300,9 @@
 ;; toggle numbers
 (global-set-key "\C-cn" 'display-line-numbers-mode)
 
-(global-set-key (kbd "<M-down>") 'scroll-up-line)  ;; or (kbd "ESC <down>")
+(global-set-key (kbd "ESC <down>") 'scroll-up-line)
+(global-set-key (kbd "ESC <up>") 'scroll-down-line)
+(global-set-key (kbd "<M-down>") 'scroll-up-line)
 (global-set-key (kbd "<M-up>") 'scroll-down-line)
 
 (global-set-key "\C-x\C-n" 'other-window)
@@ -222,9 +311,9 @@
 
 (global-set-key "\C-\M-f" 'find-file-at-point)
 (global-set-key "\C-cf" 'find-dired)
-(global-set-key "\C-cF" 'grep-find)
+(global-set-key "\C-cF" 'rgrep)
 
-(global-set-key (kbd "<C-tab>") 'completion-at-point)
+;; (global-set-key (kbd "<C-tab>") 'completion-at-point)
 (global-set-key (kbd "<C-return>") 'company-complete)
 
 (global-set-key (kbd "<S-mouse-4>") #'scroll-right)
@@ -232,12 +321,16 @@
 
 ;;(global-set-key (kbd "C-S-s") 'isearch-forward-symbol-at-point)
 
+(define-key helm-map (kbd "TAB") #'helm-execute-persistent-action)
+(define-key helm-map (kbd "<tab>") #'helm-execute-persistent-action)
+(define-key helm-map (kbd "C-j") #'helm-select-action)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ;; unset a key
 ;; (global-set-key (kbd "C-b") nil)
 
 ;; ;; unset a key
-;; (global-unset-key (kbd "C-b"))
+;; (global-unset-key (kbd "C-z"))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun annot (num char)
@@ -309,8 +402,42 @@
 (put 'upcase-region 'disabled nil)
 (put 'dired-find-alternate-file 'disabled nil)
 (put 'scroll-left 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
 
 (load-theme 'wombat)
 
-(require 'customies)
+(defvar my-full-window-buffers '("*java*"
+                                 "*sql*"
+                                 ;;"^\\*Help\\*$"
+                                 ;; Other buffers names...
+                                 "*js*"
+                                 "*javascript*"))
+(while my-full-window-buffers
+  (add-to-list 'display-buffer-alist
+               `(,(car my-full-window-buffers)
+                 (display-buffer-same-window)))
+  (setq my-full-window-buffers (cdr my-full-window-buffers)))
+
+;; (add-to-list 'display-buffer-alist
+;;              '("*dap-ui-locals*"
+;;                (display-buffer-in-side-window)
+;;                (reusable-frames     . visible)
+;;                (side                . bottom)
+;;                (window-height       . 0.33)))
+
+(defun my-sql-save-history-hook ()
+  (let ((lval 'sql-input-ring-file-name)
+        (rval 'sql-product))
+    (if (symbol-value rval)
+        (let ((filename 
+               (concat "~/.emacs.d/sql/"
+                       (symbol-name (symbol-value rval))
+                       "-history.sql")))
+          (set (make-local-variable lval) filename))
+      (error
+       (format "SQL history will not be saved because %s is nil"
+               (symbol-name rval))))))
+
+(add-hook 'sql-interactive-mode-hook 'my-sql-save-history-hook)
+(make-directory "~/.emacs.d/sql/" t)
 
