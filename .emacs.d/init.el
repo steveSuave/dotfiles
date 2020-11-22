@@ -24,8 +24,7 @@
  '(auto-save-file-name-transforms
    (quote ((".*" "~/.emacs.d/autosaves/\\1" t))))
  '(newsticker-url-list
-   (quote
-    ("thalassoporoi" "https://greatnavigators.com/feed" nil nil nil)
+   '(("thalassoporoi" "https://greatnavigators.com/feed" nil nil nil)
     ("slashdot" "http://rss.slashdot.org/Slashdot/slashdotMain" nil nil nil)
     ("eli-bendersky" "https://eli.thegreenplace.net/feeds/all.atom.xml" nil nil nil)))
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
@@ -40,8 +39,6 @@
 
 (make-directory "~/.emacs.d/sql/" t)
 (make-directory "~/.emacs.d/autosaves/" t)
-
-(add-to-list 'load-path "~/.emacs.d/lisp/")
 
 (recentf-mode 1)            
 (tooltip-mode -1)
@@ -147,7 +144,7 @@
             (when scratch-buffer
               (goto-char (point-min))
               (insert "public class LetsDoDis {\n\n\n\n}")
-              (previous-line 2))))
+              (forward-line -2))))
 
 ;; ---------
 ;; FUNCTIONS
@@ -297,7 +294,7 @@
 ;; VARIABLES
 ;; ---------
 (setq visible-bell nil
-      column-number-mode t
+      column-number-mode t      
       calendar-latitude 37.9
       calendar-longitude 23.7
       inhibit-startup-screen t
@@ -381,6 +378,5 @@
          ("\\.yml\\'" . yaml-mode)
          ("github.*\\.txt$" . markdown-mode)
          ("pom.xml" . nxml-mode)
-         ("\\.rest$" . restclient-mode)
-         )))
+         ("\\.rest$" . restclient-mode))))
 
