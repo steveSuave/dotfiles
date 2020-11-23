@@ -56,6 +56,15 @@
 (put 'narrow-to-region 'disabled nil)
 (put 'dired-find-alternate-file 'disabled nil)
 
+(when (eq system-type 'darwin) ;; mac specific settings
+  (setq dired-use-ls-dired nil)
+  (when (display-graphic-p)
+    (setq mac-option-modifier 'control)
+    (setq mac-command-modifier 'meta)
+    (global-set-key (kbd "<C-tab>") 'xah-next-user-buffer)
+    (global-set-key (kbd "<C-S-tab>") 'xah-previous-user-buffer)))
+;; values can be 'control, 'alt, 'meta, 'super, 'hyper, nil (setting to nil allows the OS to assign values)
+
 ;; --------
 ;; PACKAGES
 ;; --------
@@ -72,15 +81,6 @@
 (require 'my-used-packages)
 (require 'customies)
 (require 'metar)
-
-(when (eq system-type 'darwin) ;; mac specific settings
-  (setq dired-use-ls-dired nil)
-  (when (display-graphic-p)
-    (setq mac-option-modifier 'control)
-    (setq mac-command-modifier 'meta)
-    (global-set-key (kbd "<C-tab>") 'xah-next-user-buffer)
-    (global-set-key (kbd "<C-S-tab>") 'xah-previous-user-buffer)))
-;; values can be 'control, 'alt, 'meta, 'super, 'hyper, nil (setting to nil allows the OS to assign values)
 
 (require 'lsp-java)
 (add-hook 'java-mode-hook #'lsp)
@@ -275,6 +275,12 @@
 (global-set-key "\C-c$" 'toggle-truncate-lines)
 (global-set-key "\C-cw" #'met-with-prefix-arg)
 (global-set-key "\C-cm" #'treemacs)
+(global-set-key "\C-cN" #'newsticker-show-news)
+(global-set-key (kbd "C-=") #'text-scale-increase)
+(global-set-key (kbd "C-+") #'text-scale-decrease)
+(global-set-key (kbd "<C-M-tab>") #'next-multiframe-window)
+(global-set-key (kbd "<C-S-M-tab>") #'previous-multiframe-window)
+
 ;;(global-set-key (kbd "C-S-s") 'isearch-forward-symbol-at-point)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ;; unset a key
