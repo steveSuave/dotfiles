@@ -95,6 +95,14 @@ mpvs() {
     mpv --sub-auto=exact --sub-font-size=33 "$1"; 
 }
 
+metar() {
+    curl https://tgftp.nws.noaa.gov/data/observations/metar/stations/${1^^}.TXT
+}
+
+taf() {
+    curl https://tgftp.nws.noaa.gov/data/forecasts/taf/stations/${1^^}.TXT
+}
+
 #########
 # RADIO #
 #########

@@ -136,9 +136,7 @@
 (add-hook 'dired-mode-hook 'dired-hide-details-mode)
 (add-hook 'markdown-mode-hook 'flyspell-mode)
 (add-hook 'sql-interactive-mode-hook 'my-sql-save-history-hook)
-(add-hook 'sql-interactive-mode-hook
-          '(lambda ()
-             (company-mode)))
+(add-hook 'sql-interactive-mode-hook 'company-mode)
 (add-hook 'java-mode-hook
           (lambda ()
             (when scratch-buffer
@@ -168,9 +166,7 @@
   (let ((inhibit-read-only t))
     (ansi-color-apply-on-region (point-min) (point-max))))
 
-;; ----------------------------------------
 ;; someones functions to emulate vi o and O
-;; ----------------------------------------
 (defun vi-open-line-above ()
   "Insert a newline above the current line and put point at beginning."
   (interactive)
@@ -195,7 +191,6 @@
       (vi-open-line-above)
     (vi-open-line-below)))
 
-;; ----------------------------------------
 ;; could emulate vi o with this (typou makro)
 ;;(global-set-key "\C-co" "\C-a\C-j\C-p")
 
@@ -268,8 +263,6 @@
 (global-set-key "\C-cF" 'rgrep)
 ;(global-set-key (kbd "<C-tab>") 'completion-at-point)
 (global-set-key (kbd "<C-return>") 'company-complete)
-(global-set-key (kbd "<S-mouse-4>") #'scroll-right)
-(global-set-key (kbd "<S-mouse-5>") #'scroll-left)
 (global-set-key "\C-cq" 'sql-db-local)
 (global-set-key (kbd "C-c c s") 'scratch-with-prefix-arg)
 (global-set-key "\C-c$" 'toggle-truncate-lines)
@@ -280,6 +273,8 @@
 (global-set-key (kbd "C-+") #'text-scale-decrease)
 (global-set-key (kbd "<C-M-tab>") #'next-multiframe-window)
 (global-set-key (kbd "<C-S-M-tab>") #'previous-multiframe-window)
+(global-set-key (kbd "<S-mouse-5>") '(lambda () (interactive) (scroll-left 10)))
+(global-set-key (kbd "<S-mouse-4>") '(lambda () (interactive) (scroll-right 10)))
 
 ;;(global-set-key (kbd "C-S-s") 'isearch-forward-symbol-at-point)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
