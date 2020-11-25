@@ -12,6 +12,7 @@
      flycheck
      lsp-mode
      lsp-java
+     treemacs
      sml-mode
      which-key
      yasnippet
@@ -51,12 +52,14 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 (prefer-coding-system 'utf-8-unix)
 (put 'upcase-region 'disabled nil)
+(put 'narrow-to-page 'disabled nil)
 (setq-default indent-tabs-mode nil)
 (global-display-line-numbers-mode 1)
 (put 'narrow-to-region 'disabled nil)
 (put 'dired-find-alternate-file 'disabled nil)
 
-(when (eq system-type 'darwin) ;; mac specific settings
+;; mac specific settings
+(when (eq system-type 'darwin)
   (setq dired-use-ls-dired nil)
   (when (display-graphic-p)
     (setq mac-option-modifier 'control)
@@ -137,6 +140,7 @@
 (add-hook 'markdown-mode-hook 'flyspell-mode)
 (add-hook 'sql-interactive-mode-hook 'my-sql-save-history-hook)
 (add-hook 'sql-interactive-mode-hook 'company-mode)
+(add-hook 'minibuffer-setup-hook 'yas-minor-mode)
 (add-hook 'java-mode-hook
           (lambda ()
             (when scratch-buffer
@@ -167,6 +171,14 @@
     (ansi-color-apply-on-region (point-min) (point-max))))
 
 ;; someones functions to emulate vi o and O
+(defun vi-open-line (&optional abovep)
+  "Insert a newline below the current line and put point at beginning.
+   With a prefix argument, insert a newline above the current line."
+  (interactive "P")
+  (if abovep
+      (vi-open-line-above)
+    (vi-open-line-below)))
+
 (defun vi-open-line-above ()
   "Insert a newline above the current line and put point at beginning."
   (interactive)
@@ -182,15 +194,6 @@
   (unless (eolp)
     (end-of-line))
   (newline-and-indent))
-
-(defun vi-open-line (&optional abovep)
-  "Insert a newline below the current line and put point at beginning.
-   With a prefix argument, insert a newline above the current line."
-  (interactive "P")
-  (if abovep
-      (vi-open-line-above)
-    (vi-open-line-below)))
-
 ;; could emulate vi o with this (typou makro)
 ;;(global-set-key "\C-co" "\C-a\C-j\C-p")
 
@@ -238,6 +241,16 @@
   (local-set-key "\C-cj" (lambda () (interactive) (json-format)))
   (local-set-key "\C-cJ" (lambda () (interactive) (json-format t))))
 
+(defun myerc ()
+  (interactive)
+  (let
+      ((password-cache nil))
+    (erc
+     :server "irc.freenode.net"
+     :port "6667"
+     :nick "ou-tis"
+     :password (password-read (format "password for ou-tis at Freenode? ")))))
+
 ;; --------
 ;; BINDINGS
 ;; --------
@@ -268,11 +281,12 @@
 (global-set-key "\C-c$" 'toggle-truncate-lines)
 (global-set-key "\C-cw" #'met-with-prefix-arg)
 (global-set-key "\C-cm" #'treemacs)
+(global-set-key "\C-c\C-e" #'myerc)
 (global-set-key "\C-cN" #'newsticker-show-news)
-(global-set-key (kbd "C-=") #'text-scale-increase)
-(global-set-key (kbd "C-+") #'text-scale-decrease)
 (global-set-key (kbd "<C-M-tab>") #'next-multiframe-window)
 (global-set-key (kbd "<C-S-M-tab>") #'previous-multiframe-window)
+(global-set-key (kbd "C-=") '(lambda () (interactive)(text-scale-increase 0.2)))
+(global-set-key (kbd "C-+") '(lambda () (interactive)(text-scale-decrease 0.2)))
 (global-set-key (kbd "<S-mouse-5>") '(lambda () (interactive) (scroll-left 10)))
 (global-set-key (kbd "<S-mouse-4>") '(lambda () (interactive) (scroll-right 10)))
 
@@ -290,6 +304,7 @@
 (define-key helm-map (kbd "TAB") #'helm-execute-persistent-action)
 (define-key helm-map (kbd "<tab>") #'helm-execute-persistent-action)
 (define-key helm-map (kbd "C-j") #'helm-select-action)
+(define-key minibuffer-local-map [tab] yas-maybe-expand)
 
 ;; ---------
 ;; VARIABLES
@@ -334,6 +349,8 @@
 ;;                (side                . bottom)
 ;;                (window-height       . 0.33)))
 
+(yas--define-parents 'minibuffer-inactive-mode '(fundamental-mode))
+
 (setq auto-mode-alist
       (append
        '(("\\.awk\\'" . awk-mode)
@@ -353,7 +370,7 @@
          ("\\.java$" . java-mode)
          ("\\.js$" . js-mode)
          ("\\.json$" . js-mode)
-         ("\\.jsp$" . nxml-mode) ;; nxml-mode
+         ("\\.jsp$" . nxml-mode)
          ("\\Makefile$" . makefile-mode)
          ("\\makefile$" . makefile-mode)
          ("\\.md$" . markdown-mode)
