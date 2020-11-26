@@ -25,9 +25,10 @@
  '(auto-save-file-name-transforms
    (quote ((".*" "~/.emacs.d/autosaves/\\1" t))))
  '(newsticker-url-list
-   '(("thalassoporoi" "https://greatnavigators.com/feed" nil nil nil)
+   (quote
+    (("thalassoporoi" "https://greatnavigators.com/feed" nil nil nil)
     ("slashdot" "http://rss.slashdot.org/Slashdot/slashdotMain" nil nil nil)
-    ("eli-bendersky" "https://eli.thegreenplace.net/feeds/all.atom.xml" nil nil nil)))
+    ("eli-bendersky" "https://eli.thegreenplace.net/feeds/all.atom.xml" nil nil nil))))
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
  '(ediff-split-window-function 'split-window-horizontally))
 (custom-set-faces
@@ -121,10 +122,10 @@
   (defun now ()
     (interactive)
     (re-search-forward "'[0-9]\\{4\\}\\(-[0-9]\\{2\\}\\)\\{2\\} \\([0-9]\\{2\\}:\\)\\{2\\}[0-9]\\{2\\}\\.[0-9]'")
-    (replace-match "NOW()"))    
+    (replace-match "NOW()"))
   (defun my-sql-hooks ()
     "For use in `sql-mode-hook'."
-    (local-set-key "\C-ccq" (sql-set-sqli-buffer))
+    (local-set-key "\C-ccq" #'sql-set-sqli-buffer)
     (local-set-key "\C-ct" #'now))
   (add-hook 'sql-mode-hook 'my-sql-hooks))
 
@@ -396,5 +397,6 @@
          ("\\.yml\\'" . yaml-mode)
          ("github.*\\.txt$" . markdown-mode)
          ("pom.xml" . nxml-mode)
+         ("\\.http$" . restclient-mode)
          ("\\.rest$" . restclient-mode))))
 
