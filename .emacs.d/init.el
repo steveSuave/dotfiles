@@ -331,24 +331,11 @@
          (sql-server "127.0.0.1")
          (sql-port 3306))))
 
-(defvar my-full-window-buffers '("*java*"
-                                 "*sql*"
-                                 ;;"^\\*Help\\*$"
-                                 ;; Other buffers names...
-                                 "*js*"
-                                 "*javascript*"))
-(while my-full-window-buffers
-  (add-to-list 'display-buffer-alist
-               `(,(car my-full-window-buffers)
-                 (display-buffer-same-window)))
-  (setq my-full-window-buffers (cdr my-full-window-buffers)))
-
-;; (add-to-list 'display-buffer-alist
-;;              '("*dap-ui-locals*"
-;;                (display-buffer-in-side-window)
-;;                (reusable-frames     . visible)
-;;                (side                . bottom)
-;;                (window-height       . 0.33)))
+(setq display-buffer-alist
+      '(("\\*\\(grep\\|log-edit-files\\|vc-log\\)\\*"
+         (display-buffer-below-selected))
+        ("\\*\\(java\\|sql\\|js\\|javascript\\)\\*"
+         (display-buffer-same-window))))
 
 (yas--define-parents 'minibuffer-inactive-mode '(fundamental-mode))
 
