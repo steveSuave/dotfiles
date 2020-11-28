@@ -66,7 +66,10 @@
     (setq mac-option-modifier 'control)
     (setq mac-command-modifier 'meta)
     (global-set-key (kbd "<C-tab>") 'xah-next-user-buffer)
-    (global-set-key (kbd "<C-S-tab>") 'xah-previous-user-buffer)))
+    (global-set-key (kbd "<C-S-tab>") 'xah-previous-user-buffer)
+    (let ((my-path "/usr/local/mysql/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:"))
+      (setenv "PATH" (concat my-path (getenv "PATH")))
+      (setq exec-path (append (split-string my-path path-separator) exec-path)))))
 ;; values can be 'control, 'alt, 'meta, 'super, 'hyper, nil (setting to nil allows the OS to assign values)
 
 ;; --------
@@ -198,6 +201,7 @@
 ;; could emulate vi o with this (typou makro)
 ;;(global-set-key "\C-co" "\C-a\C-j\C-p")
 
+;; airport meteorological info
 (defun met-with-prefix-arg ()
   (interactive)
   (setq current-prefix-arg '(16)) ; C-u C-u
@@ -228,15 +232,13 @@
 
 (defun json-format (&optional bool)
   (interactive)
-  (if (eq t bool)
-      (setq jq "jq -c")
-      (setq jq "jq"))
   (save-excursion
     (shell-command-on-region (region-beginning)
                              (region-end)
-                             jq
+                             (if bool "jq -c" "jq")
                              (buffer-name)
                              t)))
+
 (defun my-json-hooks ()
   "For use in `js-mode-hook'."
   (local-set-key "\C-cj" (lambda () (interactive) (json-format)))
@@ -280,18 +282,22 @@
 (global-set-key "\C-cq" 'sql-db-local)
 (global-set-key (kbd "C-c c s") 'scratch-with-prefix-arg)
 (global-set-key "\C-c$" 'toggle-truncate-lines)
+;;(global-set-key (kbd "C-S-s") 'isearch-forward-symbol-at-point)
 (global-set-key "\C-cw" #'met-with-prefix-arg)
 (global-set-key "\C-cm" #'treemacs)
 (global-set-key "\C-c\C-e" #'myerc)
 (global-set-key "\C-cN" #'newsticker-show-news)
 (global-set-key (kbd "<C-M-tab>") #'next-multiframe-window)
 (global-set-key (kbd "<C-S-M-tab>") #'previous-multiframe-window)
-(global-set-key (kbd "C-=") '(lambda () (interactive)(text-scale-increase 0.2)))
-(global-set-key (kbd "C-+") '(lambda () (interactive)(text-scale-decrease 0.2)))
+(global-set-key "\C-cB" '(lambda () (interactive) (term "/bin/bash")))
+(global-set-key (kbd "C-=") '(lambda () (interactive) (text-scale-increase 0.2)))
+(global-set-key (kbd "C-+") '(lambda () (interactive) (text-scale-decrease 0.2)))
 (global-set-key (kbd "<S-mouse-5>") '(lambda () (interactive) (scroll-left 10)))
 (global-set-key (kbd "<S-mouse-4>") '(lambda () (interactive) (scroll-right 10)))
 
-;;(global-set-key (kbd "C-S-s") 'isearch-forward-symbol-at-point)
+;; other key notations:
+;; (kbd "C-c C-c") [(meta insert)]
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ;; unset a key
 ;; (global-set-key (kbd "C-b") nil)
@@ -299,9 +305,10 @@
 ;; ;; unset a key
 ;; (global-unset-key (kbd "C-z"))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(global-unset-key (kbd "C-z"))
-;; other key notations:
-;; (kbd "C-c C-c") [(meta insert)]
+
+(when (display-graphic-p)
+  (global-unset-key (kbd "C-z")))
+
 (define-key helm-map (kbd "TAB") #'helm-execute-persistent-action)
 (define-key helm-map (kbd "<tab>") #'helm-execute-persistent-action)
 (define-key helm-map (kbd "C-j") #'helm-select-action)
