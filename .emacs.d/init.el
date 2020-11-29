@@ -1,46 +1,11 @@
-(custom-set-variables
- '(package-selected-packages
-   (quote
-    (helm
-     hydra
-     lsp-ui
-     company
-     scratch
-     helm-lsp
-     dap-java
-     dap-mode
-     flycheck
-     lsp-mode
-     lsp-java
-     treemacs
-     sml-mode
-     which-key
-     yasnippet
-     restclient
-     projectile
-     racket-mode
-     lsp-treemacs)))
- '(backup-directory-alist
-   (quote ((".*" . "~/.emacs.d/backups/"))))
- '(auto-save-file-name-transforms
-   (quote ((".*" "~/.emacs.d/autosaves/\\1" t))))
- '(newsticker-url-list
-   (quote
-    (("thalassoporoi" "https://greatnavigators.com/feed" nil nil nil)
-    ("slashdot" "http://rss.slashdot.org/Slashdot/slashdotMain" nil nil nil)
-    ("eli-bendersky" "https://eli.thegreenplace.net/feeds/all.atom.xml" nil nil nil))))
- '(ediff-window-setup-function 'ediff-setup-windows-plain)
- '(ediff-split-window-function 'split-window-horizontally))
-(custom-set-faces
- '(erc-input-face ((t (:foreground "salmon"))))
- '(erc-my-nick-face ((t (:foreground "goldenrod" :weight bold)))))
+;; -------
+;; GENERAL
+;; -------
 
 (display-time)
 (load-theme 'wombat)
-(set-face-attribute 'default (selected-frame) :height 140)
-
-(make-directory "~/.emacs.d/sql/" t)
-(make-directory "~/.emacs.d/autosaves/" t)
+(set-face-attribute
+ 'default (selected-frame) :height 140)
 
 (recentf-mode 1)            
 (tooltip-mode -1)
@@ -86,6 +51,7 @@
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (require 'my-used-packages)
+(require 'change-inner)
 (require 'customies)
 (require 'metar)
 
@@ -117,9 +83,7 @@
     (setq dap-auto-configure-features '(locals)) ;controls tooltip sessions
     (setq lsp-ui-doc-enable nil)
     (setq lsp-ui-sideline-enable nil))
-  (add-hook 'java-mode-hook 'my-java-hooks)
-  ;;(add-hook 'before-save-hook 'gofmt-before-save)
-  )
+  (add-hook 'java-mode-hook 'my-java-hooks))
 
 (when (fboundp 'sql-mode)
   (defun now ()
@@ -141,7 +105,7 @@
 (add-hook 'js-mode-hook 'my-json-hooks)
 (add-hook 'restclient-mode-hook 'my-json-hooks)
 (add-hook 'dired-mode-hook 'dired-hide-details-mode)
-(add-hook 'markdown-mode-hook 'flyspell-mode)
+(add-hook 'calendar-today-visible-hook 'calendar-mark-today)
 (add-hook 'sql-interactive-mode-hook 'my-sql-save-history-hook)
 (add-hook 'sql-interactive-mode-hook 'company-mode)
 (add-hook 'minibuffer-setup-hook 'yas-minor-mode)
@@ -283,10 +247,14 @@
 (global-set-key (kbd "C-c c s") 'scratch-with-prefix-arg)
 (global-set-key "\C-c$" 'toggle-truncate-lines)
 ;;(global-set-key (kbd "C-S-s") 'isearch-forward-symbol-at-point)
+(global-set-key "\C-cN" #'newsticker-show-news)
 (global-set-key "\C-cw" #'met-with-prefix-arg)
 (global-set-key "\C-cm" #'treemacs)
 (global-set-key "\C-c\C-e" #'myerc)
-(global-set-key "\C-cN" #'newsticker-show-news)
+(global-set-key "\C-cC" #'calendar)
+(global-set-key (kbd "M-i") 'change-inner)
+(global-set-key (kbd "M-o") 'change-outer)
+(global-set-key (kbd "C-\\") 'er/expand-region)
 (global-set-key (kbd "<C-M-tab>") #'next-multiframe-window)
 (global-set-key (kbd "<C-S-M-tab>") #'previous-multiframe-window)
 (global-set-key "\C-cB" '(lambda () (interactive) (term "/bin/bash")))
@@ -295,8 +263,7 @@
 (global-set-key (kbd "<S-mouse-5>") '(lambda () (interactive) (scroll-left 10)))
 (global-set-key (kbd "<S-mouse-4>") '(lambda () (interactive) (scroll-right 10)))
 
-;; other key notations:
-;; (kbd "C-c C-c") [(meta insert)]
+;; another key notation: [(meta insert)]
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ;; unset a key
@@ -328,6 +295,7 @@
       display-time-24hr-format t
       read-buffer-completion-ignore-case t
       read-file-name-completion-ignore-case t
+      custom-file "~/.emacs.d/lisp/custom.el"
       mouse-wheel-scroll-amount '(1 ((shift) . 1))
       initial-scratch-message ";; let's do dis\n\n"
       ring-bell-function (lambda nil (message "")))
@@ -393,4 +361,8 @@
          ("pom.xml" . nxml-mode)
          ("\\.http$" . restclient-mode)
          ("\\.rest$" . restclient-mode))))
+
+(make-directory "~/.emacs.d/autosaves/" t)
+(make-directory "~/.emacs.d/sql/" t)
+(load custom-file)
 
