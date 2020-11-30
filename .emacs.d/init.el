@@ -13,6 +13,7 @@
 ;;(menu-bar-mode -1)
 (show-paren-mode t)
 (delete-selection-mode t)
+(setenv "LANG" "en_US.UTF-8")
 (set-default 'truncate-lines t)
 (put 'scroll-left 'disabled nil)
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -30,16 +31,18 @@
   (when (display-graphic-p)
     (setq mac-option-modifier 'control)
     (setq mac-command-modifier 'meta)
+    ;; values can be 'control, 'alt, 'meta, 'super, 'hyper, nil
+    ;; (setting to nil allows the OS to assign values)
     (global-set-key (kbd "<C-tab>") 'xah-next-user-buffer)
     (global-set-key (kbd "<C-S-tab>") 'xah-previous-user-buffer)
     (let ((my-path "/usr/local/mysql/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:"))
       (setenv "PATH" (concat my-path (getenv "PATH")))
       (setq exec-path (append (split-string my-path path-separator) exec-path)))))
-;; values can be 'control, 'alt, 'meta, 'super, 'hyper, nil (setting to nil allows the OS to assign values)
 
 ;; --------
 ;; PACKAGES
 ;; --------
+
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/"))
@@ -61,6 +64,7 @@
 ;; ---------------
 ;; MODES AND HOOKS
 ;; ---------------
+
 (when (fboundp 'java-mode)
   (defun my-java-hooks ()
     "For use in `java-mode-hook'."
@@ -199,7 +203,7 @@
   (save-excursion
     (shell-command-on-region (region-beginning)
                              (region-end)
-                             (if bool "jq -c" "jq")
+                             (if bool "jq -jc" "jq -j")
                              (buffer-name)
                              t)))
 
@@ -221,6 +225,7 @@
 ;; --------
 ;; BINDINGS
 ;; --------
+
 ;; vims o  = C-c o
 (define-key global-map "\C-co" 'vi-open-line)
 ;; vims O  = C-c O
@@ -228,7 +233,7 @@
 ;; vims dd = C-c d
 (global-set-key "\C-cd" 'kill-whole-line)
 ;; vims yy = C-c y
-(global-set-key "\C-cy" "\C-a\C- \C-n\M-w")
+(global-set-key "\C-cy" "\C-a\C- \C-e\M-w\C-a")
 ;; toggle numbers
 (global-set-key "\C-cn" 'display-line-numbers-mode)
 (global-set-key (kbd "<M-down>") 'scroll-up-line)
@@ -248,7 +253,6 @@
 (global-set-key "\C-c$" 'toggle-truncate-lines)
 ;;(global-set-key (kbd "C-S-s") 'isearch-forward-symbol-at-point)
 (global-set-key "\C-cN" #'newsticker-show-news)
-(global-set-key "\C-cw" #'met-with-prefix-arg)
 (global-set-key "\C-cm" #'treemacs)
 (global-set-key "\C-c\C-e" #'myerc)
 (global-set-key "\C-cC" #'calendar)
@@ -262,6 +266,7 @@
 (global-set-key (kbd "C-+") '(lambda () (interactive) (text-scale-decrease 0.2)))
 (global-set-key (kbd "<S-mouse-5>") '(lambda () (interactive) (scroll-left 10)))
 (global-set-key (kbd "<S-mouse-4>") '(lambda () (interactive) (scroll-right 10)))
+(global-set-key "\C-c\C-w" #'met-with-prefix-arg)
 
 ;; another key notation: [(meta insert)]
 
@@ -284,21 +289,24 @@
 ;; ---------
 ;; VARIABLES
 ;; ---------
+
 (setq visible-bell nil
       column-number-mode t      
       calendar-latitude 37.9
       calendar-longitude 23.7
       inhibit-startup-screen t
       completion-ignore-case t
-      frame-background-mode nil
+      ;; frame-background-mode nil
+      helm-buffer-max-length nil
       recentf-max-saved-items 50
       display-time-24hr-format t
+      python-shell-interpreter "python3"
       read-buffer-completion-ignore-case t
       read-file-name-completion-ignore-case t
       custom-file "~/.emacs.d/lisp/custom.el"
       mouse-wheel-scroll-amount '(1 ((shift) . 1))
-      initial-scratch-message ";; let's do dis\n\n"
-      ring-bell-function (lambda nil (message "")))
+      ring-bell-function (lambda nil (message ""))
+      initial-scratch-message ";; let's do dis\n\n")
 
 (setq sql-connection-alist
       '((db-local

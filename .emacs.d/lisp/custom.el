@@ -5,7 +5,6 @@
  ;; If there is more than one, they won't work right.
  '(auto-save-file-name-transforms '((".*" "~/.emacs.d/autosaves/\\1" t)))
  '(backup-directory-alist '((".*" . "~/.emacs.d/backups/")))
- '(calendar-christian-all-holidays-flag t)
  '(calendar-date-style 'iso)
  '(ediff-split-window-function 'split-window-horizontally)
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
@@ -19,10 +18,10 @@
    '((holiday-fixed 1 1 "Prwtoxronia")
      (holiday-fixed 1 6 "Theofaneia")
      (holiday-fixed 3 25 "Eyaggelismos")
-     (holiday-fixed 5 1 "Prwtomagia")
      ;; kathara deytera = easter - 48 days
      (holiday-greek-orthodox-easter)
      ;; agiou pnevmatos = easter + 48 days
+     (holiday-fixed 5 1 "Prwtomagia")
      (holiday-fixed 8 15 "Koimisi")
      (holiday-fixed 10 28 "Oxi")
      (holiday-fixed 12 25 "Christougenna")
