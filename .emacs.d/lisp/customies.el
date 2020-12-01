@@ -37,12 +37,15 @@ This function is used by buffer switching command and close buffer command, so t
 You can override this function to get your idea of “user buffer”.
 version 2016-06-18"
   (interactive)
-  (cond ((string-equal major-mode "dired-mode") nil)
-        ((or (string-equal "*java*" (buffer-name))
-             (string-equal "*javascript*" (buffer-name))
-             (string-equal "*scratch*" (buffer-name))
-             (string-equal "*sql*" (buffer-name))) t)
-        ((string-equal "*" (substring (buffer-name) 0 1)) nil)
+  (cond ((or (string-equal "*js*" (buffer-name))
+             (string-equal "*sql*" (buffer-name))
+             (string-equal "*java*" (buffer-name))
+             (string-equal "*scratch*" (buffer-name)))
+         t)
+        ((or (string-equal "diary" (buffer-name))
+             (string-equal major-mode "dired-mode")
+             (string-equal "*" (substring (buffer-name) 0 1)))
+         nil)        
         (t t)))
 
 (defun xah-next-emacs-buffer ()
