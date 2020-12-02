@@ -2,6 +2,7 @@
 ;; GENERAL
 ;; -------
 
+(diary)
 (display-time)
 (load-theme 'wombat)
 (set-face-attribute
@@ -81,9 +82,9 @@
     (local-set-key "\C-cr" #'lsp-treemacs-references)
     (local-set-key "\C-cR" #'lsp-treemacs-implementations)
     (local-set-key "\C-cs" #'lsp-treemacs-symbols)
-    (local-set-key "\M-n" #'dap-next)
-    (local-set-key "\M-N" #'dap-continue)
-    (local-set-key "\M-q" #'dap-disconnect)
+    (local-set-key "\M-n"  #'dap-next)
+    (local-set-key "\M-N"  #'dap-continue)
+    (local-set-key "\M-q"  #'dap-disconnect)
     (setq dap-auto-configure-features '(locals)) ;controls tooltip sessions
     (setq lsp-ui-doc-enable nil)
     (setq lsp-ui-sideline-enable nil))
@@ -97,8 +98,8 @@
   (defun my-sql-hooks ()
     "For use in `sql-mode-hook'."
     (local-set-key "\C-ccq" #'sql-set-sqli-buffer)
-    (local-set-key "\C-ct" #'now))
-  (add-hook 'sql-mode-hook 'my-sql-hooks))
+    (local-set-key "\C-ct"  #'now))
+  (add-hook 'sql-mode-hook  'my-sql-hooks))
 
 ;; (require 'sql-completion)
 ;; (setq sql-interactive-mode-hook
