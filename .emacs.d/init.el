@@ -2,7 +2,6 @@
 ;; GENERAL
 ;; -------
 
-(diary)
 (display-time)
 (load-theme 'wombat)
 (set-face-attribute
@@ -34,8 +33,8 @@
     (setq mac-command-modifier 'meta)
     ;; values can be 'control, 'alt, 'meta, 'super, 'hyper, nil
     ;; (setting to nil allows the OS to assign values)
-    (global-set-key (kbd "<C-tab>") 'xah-next-user-buffer)
-    (global-set-key (kbd "<C-S-tab>") 'xah-previous-user-buffer)
+    (global-set-key (kbd "<C-tab>") '(lambda () (interactive) (move-front-end-window)))
+    (global-set-key (kbd "<C-S-tab>") '(lambda () (interactive) (move-front-end-window t)))
     (let ((my-path "/usr/local/mysql/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:"))
       (setenv "PATH" (concat my-path (getenv "PATH")))
       (setq exec-path (append (split-string my-path path-separator) exec-path)))))
@@ -54,9 +53,9 @@
   (package-install 'use-package))
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")
+(require 'minor-mode-to-make-alt-tab-work)
 (require 'my-used-packages)
 (require 'change-inner)
-(require 'customies)
 (require 'metar)
 
 (require 'lsp-java)
@@ -223,6 +222,82 @@
      :nick "ou-tis"
      :password (password-read (format "password for ou-tis at Freenode? ")))))
 
+(defun ormap (fn ls)
+"Simple ormap recursive implementation for flat lists,
+apply a function sequentially to the elements of a list and 
+return true if at least one applications returns true, else false"
+  (cond ((eq nil ls) nil)
+        ((funcall fn (car ls)) t)
+        (t (ormap fn (cdr ls)))))
+
+;; (ormap (lambda (el) (> el 10)) '(1 2 11)) ; true
+;; (ormap (lambda (el) (> el 10)) '(1 2 3))  ; false
+
+(defun andmap (fn ls)
+"Simple andmap recursive implementation for flat lists,
+apply a function to all elements of a list and return true
+if all applications return true, else false"
+  (cond ((eq nil ls) t)
+        ((not (funcall fn (car ls))) nil)
+        (t (andmap fn (cdr ls)))))
+
+;; (andmap (lambda (el) (> el 10)) '(11 12 13)) ; true
+;; (andmap (lambda (el) (> el 10)) '(11 12 3))  ; false
+
+(defun create-and-switch-to-scratch-buffer nil
+  "create and switch to a scratch buffer"
+  (interactive)
+  (switch-to-buffer (get-buffer-create "*scratch*"))
+  (insert initial-scratch-message)
+  (lisp-interaction-mode))
+
+(defun where-to (bool)
+  (if bool
+      (previous-buffer)
+    (next-buffer)))
+
+(defun move-back-end-window (&optional prev)
+  "If there is no *Messages* buffer open, then re-create it and switch to it, 
+else change buffers until a 'back-end' one is found (user-defined in 'front-bufsp function)."
+  (interactive)
+  (if (not
+       (member
+        (get-buffer-create "*Messages*")
+        (buffer-list)))
+      (switch-to-buffer (messages-buffer))
+    (progn (where-to prev)
+           (while (front-bufsp)
+             (where-to prev)))))
+
+(defun move-front-end-window (&optional prev)
+  "If there are no 'front-end' buffers open (user-defined in 'front-bufsp function),
+then re-create *scratch* and switch to it, else change buffers until a 'front-end' one is found."
+  (interactive)
+  (if (andmap
+       (lambda (el)
+         (not (front-bufsp el)))
+       (buffer-list))
+      (create-and-switch-to-scratch-buffer)
+    (progn (where-to prev)
+           (while (not (front-bufsp))
+             (where-to prev)))))
+
+(defun front-bufsp (&optional buff)
+  "Return t if current buffer is a user buffer, else nil.
+User buffer will be defined as not enwrapped in stars '*', with some exceptions."
+  (interactive)
+  (let ((the-buff (buffer-name buff)))
+    (cond ((or (string-equal "*js*" the-buff)
+               (string-equal "*sql*" the-buff)
+               (string-equal "*java*" the-buff)
+               (string-equal "*scratch*" the-buff))
+           t)
+          ((or (string-equal "diary" the-buff)
+               (string-equal major-mode "dired-mode")
+               (string-match "\\*.+\\*" the-buff))
+           nil)        
+          (t t))))
+
 ;; --------
 ;; BINDINGS
 ;; --------
@@ -247,8 +322,8 @@
 (global-set-key "\C-\M-f" 'find-file-at-point)
 (global-set-key "\C-cf" 'find-dired)
 (global-set-key "\C-cF" 'rgrep)
-;(global-set-key (kbd "<C-tab>") 'completion-at-point)
 (global-set-key (kbd "<C-return>") 'company-complete)
+(global-set-key (kbd "<C-S-return>") 'completion-at-point)
 (global-set-key "\C-cq" 'sql-db-local)
 (global-set-key (kbd "C-c c s") 'scratch-with-prefix-arg)
 (global-set-key "\C-c$" 'toggle-truncate-lines)
@@ -260,6 +335,7 @@
 (global-set-key (kbd "M-i") 'change-inner)
 (global-set-key (kbd "M-o") 'change-outer)
 (global-set-key (kbd "C-\\") 'er/expand-region)
+;;(global-set-key [remap kill-buffer] 'kill-buffer-and-window)
 (global-set-key (kbd "<C-M-tab>") #'next-multiframe-window)
 (global-set-key (kbd "<C-S-M-tab>") #'previous-multiframe-window)
 (global-set-key "\C-cB" '(lambda () (interactive) (term "/bin/bash")))
@@ -268,6 +344,9 @@
 (global-set-key (kbd "<S-mouse-5>") '(lambda () (interactive) (scroll-left 10)))
 (global-set-key (kbd "<S-mouse-4>") '(lambda () (interactive) (scroll-right 10)))
 (global-set-key "\C-c\C-w" #'met-with-prefix-arg)
+(global-set-key (kbd "ESC <backtab>") '(lambda () (interactive) (move-front-end-window t)))
+(global-set-key (kbd "<f5>") '(lambda () (interactive) (move-back-end-window)))
+(global-set-key (kbd "<f6>") '(lambda () (interactive) (move-back-end-window t)))
 
 ;; another key notation: [(meta insert)]
 
@@ -374,4 +453,5 @@
 (make-directory "~/.emacs.d/autosaves/" t)
 (make-directory "~/.emacs.d/sql/" t)
 (load custom-file)
+(diary)
 
