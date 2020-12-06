@@ -3,9 +3,8 @@
 ;; -------
 
 (display-time)
-(load-theme 'wombat)
 (set-face-attribute
- 'default (selected-frame) :height 140)
+ 'default nil :height 140)
 
 (recentf-mode 1)            
 (tooltip-mode -1)
@@ -21,6 +20,7 @@
 (put 'upcase-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
 (setq-default indent-tabs-mode nil)
+(setq treemacs--width-is-locked nil)
 (global-display-line-numbers-mode 1)
 (put 'narrow-to-region 'disabled nil)
 (put 'dired-find-alternate-file 'disabled nil)
@@ -33,8 +33,8 @@
     (setq mac-command-modifier 'meta)
     ;; values can be 'control, 'alt, 'meta, 'super, 'hyper, nil
     ;; (setting to nil allows the OS to assign values)
-    (global-set-key (kbd "<C-tab>") '(lambda () (interactive) (move-front-end-window)))
-    (global-set-key (kbd "<C-S-tab>") '(lambda () (interactive) (move-front-end-window t)))
+    (global-set-key (kbd "<C-tab>") 'move-front-end-window)
+    (global-set-key (kbd "<C-S-tab>") 'move-front-end-window-back)
     (let ((my-path "/usr/local/mysql/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:"))
       (setenv "PATH" (concat my-path (getenv "PATH")))
       (setq exec-path (append (split-string my-path path-separator) exec-path)))))
@@ -57,6 +57,9 @@
 (require 'my-used-packages)
 (require 'change-inner)
 (require 'metar)
+
+(require 'frame-bufs)
+(frame-bufs-mode t)
 
 (require 'lsp-java)
 (add-hook 'java-mode-hook #'lsp)
@@ -225,8 +228,8 @@
 (defun ormap (fn ls)
 "Simple ormap recursive implementation for flat lists,
 apply a function sequentially to the elements of a list and 
-return true if at least one applications returns true, else false"
-  (cond ((eq nil ls) nil)
+return true if at least one application returns true, or else false"
+  (cond ((null ls) nil)
         ((funcall fn (car ls)) t)
         (t (ormap fn (cdr ls)))))
 
@@ -236,8 +239,8 @@ return true if at least one applications returns true, else false"
 (defun andmap (fn ls)
 "Simple andmap recursive implementation for flat lists,
 apply a function to all elements of a list and return true
-if all applications return true, else false"
-  (cond ((eq nil ls) t)
+if all applications return true, or else false"
+  (cond ((null ls) t)
         ((not (funcall fn (car ls))) nil)
         (t (andmap fn (cdr ls)))))
 
@@ -257,21 +260,32 @@ if all applications return true, else false"
     (next-buffer)))
 
 (defun move-back-end-window (&optional prev)
-  "If there is no *Messages* buffer open, then re-create it and switch to it, 
-else change buffers until a 'back-end' one is found (user-defined in 'front-bufsp function)."
+  "On first call switch to *Messages* buffer. If there is no *Messages* buffer open, 
+then re-create it and switch to it. On subsequent calls change buffers until a 'back-end' 
+one is found (user-defined in `front-bufsp' function)."
   (interactive)
-  (if (not
-       (member
-        (get-buffer-create "*Messages*")
-        (buffer-list)))
+  (if (or
+       (not
+        (member
+         (get-buffer-create "*Messages*")
+         (buffer-list)))
+       (not
+        (or (eq last-command 'move-back-end-window)
+            (eq last-command 'move-back-end-window-back))))
       (switch-to-buffer (messages-buffer))
     (progn (where-to prev)
-           (while (front-bufsp)
+           (while (or (front-bufsp)
+                      (string-match "*helm.*"
+                                    (buffer-name)))
              (where-to prev)))))
 
+(defun move-back-end-window-back ()
+  (interactive)
+  (move-back-end-window t))
+
 (defun move-front-end-window (&optional prev)
-  "If there are no 'front-end' buffers open (user-defined in 'front-bufsp function),
-then re-create *scratch* and switch to it, else change buffers until a 'front-end' one is found."
+  "If there are no 'front-end' buffers open (user-defined in `front-bufsp' function),
+then re-create *scratch* and switch to it, or else change buffers until a 'front-end' one is found."
   (interactive)
   (if (andmap
        (lambda (el)
@@ -282,8 +296,12 @@ then re-create *scratch* and switch to it, else change buffers until a 'front-en
            (while (not (front-bufsp))
              (where-to prev)))))
 
+(defun move-front-end-window-back ()
+  (interactive)
+  (move-front-end-window t))
+
 (defun front-bufsp (&optional buff)
-  "Return t if current buffer is a user buffer, else nil.
+  "Return t if current buffer is a user buffer, or else nil.
 User buffer will be defined as not enwrapped in stars '*', with some exceptions."
   (interactive)
   (let ((the-buff (buffer-name buff)))
@@ -338,15 +356,15 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
 ;;(global-set-key [remap kill-buffer] 'kill-buffer-and-window)
 (global-set-key (kbd "<C-M-tab>") #'next-multiframe-window)
 (global-set-key (kbd "<C-S-M-tab>") #'previous-multiframe-window)
-(global-set-key "\C-cB" '(lambda () (interactive) (term "/bin/bash")))
-(global-set-key (kbd "C-=") '(lambda () (interactive) (text-scale-increase 0.2)))
-(global-set-key (kbd "C-+") '(lambda () (interactive) (text-scale-decrease 0.2)))
-(global-set-key (kbd "<S-mouse-5>") '(lambda () (interactive) (scroll-left 10)))
-(global-set-key (kbd "<S-mouse-4>") '(lambda () (interactive) (scroll-right 10)))
+(global-set-key "\C-cB" (lambda () (interactive) (term "/bin/bash")))
+(global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 0.2)))
+(global-set-key (kbd "C-+") (lambda () (interactive) (text-scale-decrease 0.2)))
+(global-set-key (kbd "<S-mouse-5>") (lambda () (interactive) (scroll-left 10)))
+(global-set-key (kbd "<S-mouse-4>") (lambda () (interactive) (scroll-right 10)))
 (global-set-key "\C-c\C-w" #'met-with-prefix-arg)
-(global-set-key (kbd "ESC <backtab>") '(lambda () (interactive) (move-front-end-window t)))
-(global-set-key (kbd "<f5>") '(lambda () (interactive) (move-back-end-window)))
-(global-set-key (kbd "<f6>") '(lambda () (interactive) (move-back-end-window t)))
+(global-set-key (kbd "ESC <backtab>") 'move-front-end-window-back)
+(global-set-key (kbd "<f5>") #'move-back-end-window)
+(global-set-key (kbd "<f6>") #'move-back-end-window-back)
 
 ;; another key notation: [(meta insert)]
 

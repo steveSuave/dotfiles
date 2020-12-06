@@ -7,11 +7,11 @@
 (define-key function-key-map [(meta control shift iso-lefttab)] [(meta control shift tab)])
 (defvar tsa-keys-map
   (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "M-TAB") '(lambda () (interactive) (move-front-end-window))) ;; this works most of the time
-    (define-key map [(meta tab)] '(lambda () (interactive) (move-front-end-window)))  ;; gnus
-    (define-key map "\M-\C-i" '(lambda () (interactive) (move-front-end-window))) ;;  gnus
-    (define-key map (kbd "M-C-i") '(lambda () (interactive) (move-front-end-window))) ;; gnus
-    (define-key map [M-tab] '(lambda () (interactive) (move-front-end-window))) ;; from magit
+    (define-key map (kbd "M-TAB") 'move-front-end-window) ;; this works most of the time
+    (define-key map [(meta tab)] 'move-front-end-window)  ;; gnus
+    (define-key map "\M-\C-i" 'move-front-end-window) ;;  gnus
+    (define-key map (kbd "M-C-i") 'move-front-end-window) ;; gnus
+    (define-key map [M-tab] 'move-front-end-window) ;; from magit
     map)
   "tsa-keys-minor-mode keymap.")
 
@@ -35,5 +35,6 @@ Called via the `after-load-functions' special hook."
       (add-to-list 'minor-mode-map-alist mykeys))))
 
 (provide 'minor-mode-to-make-alt-tab-work)
+
 ;; ------------------------------------------------------------------
 
