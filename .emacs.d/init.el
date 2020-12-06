@@ -56,7 +56,6 @@
 (require 'minor-mode-to-make-alt-tab-work)
 (require 'my-used-packages)
 (require 'change-inner)
-(require 'metar)
 
 (require 'frame-bufs)
 (frame-bufs-mode t)
@@ -172,13 +171,6 @@
 ;; could emulate vi o with this (typou makro)
 ;;(global-set-key "\C-co" "\C-a\C-j\C-p")
 
-;; airport meteorological info
-(defun met-with-prefix-arg ()
-  (interactive)
-  (setq current-prefix-arg '(16)) ; C-u C-u
-  (call-interactively 'metar))
-;; (metar-decode (metar-get-record "LGAV"))
-
 (defun scratch-with-prefix-arg ()
   (interactive)
   (setq current-prefix-arg '(4)) ; C-u
@@ -260,18 +252,12 @@ if all applications return true, or else false"
     (next-buffer)))
 
 (defun move-back-end-window (&optional prev)
-  "On first call switch to *Messages* buffer. If there is no *Messages* buffer open, 
-then re-create it and switch to it. On subsequent calls change buffers until a 'back-end' 
-one is found (user-defined in `front-bufsp' function)."
+  "On first call switch to *Messages* buffer. On subsequent calls change
+buffers until a 'back-end' one is found (user-defined in `front-bufsp' function)."
   (interactive)
-  (if (or
-       (not
-        (member
-         (get-buffer-create "*Messages*")
-         (buffer-list)))
-       (not
-        (or (eq last-command 'move-back-end-window)
-            (eq last-command 'move-back-end-window-back))))
+  (if (not
+       (or (eq last-command 'move-back-end-window)
+           (eq last-command 'move-back-end-window-back)))
       (switch-to-buffer (messages-buffer))
     (progn (where-to prev)
            (while (or (front-bufsp)
@@ -362,6 +348,7 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
 (global-set-key (kbd "<S-mouse-5>") (lambda () (interactive) (scroll-left 10)))
 (global-set-key (kbd "<S-mouse-4>") (lambda () (interactive) (scroll-right 10)))
 (global-set-key "\C-c\C-w" #'met-with-prefix-arg)
+(global-set-key (kbd "<S-M-tab>") 'move-front-end-window-back)
 (global-set-key (kbd "ESC <backtab>") 'move-front-end-window-back)
 (global-set-key (kbd "<f5>") #'move-back-end-window)
 (global-set-key (kbd "<f6>") #'move-back-end-window-back)
