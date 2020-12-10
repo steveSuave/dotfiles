@@ -6,6 +6,7 @@
  '(auto-save-file-name-transforms '((".*" "~/.emacs.d/autosaves/\\1" t)))
  '(backup-directory-alist '((".*" . "~/.emacs.d/backups/")))
  '(calendar-date-style 'iso)
+ '(display-time-24hr-format t)
  '(ediff-split-window-function 'split-window-horizontally)
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
  '(holiday-bahai-holidays nil)
@@ -31,10 +32,12 @@
    '(("thalassoporoi" "https://greatnavigators.com/feed" nil nil nil)
      ("slashdot" "http://rss.slashdot.org/Slashdot/slashdotMain" nil nil nil)
      ("eli-bendersky" "https://eli.thegreenplace.net/feeds/all.atom.xml" nil nil nil)))
+ '(treemacs-show-hidden-files nil)
  '(package-selected-packages
    '(helm
      hydra
      lsp-ui
+     diff-hl
      company
      scratch
      helm-lsp

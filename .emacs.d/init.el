@@ -2,10 +2,6 @@
 ;; GENERAL
 ;; -------
 
-(display-time)
-(set-face-attribute
- 'default nil :height 140)
-
 (recentf-mode 1)            
 (tooltip-mode -1)
 (tool-bar-mode -1)
@@ -66,6 +62,10 @@
 ;; ---------------
 ;; MODES AND HOOKS
 ;; ---------------
+
+(global-diff-hl-mode)
+(diff-hl-flydiff-mode)
+(diff-hl-margin-mode)
 
 (when (fboundp 'java-mode)
   (defun my-java-hooks ()
@@ -331,7 +331,7 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
 (global-set-key "\C-cq" 'sql-db-local)
 (global-set-key (kbd "C-c c s") 'scratch-with-prefix-arg)
 (global-set-key "\C-c$" 'toggle-truncate-lines)
-;;(global-set-key (kbd "C-S-s") 'isearch-forward-symbol-at-point)
+(global-set-key (kbd "C-S-s") 'isearch-forward-symbol-at-point)
 (global-set-key "\C-cN" #'newsticker-show-news)
 (global-set-key "\C-cm" #'treemacs)
 (global-set-key "\C-c\C-e" #'myerc)
@@ -352,18 +352,13 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
 (global-set-key (kbd "ESC <backtab>") 'move-front-end-window-back)
 (global-set-key (kbd "<f5>") #'move-back-end-window)
 (global-set-key (kbd "<f6>") #'move-back-end-window-back)
+(global-set-key "\C-x52" (lambda () (interactive) (switch-to-buffer-other-frame "*Messages*")))
+(global-set-key "\C-x\C-b" (lambda () (interactive) (progn (list-buffers) (other-window 1))))
 
 ;; another key notation: [(meta insert)]
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ;; unset a key
-;; (global-set-key (kbd "C-b") nil)
-
-;; ;; unset a key
-;; (global-unset-key (kbd "C-z"))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (when (display-graphic-p)
+;; or (global-set-key (kbd "C-z") nil)
   (global-unset-key (kbd "C-z")))
 
 (define-key helm-map (kbd "TAB") #'helm-execute-persistent-action)
@@ -382,10 +377,10 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
       inhibit-startup-screen t
       completion-ignore-case t
       ;; frame-background-mode nil
+      Buffer-menu-name-width 35
       helm-buffer-max-length nil
       recentf-max-saved-items 50
-      display-time-24hr-format t
-      python-shell-interpreter "python3"
+      lsp-modeline-diagnostics-enable nil
       read-buffer-completion-ignore-case t
       read-file-name-completion-ignore-case t
       custom-file "~/.emacs.d/lisp/custom.el"
@@ -455,8 +450,18 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
          ("\\.http$" . restclient-mode)
          ("\\.rest$" . restclient-mode))))
 
+;; -------
+;; FINALLY
+;; -------
+
+(set-face-attribute 'default nil :height 140)
 (make-directory "~/.emacs.d/autosaves/" t)
 (make-directory "~/.emacs.d/sql/" t)
 (load custom-file)
+
+;; (load-theme 'wombat)
+;; (darktooth-modeline)
+(load-theme 'darktooth)
+(display-time)
 (diary)
 
