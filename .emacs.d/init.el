@@ -395,7 +395,7 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
          (sql-port 3306))))
 
 (setq display-buffer-alist
-      '(("\\*\\(grep\\|log-edit-files\\|vc-log\\)\\*"
+      '(("\\*\\(grep\\|log-edit-files\\|vc-log\\|Buffer list\\)\\*"
          (display-buffer-below-selected))
         ("\\*\\(java\\|sql\\|js\\|javascript\\)\\*"
          (display-buffer-same-window))))
