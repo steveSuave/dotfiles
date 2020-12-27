@@ -33,6 +33,7 @@
      ("slashdot" "http://rss.slashdot.org/Slashdot/slashdotMain" nil nil nil)
      ("eli-bendersky" "https://eli.thegreenplace.net/feeds/all.atom.xml" nil nil nil)))
  '(treemacs-show-hidden-files nil)
+ '(python-shell-interpreter "python3")
  '(package-selected-packages
    '(helm
      hydra
@@ -48,6 +49,7 @@
      lsp-java
      treemacs
      sml-mode
+     lua-mode
      which-key
      yasnippet
      restclient
@@ -56,6 +58,7 @@
      lsp-treemacs
      change-inner
      expand-region
+     javadoc-lookup
      darktooth-theme)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

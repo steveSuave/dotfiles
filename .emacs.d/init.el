@@ -2,7 +2,7 @@
 ;; GENERAL
 ;; -------
 
-(recentf-mode 1)            
+(recentf-mode 1)
 (tooltip-mode -1)
 (tool-bar-mode -1)
 ;;(menu-bar-mode -1)
@@ -18,6 +18,7 @@
 (setq-default indent-tabs-mode nil)
 (setq treemacs--width-is-locked nil)
 (global-display-line-numbers-mode 1)
+(put 'downcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
 (put 'dired-find-alternate-file 'disabled nil)
 
@@ -72,8 +73,8 @@
     "For use in `java-mode-hook'."
     (require 'google-java-format)
     (local-set-key "\C-cj" #'google-java-format-region)
-    (local-set-key "\C-ci" #'lsp-java-organize-imports)
-    (local-set-key "\C-cI" #'lsp-java-add-import)   
+    (local-set-key "\C-cI" #'lsp-java-organize-imports)
+    (local-set-key "\C-ci" #'lsp-java-add-import)
     (local-set-key "\C-cg" #'lsp-goto-implementation)
     (local-set-key "\C-cG" #'lsp-goto-type-definition)
     (local-set-key "\C-ce" #'flycheck-next-error)
@@ -184,7 +185,7 @@
   (let ((lval 'sql-input-ring-file-name)
         (rval 'sql-product))
     (if (symbol-value rval)
-        (let ((filename 
+        (let ((filename
                (concat "~/.emacs.d/sql/"
                        (symbol-name (symbol-value rval))
                        "-history.sql")))
@@ -219,7 +220,7 @@
 
 (defun ormap (fn ls)
 "Simple ormap recursive implementation for flat lists,
-apply a function sequentially to the elements of a list and 
+apply a function sequentially to the elements of a list and
 return true if at least one application returns true, or else false"
   (cond ((null ls) nil)
         ((funcall fn (car ls)) t)
@@ -298,8 +299,8 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
            t)
           ((or (string-equal "diary" the-buff)
                (string-equal major-mode "dired-mode")
-               (string-match "\\*.+\\*" the-buff))
-           nil)        
+               (string-match "\\*.+\\*$" the-buff))
+           nil)
           (t t))))
 
 ;; --------
@@ -342,7 +343,7 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
 ;;(global-set-key [remap kill-buffer] 'kill-buffer-and-window)
 (global-set-key (kbd "<C-M-tab>") #'next-multiframe-window)
 (global-set-key (kbd "<C-S-M-tab>") #'previous-multiframe-window)
-(global-set-key "\C-cB" (lambda () (interactive) (term "/bin/bash")))
+(global-set-key "\C-cB" #'shell)
 (global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 0.2)))
 (global-set-key (kbd "C-+") (lambda () (interactive) (text-scale-decrease 0.2)))
 (global-set-key (kbd "<S-mouse-5>") (lambda () (interactive) (scroll-left 10)))
@@ -354,6 +355,9 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
 (global-set-key (kbd "<f6>") #'move-back-end-window-back)
 (global-set-key "\C-x52" (lambda () (interactive) (switch-to-buffer-other-frame "*Messages*")))
 (global-set-key "\C-x\C-b" (lambda () (interactive) (progn (list-buffers) (other-window 1))))
+(global-set-key "\M-p" "\C-x0\C-x2\C-xb") ;; switch horizontal to vertical split
+(global-set-key "\M-n" "\C-x0\C-x4b") ;; split vertical to horizontal split
+(global-set-key (kbd "C-h j") 'javadoc-lookup)
 
 ;; another key notation: [(meta insert)]
 
@@ -371,7 +375,7 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
 ;; ---------
 
 (setq visible-bell nil
-      column-number-mode t      
+      column-number-mode t
       calendar-latitude 37.9
       calendar-longitude 23.7
       inhibit-startup-screen t
@@ -395,9 +399,9 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
          (sql-port 3306))))
 
 (setq display-buffer-alist
-      '(("\\*\\(grep\\|log-edit-files\\|vc-log\\|Buffer list\\)\\*"
+      '(("\\*\\(grep\\|log-edit-files\\|vc-log\\|Buffer List\\)\\*"
          (display-buffer-below-selected))
-        ("\\*\\(java\\|sql\\|js\\|javascript\\)\\*"
+        ("\\*\\(java\\|sql\\|js\\)\\*"
          (display-buffer-same-window))))
 
 (yas--define-parents 'minibuffer-inactive-mode '(fundamental-mode))
@@ -421,7 +425,7 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
          ("\\.java$" . java-mode)
          ("\\.js$" . js-mode)
          ("\\.json$" . js-mode)
-         ("\\.jsp$" . nxml-mode)
+         ("\\.lua$" . lua-mode)
          ("\\Makefile$" . makefile-mode)
          ("\\makefile$" . makefile-mode)
          ("\\.md$" . markdown-mode)
@@ -461,7 +465,8 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
 
 ;; (load-theme 'wombat)
 ;; (darktooth-modeline)
-(load-theme 'darktooth)
+(when (display-graphic-p)
+  (load-theme 'darktooth))
 (display-time)
 (diary)
 
