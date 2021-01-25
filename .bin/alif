@@ -110,6 +110,8 @@ taf() {
 # classical music
 alias trito='mpv https://radiostreaming.ert.gr/ert-trito &>/dev/null &'
 
+mkdir -p ${HOME}/Documents/TEXTFILES
+
 # jazz
 jazz24() {
     mpv https://live.wostreaming.net/direct/ppm-jazz24mp3-ibc1 2>/dev/null |

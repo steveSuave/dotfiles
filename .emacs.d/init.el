@@ -356,7 +356,7 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
 (global-set-key "\C-x52" (lambda () (interactive) (switch-to-buffer-other-frame "*Messages*")))
 (global-set-key "\C-x\C-b" (lambda () (interactive) (progn (list-buffers) (other-window 1))))
 (global-set-key "\M-p" "\C-x0\C-x2\C-xb") ;; switch horizontal to vertical split
-(global-set-key "\M-n" "\C-x0\C-x4b") ;; split vertical to horizontal split
+(global-set-key "\M-n" "\C-x0\C-x4b") ;; switch vertical to horizontal split
 (global-set-key (kbd "C-h j") 'javadoc-lookup)
 
 ;; another key notation: [(meta insert)]
