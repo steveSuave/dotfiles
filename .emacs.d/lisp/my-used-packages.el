@@ -15,7 +15,7 @@
   (helm-mode 1)                                                                                                                   
   (progn (setq helm-buffers-fuzzy-matching t))                                                                                    
   :bind
-  (("M-y" . helm-show-kill-ring))
+  ;;(("M-y" . helm-show-kill-ring))
   (("C-c h" . helm-command-prefix))                                                                                               
   (("M-x" . helm-M-x))                                                                                                            
   (("C-x C-f" . helm-find-files))                                                                                                 
@@ -64,6 +64,8 @@
   :init (projectile-mode +1)
   :config 
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+
+(use-package javadoc-lookup)
 
 (provide 'my-used-packages)
 

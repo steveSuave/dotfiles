@@ -1,0 +1,1 @@
+dbus-launch --exit-with-session /usr/bin/i3 -V >> $HOME/.config/i3/logfile 2>&1

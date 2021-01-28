@@ -28,25 +28,30 @@ font pango:monospace 8
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
+default_border pixel 0
 
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
+# bindsym $mod+Return exec xterm -xrm 'xterm*selectToClipboard: true' -xrm 'xterm*VT100.metaSendsEscape: true'
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
+# for_window [class="vlc"] floating enable
+
 # start dmenu (a program launcher)
 bindsym $mod+d exec dmenu_run
+# bindsym $mod+d exec dmenu_run -b -i -fn 'Ubuntu Mono:pixelsize=22' -nb '#000000'
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -169,20 +174,42 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3status
+        position top
+        font pango:monospace 12
+        status_command i3status --config ~/.config/i3/status.conf
 }
 
-# screen brightness controls
-bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 10
-bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10
+bindsym F11 exec --no-startup-id $HOME/.bin/karoto
+bindsym F12 exec --no-startup-id pkill -f karoto
+bindsym F7  exec --no-startup-id kill -PROF $(pgrep -f karoto)
 
-exec --no-startup-id setxkbmap -layout "us,gr" -option "grp:alt_space_toggle"
+bindsym XF86MonBrightnessUp   exec --no-startup-id xbacklight -inc 2
+bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 2
+
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +2db
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -2db
+bindsym XF86AudioMute        exec --no-startup-id pactl set-sink-mute 0 toggle 
+
+bindsym $mod+Shift+Return exec --no-startup-id i3-empty-workspace
+bindsym $mod+Shift+Tab workspace prev
+bindsym $mod+Tab workspace next
+bindsym $mod+z exec i3lock -i ~/Pictures/lock.png
+bindsym $mod+shift+n exec netbeans
+bindsym $mod+shift+b exec dbeaver
+bindsym $mod+shift+p exec Postman
+bindsym $mod+b exec firefox
+bindsym $mod+g exec google-chrome --disable-gpu # --disable-software-rasterizer
+bindsym $mod+m exec emacs
+bindsym $mod+n exec xcalib -invert -alter
+
+#exec --no-startup-id setxkbmap -layout "us,gr" -option "grp:alt_space_toggle"
+exec --no-startup-id setxkbmap -layout "us,gr" -option "grp:win_space_toggle"
 exec --no-startup-id feh --bg-scale $HOME/Pictures/bak.jpg 
+exec --no-startup-id dunst -font "LiberationSans Mono 12"
+exec --no-startup-id xinput set-prop 12 320 1
 exec --no-startup-id xflux -l 37 -g 24
-exec --no-startup-id xset s off
-exec --no-startup-id xset -dpms
 exec --no-startup-id compton
 
-bindsym $mod+b exec firefox
-bindsym $mod+m exec emacs
+#exec --no-startup-id xset s off
+#exec --no-startup-id xset -dpms
 

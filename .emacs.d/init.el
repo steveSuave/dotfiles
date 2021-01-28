@@ -123,6 +123,14 @@
               (insert "public class LetsDoDis {\n\n\n\n}")
               (forward-line -2))))
 
+;; Set up before-save hooks to format buffer and add/delete imports.
+;; Make sure you don't have other gofmt/goimports hooks enabled.
+(defun lsp-go-install-save-hooks ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+(add-hook 'go-mode-hook #'lsp-deferred)
+
 ;; ---------
 ;; FUNCTIONS
 ;; ---------
@@ -293,6 +301,7 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
   (interactive)
   (let ((the-buff (buffer-name buff)))
     (cond ((or (string-equal "*js*" the-buff)
+               (string-equal "*go*" the-buff)
                (string-equal "*sql*" the-buff)
                (string-equal "*java*" the-buff)
                (string-equal "*scratch*" the-buff))
@@ -302,6 +311,18 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
                (string-match "\\*.+\\*$" the-buff))
            nil)
           (t t))))
+
+(defun metaar()
+  (interactive)
+  (message
+   (shell-command-to-string
+    ". ~/.bin/alif && metar lgav 2>/dev/null")))
+
+(defun taaf()
+  (interactive)
+  (message
+   (shell-command-to-string
+    ". ~/.bin/alif && taf lgav 2>/dev/null")))
 
 ;; --------
 ;; BINDINGS
@@ -353,6 +374,8 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
 (global-set-key (kbd "ESC <backtab>") 'move-front-end-window-back)
 (global-set-key (kbd "<f5>") #'move-back-end-window)
 (global-set-key (kbd "<f6>") #'move-back-end-window-back)
+(global-set-key "\C-cw" (lambda () (interactive) (metaar)))
+(global-set-key "\C-cW" (lambda () (interactive) (taaf)))
 (global-set-key "\C-x52" (lambda () (interactive) (switch-to-buffer-other-frame "*Messages*")))
 (global-set-key "\C-x\C-b" (lambda () (interactive) (progn (list-buffers) (other-window 1))))
 (global-set-key "\M-p" "\C-x0\C-x2\C-xb") ;; switch horizontal to vertical split
@@ -380,6 +403,7 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
       calendar-longitude 23.7
       inhibit-startup-screen t
       completion-ignore-case t
+      ;; split-width-threshold 180
       ;; frame-background-mode nil
       Buffer-menu-name-width 35
       helm-buffer-max-length nil
@@ -390,7 +414,8 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
       custom-file "~/.emacs.d/lisp/custom.el"
       mouse-wheel-scroll-amount '(1 ((shift) . 1))
       ring-bell-function (lambda nil (message ""))
-      initial-scratch-message ";; let's do dis\n\n")
+      initial-scratch-message ";; let's do dis\n\n"
+      find-function-C-source-directory "~/.emacs.d/emacs-master/src")
 
 (setq sql-connection-alist
       '((db-local
@@ -420,6 +445,7 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
          ("\\.diff\\'" . diff-mode)
          ("\\.el\\'"  . emacs-lisp-mode)
          ("\\.emacs\\'" . emacs-lisp-mode)
+         ("\\.go\\'" . go-mode)
          ("\\.htm\\'" . html-mode)
          ("\\.html\\'" . html-mode)
          ("\\.java$" . java-mode)
@@ -470,3 +496,4 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
 (display-time)
 (diary)
 
+;; (setq lsp-java-jdt-download-url  "https://download.eclipse.org/jdtls/milestones/0.57.0/jdt-language-server-0.57.0-202006172108.tar.gz")

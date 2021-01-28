@@ -8,10 +8,11 @@ alias mysql.restart="sudo /usr/local/mysql/support-files/mysql.server restart"
 alias mysql.status="sudo /usr/local/mysql/support-files/mysql.server status"
 
 alias kk="clear && printf '\e[3J'"
+alias rt='cd;kk'
 alias lsa='ls -lahFG'
+alias l1='ls -1hF --color=auto'
 alias grep='grep --color=auto'
 alias ducks='du -cks * | sort -rn | head'
-alias ls="ls -GFh"
 alias rmi="rm -i"
 alias rmt="rmtrash"
 alias py=python3
@@ -26,6 +27,9 @@ alias ytda='youtube-dl -o "%(title)s.%(ext)s" -x --audio-format mp3'
 alias ytdp='youtube-dl -o "%(playlist_index)s - %(title)s.%(ext)s"' # -f mp4
 alias ytds='youtube-dl --write-sub --sub-lang en --skip-download' # --sub-format ass/srt/best
 
+alias w3im="startx $HOME/.config/i3/xinit"
+alias remacsp='rm ~/.emacs.d/.lsp-session-v1 && rm -r ~/.emacs.d/workspace/'
+
 alias irc='screen -S irc irssi;'
 alias cafrc='caffeinate -w $(pgrep irssi)&'
 
@@ -34,45 +38,72 @@ alias kar='kill -SIGINFO $(pgrep -f karoto)'
 alias dodis='kill -SIGWINCH $(pgrep -f karoto)'
 alias fir='kill -SIGUSR1 $(pgrep -f karoto)'
 alias sec='kill -SIGUSR2 $(pgrep -f karoto)'
+adiar() {
+        { sleep $(( $1 * 60 )) && dodis; }&
+}
 
 #############
 # FUNCTIONS #
 #############
 
-adiar() {
-	{ sleep $(( $1 * 60 )) && dodis; }&
+# grau java "/resource" ~/repo
+# grau sql -i "full outer" ~/db
+grau() {
+    local extension=$1
+    shift
+    while [[ "$1" ]]; do
+        if [[ "$1" = -* ]]; then
+            local flags=$1
+            shift
+        elif [[ -d "$1" ]]; then
+            local dir=$1
+            shift
+        else
+            local query=$1
+            shift
+        fi
+    done
+    grep -r --include="*.${extension}" "$flags" "$query" "$dir"
 }
 
-start() { 
-	open -a "$1" 
+run() {
+        open -a "$1"
 }
 
 quit() {
-	osascript -e "quit app \"$1\""
-	#pkill -Ili "$1"
+        osascript -e "quit app \"$1\""
+        #pkill -Ili "$1"
 }
 
 check() {
-	pgrep -lf "$*" 
+        pgrep -lf "$*"
 }
 
-cht() {	
-	curl https://cht.sh/"$*" 
+cht() {
+        curl https://cht.sh/"$*"
 }
 
 cl() {
-	cd "$1" || return
-	ls -haltFG
+        cd "$1" || return
+        ls -haltFG
+}
+
+metar() {
+    curl https://tgftp.nws.noaa.gov/data/observations/metar/stations/$(awk '{ print toupper($0) }' <<< "$1").TXT
+}
+
+taf() {
+    curl https://tgftp.nws.noaa.gov/data/forecasts/taf/stations/$(awk '{ print toupper($0) }' <<< "$1").TXT
 }
 
 # paste text online and get a link
 pst() {
-	curl -F 'f:1=<-' http://ix.io
+        curl -F 'f:1=<-' http://ix.io
 }
 
 # usage:
 # sep "time to start cutting" "how much time to last from starting point" "vid-name" "output name"
-# time format for $2 and $3: 00:00:00.00
+# time format for $1 and $2: 00:00:00.00 or 238.7
 # example: sep 00:45:23 00:05:00 "dr john guitar.mp4" nawlinz.mp4
 sep() {
     ffmpeg -ss "$1" -t "$2" -i "$3" -c copy "$4"
@@ -91,16 +122,26 @@ joinpdf () {
 }
 
 # mpv with subtitles
-mpvs() { 
-    mpv --sub-auto=exact --sub-font-size=33 "$1"; 
+mpvs() {
+    mpv --sub-auto=exact --sub-font-size=33 "$1";
 }
 
-metar() {
-    curl https://tgftp.nws.noaa.gov/data/observations/metar/stations/${1^^}.TXT
-}
+up() {
+    local os=$(uname -s)
+    case "$os" in
+        Linux*)
+            local distro=$(cat /etc/*-release)
+            if [[ "$distro" =~ "fedora" ]]; then
+                sudo dnf upgrade && sudo dnf autoremove
+            elif [[ "$distro" =~ "ubuntu" ]]; then
+                sudo apt update && sudo apt upgrade && sudo apt autoremove && sudo apt autoclean
+            fi
+            ;;
 
-taf() {
-    curl https://tgftp.nws.noaa.gov/data/forecasts/taf/stations/${1^^}.TXT
+        Darwin*)
+            sudo port selfupdate && sudo port upgrade outdated && sudo port reclaim ;;
+        *) return 1
+    esac
 }
 
 #########
@@ -110,9 +151,8 @@ taf() {
 # classical music
 alias trito='mpv https://radiostreaming.ert.gr/ert-trito &>/dev/null &'
 
-mkdir -p ${HOME}/Documents/TEXTFILES
+mkdir -p "$HOME/Documents/TEXTFILES"
 
-# jazz
 jazz24() {
     mpv https://live.wostreaming.net/direct/ppm-jazz24mp3-ibc1 2>/dev/null |
        awk '/icy-title/{$1="";print | "tee -a $HOME/Documents/TEXTFILES/jazz24Log.txt"}'
@@ -121,12 +161,32 @@ jlog="$HOME/Documents/TEXTFILES/jazz24Log.txt"
 jtracks="$HOME/Documents/TEXTFILES/jazz24.txt"
 alias jsave="tail -1 $jlog >> $jtracks"
 
+salsa() {
+    mpv http://stream.zenolive.com/n0c8m68g044tv 2>/dev/null |
+      awk '/icy-title/{$1="";print | "tee -a $HOME/Documents/TEXTFILES/salsaLog.txt"}'
+}
+slog="$HOME/Documents/TEXTFILES/salsaLog.txt"
+stracks="$HOME/Documents/TEXTFILES/salsa.txt"
+alias ssave="tail -1 $slog >> $stracks"
+
+comedy104() {
+    mpv http://www.star104.net/stream/comedy-mp3.pls 2>/dev/null |
+      awk '/icy-title/{$1="";print | "tee -a $HOME/Documents/TEXTFILES/comedy104Log.txt"}'
+}
+clog="$HOME/Documents/TEXTFILES/comedy104Log.txt"
+ctracks="$HOME/Documents/TEXTFILES/comedy104.txt"
+alias csave="tail -1 $clog >> $ctracks"
+
 # hip-hop
 gtronic() {
     mpv http://104.251.118.50:8878/stream 2>/dev/null |
        awk '/icy-title/{$1="";print | "tee -a $HOME/Documents/TEXTFILES/gtronicLog.txt"}'
 }
-gtracks="$HOME/Documents/TEXTFILES/gtronic.txt"
 gtlog="$HOME/Documents/TEXTFILES/gtronicLog.txt"
+gtracks="$HOME/Documents/TEXTFILES/gtronic.txt"
 alias gsave="tail -1 $gtlog >> $gtracks"
 
+alias rg='sap 1 "$(cat $gtracks | sort --random-sort | head -1)"'
+alias rj='sap 1 "$(cat $jtracks | sort --random-sort | head -1)"'
+alias rc='sap 1 "$(cat $ctracks | sort --random-sort | head -1)"'
+alias rsl='sap 1 "$(cat $stracks | sort --random-sort | head -1)"'
