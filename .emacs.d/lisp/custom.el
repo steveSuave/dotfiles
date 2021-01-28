@@ -30,6 +30,7 @@
  '(holiday-solar-holidays nil)
  '(newsticker-url-list
    '(("thalassoporoi" "https://greatnavigators.com/feed" nil nil nil)
+     ("anaskafi" "http://anaskafi.blogspot.com/feeds/posts/default" nil nil nil)
      ("slashdot" "http://rss.slashdot.org/Slashdot/slashdotMain" nil nil nil)
      ("eli-bendersky" "https://eli.thegreenplace.net/feeds/all.atom.xml" nil nil nil)))
  '(treemacs-show-hidden-files nil)
@@ -40,8 +41,10 @@
      lsp-ui
      diff-hl
      company
+     go-mode
      scratch
      helm-lsp
+     lua-mode
      dap-java
      dap-mode
      flycheck

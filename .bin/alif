@@ -9,6 +9,7 @@ alias mysql.status="sudo /usr/local/mysql/support-files/mysql.server status"
 
 alias kk="clear && printf '\e[3J'"
 alias rt='cd;kk'
+alias dstop='docker stop $(docker ps -a -q)'
 alias lsa='ls -lahFG'
 alias l1='ls -1hF --color=auto'
 alias grep='grep --color=auto'
@@ -46,26 +47,6 @@ adiar() {
 # FUNCTIONS #
 #############
 
-# grau java "/resource" ~/repo
-# grau sql -i "full outer" ~/db
-grau() {
-    local extension=$1
-    shift
-    while [[ "$1" ]]; do
-        if [[ "$1" = -* ]]; then
-            local flags=$1
-            shift
-        elif [[ -d "$1" ]]; then
-            local dir=$1
-            shift
-        else
-            local query=$1
-            shift
-        fi
-    done
-    grep -r --include="*.${extension}" "$flags" "$query" "$dir"
-}
-
 run() {
         open -a "$1"
 }
@@ -88,10 +69,14 @@ cl() {
         ls -haltFG
 }
 
+# current airport weather report in a codified format
+# metar LGAV gets data from El.Venizelos Athens airport
 metar() {
     curl https://tgftp.nws.noaa.gov/data/observations/metar/stations/$(awk '{ print toupper($0) }' <<< "$1").TXT
 }
 
+# taf also provides codified weather data
+# but includes some predictions
 taf() {
     curl https://tgftp.nws.noaa.gov/data/forecasts/taf/stations/$(awk '{ print toupper($0) }' <<< "$1").TXT
 }
@@ -162,16 +147,16 @@ jtracks="$HOME/Documents/TEXTFILES/jazz24.txt"
 alias jsave="tail -1 $jlog >> $jtracks"
 
 salsa() {
-    mpv http://stream.zenolive.com/n0c8m68g044tv 2>/dev/null |
-      awk '/icy-title/{$1="";print | "tee -a $HOME/Documents/TEXTFILES/salsaLog.txt"}'
+    mpv "https://onlineradiobox.com/json/us/tropical100salsa/play" 2>/dev/null |
+       awk '/icy-title/{$1="";print | "tee -a $HOME/Documents/TEXTFILES/salsaLog.txt"}'
 }
-slog="$HOME/Documents/TEXTFILES/salsaLog.txt"
 stracks="$HOME/Documents/TEXTFILES/salsa.txt"
+slog="$HOME/Documents/TEXTFILES/salsaLog.txt"
 alias ssave="tail -1 $slog >> $stracks"
 
 comedy104() {
     mpv http://www.star104.net/stream/comedy-mp3.pls 2>/dev/null |
-      awk '/icy-title/{$1="";print | "tee -a $HOME/Documents/TEXTFILES/comedy104Log.txt"}'
+       awk '/icy-title/{$1="";print | "tee -a $HOME/Documents/TEXTFILES/comedy104Log.txt"}'
 }
 clog="$HOME/Documents/TEXTFILES/comedy104Log.txt"
 ctracks="$HOME/Documents/TEXTFILES/comedy104.txt"

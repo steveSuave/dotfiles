@@ -1,0 +1,2 @@
+browser "~/.bin/newsboat-browser"
+auto-reload yes
