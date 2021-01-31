@@ -33,5 +33,5 @@ setopt HIST_NO_STORE             # Don't store history commands
 
 autoload -U colors && colors
 RPROMPT=%T
-PROMPT="(%?) %{$fg[red]%}%n%{$reset_color%}: %1~ %# "
+PROMPT="(%?) %{$fg[red]%}%m.%n%{$reset_color%}: %1~ %# "
 

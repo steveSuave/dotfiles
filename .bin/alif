@@ -147,7 +147,7 @@ jtracks="$HOME/Documents/TEXTFILES/jazz24.txt"
 alias jsave="tail -1 $jlog >> $jtracks"
 
 salsa() {
-    mpv "https://onlineradiobox.com/json/us/tropical100salsa/play" 2>/dev/null |
+    mpv "https://onlineradiobox.com/json/us/rumbaysalsa/play" 2>/dev/null |
        awk '/icy-title/{$1="";print | "tee -a $HOME/Documents/TEXTFILES/salsaLog.txt"}'
 }
 stracks="$HOME/Documents/TEXTFILES/salsa.txt"
