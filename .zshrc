@@ -33,5 +33,21 @@ setopt HIST_NO_STORE             # Don't store history commands
 
 autoload -U colors && colors
 RPROMPT=%T
-PROMPT="(%?) %{$fg[red]%}%m.%n%{$reset_color%}: %1~ %# "
+PROMPT="(%?) %{$fg[green]%}%m.%n%{$reset_color%}: %1~ %# "
 
+# accomodate when paths are important and long
+thePrompt=1
+chprmt() {
+    if (( thePrompt == 1 )); then
+        precmd()  { print "" }
+        preexec() { print "" }
+        PROMPT="%/
+(%?) %{$fg[green]%}%m.%n%{$reset_color%} %# "
+        thePrompt=2
+    elif ((thePrompt == 2 )); then
+        precmd() {}
+        preexec() {}
+        PROMPT="(%?) %{$fg[green]%}%m.%n%{$reset_color%}: %1~ %# "
+        thePrompt=1
+    fi
+}
