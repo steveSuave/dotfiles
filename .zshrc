@@ -30,10 +30,13 @@ setopt HIST_SAVE_NO_DUPS         # Do not write a duplicate event to the history
 setopt HIST_VERIFY               # Do not execute immediately upon history expansion.
 setopt APPEND_HISTORY            # append to history file
 setopt HIST_NO_STORE             # Don't store history commands
+setopt promptsubst
 
-autoload -U colors && colors
 RPROMPT=%T
-PROMPT="(%?) %{$fg[green]%}%m.%n%{$reset_color%}: %1~ %# "
+autoload -U colors && colors
+# (return status) host.user
+status_host_user="(%?) %{$fg[blue]%}%m%{$reset_color%}.%{$fg[green]%}%n%{$reset_color%}"
+PROMPT="$status_host_user: %1~ %# "
 
 # accomodate when paths are important and long
 thePrompt=1
@@ -41,13 +44,12 @@ chprmt() {
     if (( thePrompt == 1 )); then
         precmd()  { print "" }
         preexec() { print "" }
-        PROMPT="%/
-(%?) %{$fg[green]%}%m.%n%{$reset_color%} %# "
+        PROMPT=$'%/\n${status_host_user} %# '
         thePrompt=2
     elif ((thePrompt == 2 )); then
         precmd() {}
         preexec() {}
-        PROMPT="(%?) %{$fg[green]%}%m.%n%{$reset_color%}: %1~ %# "
+        PROMPT="$status_host_user: %1~ %# "
         thePrompt=1
     fi
 }
