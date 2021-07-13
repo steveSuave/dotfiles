@@ -1,11 +1,12 @@
-URxvt*foreground: LightGrey
-URxvt*background: Black
-URxvt*font: xft:Bitstream Vera Sans Mono:pixelsize=18:antialias=true:hinting=true
-URxvt*boldFont: xft:Bitstream Vera Sans Mono:bold:pixelsize=18:antialias=true:hinting=true
 #URxvt*color4: RoyalBlue
 #URxvt*color12: RoyalBlue
 xterm*foreground: LightGrey
 xterm*background: Black
-xterm*font: xft:Bitstream Vera Sans Mono:pixelsize=18:antialias=true:hinting=true
+xterm*font: xft:Menlo:pixelsize=18:antialias=true:hinting=true
 xterm*boldFont: xft:Bitstream Vera Sans Mono:bold:pixelsize=18:antialias=true:hinting=true
+
+xterm*VT100.Translations: #override \
+                 Shift <Key>Insert:    insert-selection(SELECT) \n\
+                 Ctrl Shift <Key>V:    insert-selection(SELECT) \n\
+                 Ctrl Shift <Key>C:    copy-selection(SELECT)
 

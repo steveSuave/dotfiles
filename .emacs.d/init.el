@@ -17,7 +17,7 @@
 (put 'narrow-to-page 'disabled nil)
 (setq-default indent-tabs-mode nil)
 (setq treemacs--width-is-locked nil)
-(global-display-line-numbers-mode 1)
+;;(global-display-line-numbers-mode 1)
 (put 'downcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
 (put 'dired-find-alternate-file 'disabled nil)
@@ -40,25 +40,16 @@
 ;; PACKAGES
 ;; --------
 
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/"))
-(package-initialize)
-
-(when (not (package-installed-p 'use-package))
-  (package-refresh-contents)
-  (package-install 'use-package))
-
 (add-to-list 'load-path "~/.emacs.d/lisp/")
-(require 'minor-mode-to-make-alt-tab-work)
+;;(require 'minor-mode-to-make-alt-tab-work)
 (require 'my-used-packages)
-(require 'change-inner)
+(require 'javadoc-lookup)
+(require 'scratch)
 
 (require 'frame-bufs)
 (frame-bufs-mode t)
 
 (require 'lsp-java)
-(add-hook 'java-mode-hook #'lsp)
 
 ;; ---------------
 ;; MODES AND HOOKS
@@ -73,20 +64,20 @@
     "For use in `java-mode-hook'."
     (require 'google-java-format)
     (local-set-key "\C-cj" #'google-java-format-region)
-    (local-set-key "\C-cI" #'lsp-java-organize-imports)
-    (local-set-key "\C-ci" #'lsp-java-add-import)
-    (local-set-key "\C-cg" #'lsp-goto-implementation)
-    (local-set-key "\C-cG" #'lsp-goto-type-definition)
-    (local-set-key "\C-ce" #'flycheck-next-error)
-    (local-set-key "\C-cE" #'flycheck-previous-error)
-    (local-set-key "\C-ct" #'dap-java-run-test-class)
-    (local-set-key "\C-cT" #'dap-java-run-test-method)
-    (local-set-key "\C-cr" #'lsp-treemacs-references)
-    (local-set-key "\C-cR" #'lsp-treemacs-implementations)
-    (local-set-key "\C-cs" #'lsp-treemacs-symbols)
-    (local-set-key "\M-n"  #'dap-next)
-    (local-set-key "\M-N"  #'dap-continue)
-    (local-set-key "\M-q"  #'dap-disconnect)
+    ;; (local-set-key "\C-cI" #'lsp-java-organize-imports)
+    ;; (local-set-key "\C-ci" #'lsp-java-add-import)
+    ;; (local-set-key "\C-cg" #'lsp-goto-implementation)
+    ;; (local-set-key "\C-cG" #'lsp-goto-type-definition)
+    ;; (local-set-key "\C-ce" #'flycheck-next-error)
+    ;; (local-set-key "\C-cE" #'flycheck-previous-error)
+    ;; (local-set-key "\C-ct" #'dap-java-run-test-class)
+    ;; (local-set-key "\C-cT" #'dap-java-run-test-method)
+    ;; (local-set-key "\C-cr" #'lsp-treemacs-references)
+    ;; (local-set-key "\C-cR" #'lsp-treemacs-implementations)
+    ;; (local-set-key "\C-cs" #'lsp-treemacs-symbols)
+    ;; (local-set-key "\M-n"  #'dap-next)
+    ;; (local-set-key "\M-N"  #'dap-continue)
+    ;; (local-set-key "\M-q"  #'dap-disconnect)
     (setq dap-auto-configure-features '(locals)) ;controls tooltip sessions
     (setq lsp-ui-doc-enable nil)
     (setq lsp-ui-sideline-enable nil))
@@ -99,16 +90,19 @@
     (replace-match "NOW()"))
   (defun my-sql-hooks ()
     "For use in `sql-mode-hook'."
+    (setq sqlformat-command 'pgformatter
+          sqlformat-args '("-s2" "-g"))
+    (local-set-key (kbd "C-c C-q") 'sqlformat)
     (local-set-key "\C-ccq" #'sql-set-sqli-buffer)
     (local-set-key "\C-ct"  #'now))
   (add-hook 'sql-mode-hook  'my-sql-hooks))
 
-;; (require 'sql-completion)
-;; (setq sql-interactive-mode-hook
-;;       (lambda ()
-;;         (define-key sql-interactive-mode-map "\t" 'comint-dynamic-complete)
-;;         (sql-mysql-completion-init)))
-
+-;; (require 'sql-completion)
+-;; (setq sql-interactive-mode-hook
+-;;       (lambda ()
+-;;         (define-key sql-interactive-mode-map "\t" 'comint-dynamic-complete)
+-;;         (sql-mysql-completion-init)))
+-
 (add-hook 'js-mode-hook 'my-json-hooks)
 (add-hook 'restclient-mode-hook 'my-json-hooks)
 (add-hook 'dired-mode-hook 'dired-hide-details-mode)
@@ -185,9 +179,9 @@
   (setq current-prefix-arg '(4)) ; C-u
   (call-interactively 'scratch))
 
-(defun sql-db-local ()
-  (interactive)
-  (sql-connect 'db-local))
+;; (defun sql-db-local ()
+;;   (interactive)
+;;   (sql-connect 'db-local))
 
 (defun my-sql-save-history-hook ()
   (let ((lval 'sql-input-ring-file-name)
@@ -202,12 +196,15 @@
        (format "SQL history will not be saved because %s is nil"
                (symbol-name rval))))))
 
+;;(defun json-format (start end &optional bool) (interactive "r") (shell-command-on-region start end (if bool "jq -jc" "jq -j") nil t))
+;; 22:36 < bpalmer> notice that it uses interactive to provide the region bounds, and nil for the buffer
+;; 22:36 < bpalmer> that could also be (interactive "rP"), so that you can use a prefix arg to handle the 'bool' flag
 (defun json-format (&optional bool)
   (interactive)
   (save-excursion
     (shell-command-on-region (region-beginning)
                              (region-end)
-                             (if bool "jq -jc" "jq -j")
+                             (if bool "jq -jc ." "jq -j .")
                              (buffer-name)
                              t)))
 
@@ -221,13 +218,14 @@
   (let
       ((password-cache nil))
     (erc
-     :server "irc.freenode.net"
+     :server "irc.libera.chat"
      :port "6667"
      :nick "ou-tis"
-     :password (password-read (format "password for ou-tis at Freenode? ")))))
+     ;; :password (password-read (format "password for ou-tis at Freenode? "))
+     )))
 
 (defun ormap (fn ls)
-"Simple ormap recursive implementation for flat lists,
+  "Simple ormap recursive implementation for flat lists,
 apply a function sequentially to the elements of a list and
 return true if at least one application returns true, or else false"
   (cond ((null ls) nil)
@@ -238,7 +236,7 @@ return true if at least one application returns true, or else false"
 ;; (ormap (lambda (el) (> el 10)) '(1 2 3))  ; false
 
 (defun andmap (fn ls)
-"Simple andmap recursive implementation for flat lists,
+  "Simple andmap recursive implementation for flat lists,
 apply a function to all elements of a list and return true
 if all applications return true, or else false"
   (cond ((null ls) t)
@@ -304,7 +302,8 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
                (string-equal "*go*" the-buff)
                (string-equal "*sql*" the-buff)
                (string-equal "*java*" the-buff)
-               (string-equal "*scratch*" the-buff))
+               (string-equal "*scratch*" the-buff)
+               (string-equal "*SQL: <db>*" the-buff))
            t)
           ((or (string-equal "diary" the-buff)
                (string-equal major-mode "dired-mode")
@@ -350,7 +349,7 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
 (global-set-key "\C-cF" 'rgrep)
 (global-set-key (kbd "<C-return>") 'company-complete)
 (global-set-key (kbd "<C-S-return>") 'completion-at-point)
-(global-set-key "\C-cq" 'sql-db-local)
+;;(global-set-key "\C-cq" 'sql-db-local)
 (global-set-key (kbd "C-c c s") 'scratch-with-prefix-arg)
 (global-set-key "\C-c$" 'toggle-truncate-lines)
 (global-set-key (kbd "C-S-s") 'isearch-forward-symbol-at-point)
@@ -358,8 +357,8 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
 (global-set-key "\C-cm" #'treemacs)
 (global-set-key "\C-c\C-e" #'myerc)
 (global-set-key "\C-cC" #'calendar)
-(global-set-key (kbd "M-i") 'change-inner)
-(global-set-key (kbd "M-o") 'change-outer)
+;;(global-set-key (kbd "M-i") 'change-inner)
+;;(global-set-key (kbd "M-o") 'change-outer)
 (global-set-key (kbd "C-\\") 'er/expand-region)
 ;;(global-set-key [remap kill-buffer] 'kill-buffer-and-window)
 (global-set-key (kbd "<C-M-tab>") #'next-multiframe-window)
@@ -370,10 +369,15 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
 (global-set-key (kbd "<S-mouse-5>") (lambda () (interactive) (scroll-left 10)))
 (global-set-key (kbd "<S-mouse-4>") (lambda () (interactive) (scroll-right 10)))
 (global-set-key "\C-c\C-w" #'met-with-prefix-arg)
-(global-set-key (kbd "<S-M-tab>") 'move-front-end-window-back)
-(global-set-key (kbd "ESC <backtab>") 'move-front-end-window-back)
+
+(global-set-key (kbd "<C-tab>") 'move-front-end-window)
+(global-set-key (kbd "<C-iso-lefttab>") 'move-front-end-window-back)
+;; (global-set-key (kbd "<C-S-lefttab>") 'move-front-end-window-back)
+;; (global-set-key (kbd "<S-M-tab>") 'move-front-end-window-back)
+;; (global-set-key (kbd "ESC <backtab>") 'move-front-end-window-back)
 (global-set-key (kbd "<f5>") #'move-back-end-window)
 (global-set-key (kbd "<f6>") #'move-back-end-window-back)
+
 (global-set-key "\C-cw" (lambda () (interactive) (metaar)))
 (global-set-key "\C-cW" (lambda () (interactive) (taaf)))
 (global-set-key "\C-x52" (lambda () (interactive) (switch-to-buffer-other-frame "*Messages*")))
@@ -385,12 +389,13 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
 ;; another key notation: [(meta insert)]
 
 (when (display-graphic-p)
-;; or (global-set-key (kbd "C-z") nil)
+  ;; or (global-set-key (kbd "C-z") nil)
   (global-unset-key (kbd "C-z")))
 
 (define-key helm-map (kbd "TAB") #'helm-execute-persistent-action)
 (define-key helm-map (kbd "<tab>") #'helm-execute-persistent-action)
 (define-key helm-map (kbd "C-j") #'helm-select-action)
+
 (define-key minibuffer-local-map [tab] yas-maybe-expand)
 
 ;; ---------
@@ -414,19 +419,22 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
       custom-file "~/.emacs.d/lisp/custom.el"
       mouse-wheel-scroll-amount '(1 ((shift) . 1))
       ring-bell-function (lambda nil (message ""))
-      initial-scratch-message ";; let's do dis\n\n"
+      ;; initial-scratch-message ";; let's do dis\n\n"
+      initial-scratch-message ";; ready, set, go\n\n"
       find-function-C-source-directory "~/.emacs.d/emacs-master/src")
 
-(setq sql-connection-alist
-      '((db-local
-         (sql-product 'mysql)
-         (sql-server "127.0.0.1")
-         (sql-port 3306))))
+;; (setq sql-connection-alist
+;;       '((db-local
+;;          (sql-product 'postgres)
+;;          (sql-user "slevantis")
+;;          (sql-database "local")
+;;          (sql-server "10.9.0.77")
+;;          (sql-port 5432))))
 
 (setq display-buffer-alist
       '(("\\*\\(grep\\|log-edit-files\\|vc-log\\|Buffer List\\)\\*"
          (display-buffer-below-selected))
-        ("\\*\\(java\\|sql\\|js\\)\\*"
+        ("\\*\\(java\\|sql\\|js\\|SQL: <db>\\)\\*"
          (display-buffer-same-window))))
 
 (yas--define-parents 'minibuffer-inactive-mode '(fundamental-mode))
@@ -470,13 +478,13 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
          ("\\.sql\\'" . sql-mode)
          ("\\.text\\'" . text-mode)
          ("\\.txt\\'" . text-mode)
-         ("\\.xml$" . nxml-mode) ;; psgml-mode, nxml-mode
+         ("\\.xml$" . xml-mode) ;; psgml-mode, nxml-mode
          ("\\.xsd$" . nxml-mode) ;; xsl-mode
          ("\\.xsl$" . nxml-mode) ;; xsl-mode
          ("\\.yaml\\'" . yaml-mode)
          ("\\.yml\\'" . yaml-mode)
          ("github.*\\.txt$" . markdown-mode)
-         ("pom.xml" . nxml-mode)
+         ;; ("pom.xml" . nxml-mode)
          ("\\.http$" . restclient-mode)
          ("\\.rest$" . restclient-mode))))
 
@@ -484,16 +492,15 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
 ;; FINALLY
 ;; -------
 
-(set-face-attribute 'default nil :height 140)
-(make-directory "~/.emacs.d/autosaves/" t)
+(set-face-attribute 'default nil :height 160)
 (make-directory "~/.emacs.d/sql/" t)
 (load custom-file)
 
-;; (load-theme 'wombat)
+;; (load-theme 'darktooth)
 ;; (darktooth-modeline)
 (when (display-graphic-p)
-  (load-theme 'darktooth))
+  (load-theme 'wombat))
 (display-time)
 (diary)
 
-;; (setq lsp-java-jdt-download-url  "https://download.eclipse.org/jdtls/milestones/0.57.0/jdt-language-server-0.57.0-202006172108.tar.gz")
+;;(setq lsp-java-jdt-download-url  "https://download.eclipse.org/jdtls/milestones/0.57.0/jdt-language-server-0.57.0-202006172108.tar.gz")
