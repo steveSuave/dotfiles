@@ -60,19 +60,6 @@
 ;; (setenv "JAVA_HOME"  "path_to_java_folder/Contents/Home/")
 ;; (setq lsp-java-java-path "path_to_java_folder/Contents/Home/bin/java"
 
-
-;; Create a variable to indicate where emacs's configuration is installed
-(setq EMACS_DIR "~/.emacs.d/")
-
-;; Move all the backup files to specific cache directory
-;; This way you won't have annoying temporary files starting with ~(tilde) in each directory
-;; Following setting will move temporary files to specific folders inside cache directory in EMACS_DIR
-(setq user-cache-directory (concat EMACS_DIR "cache"))
-(setq backup-directory-alist `(("." . ,(expand-file-name "backups" user-cache-directory)))
-      url-history-file (expand-file-name "url/history" user-cache-directory)
-      auto-save-list-file-prefix (expand-file-name "auto-save-list/.saves-" user-cache-directory)
-      projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" user-cache-directory))
-
 ;; Avoid garbage collection at statup
 ;; (setq gc-cons-threshold most-positive-fixnum ; 2^61 bytes
 ;;       gc-cons-percentage 0.6)

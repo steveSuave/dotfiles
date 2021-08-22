@@ -234,12 +234,12 @@ When called interactively with a prefix arg, prompt for the mode."
   (interactive (list (scratch--buffer-querymode)))
   (let* ((name (thread-last (symbol-name mode)
                  (replace-regexp-in-string "-mode$" "")
-                 (format "*%s*")))
+                 (format "|%s|")))
          (buf (get-buffer name)))
     (pop-to-buffer
      (if (bufferp buf) ; buf ; Existing scratch buffer  ;; originally just redirected to existing scratch buffer
          ;; create new "incremented" scratch, this is a custom addition
-         (scratch--create mode (concat "*" (symbol-name mode) (number-to-string (random 111)) "*")) ;(concat name (number-to-string (random 111))))
+         (scratch--create mode (concat "|" (symbol-name mode) (number-to-string (random 111)) "|")) ;(concat name (number-to-string (random 111))))
        ;; New scratch buffer
        (scratch--create mode name))
      '(display-buffer-same-window . nil))))

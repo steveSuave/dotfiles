@@ -22,6 +22,13 @@
 (put 'narrow-to-region 'disabled nil)
 (put 'dired-find-alternate-file 'disabled nil)
 
+(setq EMACS_DIR "~/.emacs.d/")
+(setq user-cache-directory (concat EMACS_DIR "cache"))
+(setq backup-directory-alist `(("." . ,(expand-file-name "backups" user-cache-directory)))
+      url-history-file (expand-file-name "url/history" user-cache-directory)
+      auto-save-list-file-prefix (expand-file-name "auto-save-list/.saves-" user-cache-directory)
+      projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" user-cache-directory))
+
 ;; mac specific settings
 (when (eq system-type 'darwin)
   (setq dired-use-ls-dired nil)
@@ -43,13 +50,10 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 ;;(require 'minor-mode-to-make-alt-tab-work)
 (require 'my-used-packages)
-(require 'javadoc-lookup)
 (require 'scratch)
 
 (require 'frame-bufs)
 (frame-bufs-mode t)
-
-(require 'lsp-java)
 
 ;; ---------------
 ;; MODES AND HOOKS
@@ -97,12 +101,12 @@
     (local-set-key "\C-ct"  #'now))
   (add-hook 'sql-mode-hook  'my-sql-hooks))
 
--;; (require 'sql-completion)
--;; (setq sql-interactive-mode-hook
--;;       (lambda ()
--;;         (define-key sql-interactive-mode-map "\t" 'comint-dynamic-complete)
--;;         (sql-mysql-completion-init)))
--
+;; (require 'sql-completion)
+;; (setq sql-interactive-mode-hook
+;;       (lambda ()
+;;         (define-key sql-interactive-mode-map "\t" 'comint-dynamic-complete)
+;;         (sql-mysql-completion-init)))
+
 (add-hook 'js-mode-hook 'my-json-hooks)
 (add-hook 'restclient-mode-hook 'my-json-hooks)
 (add-hook 'dired-mode-hook 'dired-hide-details-mode)
@@ -368,6 +372,8 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
 (global-set-key (kbd "C-+") (lambda () (interactive) (text-scale-decrease 0.2)))
 (global-set-key (kbd "<S-mouse-5>") (lambda () (interactive) (scroll-left 10)))
 (global-set-key (kbd "<S-mouse-4>") (lambda () (interactive) (scroll-right 10)))
+(global-set-key (kbd "<S-triple-wheel-up>") (lambda () (interactive) (scroll-left 10)))
+(global-set-key (kbd "<S-triple-wheel-down>") (lambda () (interactive) (scroll-right 10)))
 (global-set-key "\C-c\C-w" #'met-with-prefix-arg)
 
 (global-set-key (kbd "<C-tab>") 'move-front-end-window)
