@@ -10,9 +10,10 @@ alias mysql.status="sudo /usr/local/mysql/support-files/mysql.server status"
 alias kk="clear && printf '\e[3J'"
 alias rt='cd;kk'
 alias dstop='docker stop $(docker ps -a -q)'
-alias lsa='ls -lahFG'
-alias l1='ls -1hF --color=auto'
+alias lsa='ls -lahF --color=auto'
+alias l1='ls -1thF --color=auto'
 alias grep='grep --color=auto'
+alias dush='du -sh'
 alias ducks='du -cks * | sort -rn | head'
 alias rmi="rm -i"
 alias rmt="rmtrash"
@@ -21,6 +22,7 @@ alias cmus='screen -S cmus cmus'
 alias nboat=newsboat
 alias vboat="newsboat -u $HOME/.newsboat/yturls -c $HOME/.newsboat/ytcache.db -C $HOME/.newsboat/ytconfig"
 alias boat='nboat && vboat'
+alias hu='last | less'
 
 alias ytd='youtube-dl -o "%(title)s.%(ext)s"'
 alias ytdv='youtube-dl -o "%(title)s.%(ext)s" -f mp4'
@@ -61,7 +63,7 @@ check() {
 }
 
 cht() {
-        curl https://cht.sh/"$*"
+        curl https://cht.sh/"$*" | less
 }
 
 cl() {
@@ -142,32 +144,36 @@ mkdir -p "$RADIO_NOTES"
 
 radio_play() {
     mpv "$1" 2>/dev/null |
-       awk -v lg="$2" '/icy-title/{$1=""; print; print >> lg}'
+       awk -v lg="$2" '/icy-title/{$1=""; print; print >> lg; fflush()}'
+}
+
+save_last_song() {
+    tail -1 "$1" >> "$2"
 }
 
 # jazz
 jlog="$RADIO_NOTES/jazz24Log.txt"
 jtracks="$RADIO_NOTES/jazz24.txt"
-alias jsave="tail -1 $jlog >> $jtracks"
+alias jsave="save_last_song $jlog $jtracks"
 alias jazz24='radio_play "https://live.wostreaming.net/direct/ppm-jazz24mp3-ibc1" "$jlog"'
 
 # rumba y salsa
 stracks="$RADIO_NOTES/salsa.txt"
 slog="$RADIO_NOTES/salsaLog.txt"
-alias ssave="tail -1 $slog >> $stracks"
+alias ssave="save_last_song $slog $stracks"
 alias salsa='radio_play "https://onlineradiobox.com/json/us/rumbaysalsa/play" "$slog"'
 # https://onlineradiobox.com/json/us/tropical100salsa/play
 
 # comedy
 ctracks="$RADIO_NOTES/comedy104.txt"
 clog="$RADIO_NOTES/comedy104Log.txt"
-alias csave="tail -1 $clog >> $ctracks"
+alias csave="save_last_song $clog $ctracks"
 alias comedy104='radio_play "http://www.star104.net/stream/comedy-mp3.pls" "$clog"'
 
 # rap
 gtracks="$RADIO_NOTES/gtronic.txt"
 gtlog="$RADIO_NOTES/gtLog.txt"
-alias gsave="tail -1 $gtlog >> $gtracks"
+alias gsave="save_last_song $gtlog $gtracks"
 alias gtronic='radio_play "http://104.251.118.50:8878/stream" "$gtlog"'
 
 rsap() {

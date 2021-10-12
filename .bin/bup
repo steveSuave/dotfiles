@@ -2,7 +2,7 @@
 
 shopt -s nullglob
 
-now="$(date +%y%m%d)"
+today="$(date +%y%m%d)"
 
 loc="$PWD"
 cd ~ || exit 1
@@ -32,8 +32,8 @@ for file in "${all[@]}"; do
     fi
 done
 
-tar czvf "${loc}/bup--${now}.tgz" "${ACTUAL_UPDATE[@]}"
+tar czvf "${loc}/bup--${today}.tgz" "${ACTUAL_UPDATE[@]}"
 
 if [[ -d Projects ]]; then
-    find Projects -type f -size -10M -print0 | xargs -0 tar czvf "${loc}/jub--${now}.tgz"
+    find Projects -type f -size -10M -print0 | xargs -0 tar czvf "${loc}/jub--${today}.tgz"
 fi
