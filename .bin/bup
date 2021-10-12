@@ -1,0 +1,39 @@
+#!/bin/bash
+
+shopt -s nullglob
+
+now="$(date +%y%m%d)"
+
+loc="$PWD"
+cd ~ || exit 1
+
+all=(
+    .bin/*
+    .bashrc
+    .profile
+    .bash_profile
+    .zshrc
+    .vimrc
+    .bash_logout
+    .inputrc
+    .Xdefaults
+    .hammerspoon/*
+    .emacs.d/{init.el,lisp/*}
+    .newsboat/{,yt}{config,urls}
+    .config/{karabiner/*,i3/{config,status.conf,xinit}}
+    Documents/TEXTFILES/*
+)
+
+ACTUAL_UPDATE=()
+
+for file in "${all[@]}"; do
+    if [[ -f "$file" ]]; then
+        ACTUAL_UPDATE+=("$file")
+    fi
+done
+
+tar czvf "${loc}/bup--${now}.tgz" "${ACTUAL_UPDATE[@]}"
+
+if [[ -d Projects ]]; then
+    find Projects -type f -size -10M -print0 | xargs -0 tar czvf "${loc}/jub--${now}.tgz"
+fi

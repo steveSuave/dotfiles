@@ -88,7 +88,7 @@ pst() {
 
 # usage:
 # sep "time to start cutting" "how much time to last from starting point" "vid-name" "output name"
-# time format for $1 and $2: 00:00:00.00 or 238.7
+# time format for $2 and $3: 00:00:00.00 or 238.7
 # example: sep 00:45:23 00:05:00 "dr john guitar.mp4" nawlinz.mp4
 sep() {
     ffmpeg -ss "$1" -t "$2" -i "$3" -c copy "$4"
@@ -135,43 +135,67 @@ up() {
 
 # classical music
 alias trito='mpv https://radiostreaming.ert.gr/ert-trito &>/dev/null &'
+alias ecc='mpv http://85.10.206.222:8002/stream &>/dev/null &'
 
-mkdir -p "$HOME/Documents/TEXTFILES"
+RADIO_NOTES="${HOME}/Documents/TEXTFILES/radio-notes"
+mkdir -p "$RADIO_NOTES"
 
-jazz24() {
-    mpv https://live.wostreaming.net/direct/ppm-jazz24mp3-ibc1 2>/dev/null |
-       awk '/icy-title/{$1="";print | "tee -a $HOME/Documents/TEXTFILES/jazz24Log.txt"}'
+radio_play() {
+    mpv "$1" 2>/dev/null |
+       awk -v lg="$2" '/icy-title/{$1=""; print; print >> lg}'
 }
-jlog="$HOME/Documents/TEXTFILES/jazz24Log.txt"
-jtracks="$HOME/Documents/TEXTFILES/jazz24.txt"
+
+# jazz
+jlog="$RADIO_NOTES/jazz24Log.txt"
+jtracks="$RADIO_NOTES/jazz24.txt"
 alias jsave="tail -1 $jlog >> $jtracks"
+alias jazz24='radio_play "https://live.wostreaming.net/direct/ppm-jazz24mp3-ibc1" "$jlog"'
 
-salsa() {
-    mpv "https://onlineradiobox.com/json/us/rumbaysalsa/play" 2>/dev/null |
-       awk '/icy-title/{$1="";print | "tee -a $HOME/Documents/TEXTFILES/salsaLog.txt"}'
-}
-stracks="$HOME/Documents/TEXTFILES/salsa.txt"
-slog="$HOME/Documents/TEXTFILES/salsaLog.txt"
+# rumba y salsa
+stracks="$RADIO_NOTES/salsa.txt"
+slog="$RADIO_NOTES/salsaLog.txt"
 alias ssave="tail -1 $slog >> $stracks"
+alias salsa='radio_play "https://onlineradiobox.com/json/us/rumbaysalsa/play" "$slog"'
+# https://onlineradiobox.com/json/us/tropical100salsa/play
 
-comedy104() {
-    mpv http://www.star104.net/stream/comedy-mp3.pls 2>/dev/null |
-       awk '/icy-title/{$1="";print | "tee -a $HOME/Documents/TEXTFILES/comedy104Log.txt"}'
-}
-clog="$HOME/Documents/TEXTFILES/comedy104Log.txt"
-ctracks="$HOME/Documents/TEXTFILES/comedy104.txt"
+# comedy
+ctracks="$RADIO_NOTES/comedy104.txt"
+clog="$RADIO_NOTES/comedy104Log.txt"
 alias csave="tail -1 $clog >> $ctracks"
+alias comedy104='radio_play "http://www.star104.net/stream/comedy-mp3.pls" "$clog"'
 
-# hip-hop
-gtronic() {
-    mpv http://104.251.118.50:8878/stream 2>/dev/null |
-       awk '/icy-title/{$1="";print | "tee -a $HOME/Documents/TEXTFILES/gtronicLog.txt"}'
-}
-gtlog="$HOME/Documents/TEXTFILES/gtronicLog.txt"
-gtracks="$HOME/Documents/TEXTFILES/gtronic.txt"
+# rap
+gtracks="$RADIO_NOTES/gtronic.txt"
+gtlog="$RADIO_NOTES/gtLog.txt"
 alias gsave="tail -1 $gtlog >> $gtracks"
+alias gtronic='radio_play "http://104.251.118.50:8878/stream" "$gtlog"'
 
-alias rg='sap 1 "$(cat $gtracks | sort --random-sort | head -1)"'
-alias rj='sap 1 "$(cat $jtracks | sort --random-sort | head -1)"'
-alias rc='sap 1 "$(cat $ctracks | sort --random-sort | head -1)"'
-alias rsl='sap 1 "$(cat $stracks | sort --random-sort | head -1)"'
+rsap() {
+    sap 1 "$(sort --random-sort "$1" | head -1)"
+}
+
+alias rg='rsap "$gtracks"'
+alias rj='rsap "$jtracks"'
+alias rc='rsap "$ctracks"'
+alias rsl='rsap "$stracks"'
+
+# i=1
+# sap "$((i++))"
+# sap -v $(( ($RANDOM % 50) + 1 ))
+
+ran() {
+    if [[ $2 ]]; then
+        v="-v"
+    fi
+    sap $v $(( (RANDOM % 50) + 1 )) "$1"
+}
+
+on() {
+    if [[ -z $sc ]]; then
+       sc=1
+    fi
+    if [[ $2 ]]; then
+        v="-v"
+    fi
+    sap $v "$((sc++))" "$1"
+}

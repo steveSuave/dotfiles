@@ -13,14 +13,17 @@ if [[ ! $1 =~ [123456789] ]]; then
     echo 'usage:'
     echo 'sap [-v] "[1-9]" "youtube search query"'
     echo 'sap 1 "kool g rap letters"'
-    echo 'optional 1st argument -v plays video instead of only audio'
+    echo 'optional 1st argument -v also plays video instead of only audio'
+    echo 'optional 3rd argument "latest" filters by upload date"'
     exit 1
 else
     resNum=$1
 fi
 
 query="${2// /+}"
-# to filter by upload date after the query: &sp=CAI%253D
+if [[ "$3" == "latest" ]]; then
+    query="${query}&sp=CAI%253D"
+fi
 youtube="https://www.youtube.com"
 searchLink="${youtube}/results?search_query=${query}"
 ytsearch=$(curl "$searchLink" 2>/dev/null)
@@ -30,10 +33,13 @@ theLink="${youtube}/${videoParam}"
 title=$(curl "$theLink" 2>/dev/null |
         pup 'meta[property="og:title"] attr{content}' |
         python3 -c 'import html, sys; [print(html.unescape(l), end="") for l in sys.stdin]')
-echo
-echo "$videoParam"
-echo "$title"
-echo
+
+history="$HOME/Documents/TEXTFILES/sap-history.txt"
+
+echo               | tee -a "$history"
+echo "$videoParam" | tee -a "$history"
+echo "$title"      | tee -a "$history"
+echo               | tee -a "$history"
 
 mpv $mpvParams "$theLink" || exit $?
 

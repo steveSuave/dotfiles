@@ -8,6 +8,7 @@
 ;;(menu-bar-mode -1)
 (show-paren-mode t)
 (delete-selection-mode t)
+(setq-default word-wrap t)
 (setenv "LANG" "en_US.UTF-8")
 (set-default 'truncate-lines t)
 (put 'scroll-left 'disabled nil)
@@ -302,11 +303,7 @@ then re-create *scratch* and switch to it, or else change buffers until a 'front
 User buffer will be defined as not enwrapped in stars '*', with some exceptions."
   (interactive)
   (let ((the-buff (buffer-name buff)))
-    (cond ((or (string-equal "*js*" the-buff)
-               (string-equal "*go*" the-buff)
-               (string-equal "*sql*" the-buff)
-               (string-equal "*java*" the-buff)
-               (string-equal "*scratch*" the-buff)
+    (cond ((or (string-equal "*scratch*" the-buff)
                (string-equal "*SQL: <db>*" the-buff))
            t)
           ((or (string-equal "diary" the-buff)
@@ -326,6 +323,37 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
   (message
    (shell-command-to-string
     ". ~/.bin/alif && taf lgav 2>/dev/null")))
+
+;; huaiyuan from https://stackoverflow.com/a/2592685
+(require 'cl)
+(defun parallel-query-replace (plist &optional delimited start end)
+  "Replace every occurrence of the (2n)th token of PLIST in
+buffer with the (2n+1)th token; if only two tokens are provided,
+replace them with each other (ie, swap them).
+
+If optional second argument DELIMITED is nil, match words
+according to syntax-table; otherwise match symbols.
+
+When called interactively, PLIST is input as space separated
+tokens, and DELIMITED as prefix arg."
+  (interactive
+   `(,(loop with input = (read-from-minibuffer "Replace: ")
+            with limit = (length input)
+            for  j = 0 then i
+            for (item . i) = (read-from-string input j)
+            collect (prin1-to-string item t) until (<= limit i))
+     ,current-prefix-arg
+     ,@(if (use-region-p) `(,(region-beginning) ,(region-end)))))
+  (let* ((alist (cond ((= (length plist) 2) (list plist (reverse plist)))
+                      ((loop for (key val . tail) on plist by #'cddr
+                             collect (list (prin1-to-string key t) val)))))
+         (matcher (regexp-opt (mapcar #'car alist)
+                              ;; (if delimited 'words 'symbols)
+                              ))
+         (to-spec `(replace-eval-replacement replace-quote
+                    (cadr (assoc-string (match-string 0) ',alist
+                                        case-fold-search)))))
+    (query-replace-regexp matcher to-spec nil start end)))
 
 ;; --------
 ;; BINDINGS
@@ -510,3 +538,7 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
 (diary)
 
 ;;(setq lsp-java-jdt-download-url  "https://download.eclipse.org/jdtls/milestones/0.57.0/jdt-language-server-0.57.0-202006172108.tar.gz")
+
+;; ================================================================
+;; (global-set-key (kbd "s-x") '(lambda () (interactive) (message "hello")))
+
