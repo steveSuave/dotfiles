@@ -45,9 +45,29 @@ adiar() {
         { sleep $(( $1 * 60 )) && dodis; }&
 }
 
+export LESS=iSR
+
 #############
 # FUNCTIONS #
 #############
+
+up() {
+    local os=$(uname -s)
+    case "$os" in
+        Linux*)
+            local distro=$(cat /etc/*-release)
+            if [[ "$distro" =~ "fedora" ]]; then
+                sudo dnf upgrade && sudo dnf autoremove
+            elif [[ "$distro" =~ "ubuntu" ]]; then
+                sudo apt update && sudo apt upgrade && sudo apt autoremove && sudo apt autoclean
+            fi
+            ;;
+
+        Darwin*)
+            sudo port selfupdate && sudo port upgrade outdated && sudo port reclaim ;;
+        *) return 1
+    esac
+}
 
 run() {
         open -a "$1"
@@ -71,6 +91,18 @@ cl() {
         ls -haltFG
 }
 
+# Dictionary lookup
+# Many more options, see:
+# http://linuxcommando.blogspot.com/2007/10/dictionary-lookup-via-command-line.html
+dict (){
+    curl "dict://dict.org/d:$1:*"
+}
+
+# Merges, or joins multiple PDF files into "joined.pdf"
+joinpdf () {
+    gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=joined.pdf "$@"
+}
+
 # current airport weather report in a codified format
 # metar LGAV gets data from El.Venizelos Athens airport
 metar() {
@@ -84,6 +116,7 @@ taf() {
 }
 
 # paste text online and get a link
+# echo "something" | pst
 pst() {
         curl -F 'f:1=<-' http://ix.io
 }
@@ -103,91 +136,10 @@ gif() {
     ffmpeg -ss "$1" -t "$2" -i "$3" -f gif "${4}.gif"
 }
 
-# Merges, or joins multiple PDF files into "joined.pdf"
-joinpdf () {
-    gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=joined.pdf "$@"
-}
-
 # mpv with subtitles
 mpvs() {
     mpv --sub-auto=exact --sub-font-size=33 "$1";
 }
-
-up() {
-    local os=$(uname -s)
-    case "$os" in
-        Linux*)
-            local distro=$(cat /etc/*-release)
-            if [[ "$distro" =~ "fedora" ]]; then
-                sudo dnf upgrade && sudo dnf autoremove
-            elif [[ "$distro" =~ "ubuntu" ]]; then
-                sudo apt update && sudo apt upgrade && sudo apt autoremove && sudo apt autoclean
-            fi
-            ;;
-
-        Darwin*)
-            sudo port selfupdate && sudo port upgrade outdated && sudo port reclaim ;;
-        *) return 1
-    esac
-}
-
-#########
-# RADIO #
-#########
-
-# classical music
-alias trito='mpv https://radiostreaming.ert.gr/ert-trito &>/dev/null &'
-alias ecc='mpv http://85.10.206.222:8002/stream &>/dev/null &'
-
-RADIO_NOTES="${HOME}/Documents/TEXTFILES/radio-notes"
-mkdir -p "$RADIO_NOTES"
-
-radio_play() {
-    mpv "$1" 2>/dev/null |
-       awk -v lg="$2" '/icy-title/{$1=""; print; print >> lg; fflush()}'
-}
-
-save_last_song() {
-    tail -1 "$1" >> "$2"
-}
-
-# jazz
-jlog="$RADIO_NOTES/jazz24Log.txt"
-jtracks="$RADIO_NOTES/jazz24.txt"
-alias jsave="save_last_song $jlog $jtracks"
-alias jazz24='radio_play "https://live.wostreaming.net/direct/ppm-jazz24mp3-ibc1" "$jlog"'
-
-# rumba y salsa
-stracks="$RADIO_NOTES/salsa.txt"
-slog="$RADIO_NOTES/salsaLog.txt"
-alias ssave="save_last_song $slog $stracks"
-alias salsa='radio_play "https://onlineradiobox.com/json/us/rumbaysalsa/play" "$slog"'
-# https://onlineradiobox.com/json/us/tropical100salsa/play
-
-# comedy
-ctracks="$RADIO_NOTES/comedy104.txt"
-clog="$RADIO_NOTES/comedy104Log.txt"
-alias csave="save_last_song $clog $ctracks"
-alias comedy104='radio_play "http://www.star104.net/stream/comedy-mp3.pls" "$clog"'
-
-# rap
-gtracks="$RADIO_NOTES/gtronic.txt"
-gtlog="$RADIO_NOTES/gtLog.txt"
-alias gsave="save_last_song $gtlog $gtracks"
-alias gtronic='radio_play "http://104.251.118.50:8878/stream" "$gtlog"'
-
-rsap() {
-    sap 1 "$(sort --random-sort "$1" | head -1)"
-}
-
-alias rg='rsap "$gtracks"'
-alias rj='rsap "$jtracks"'
-alias rc='rsap "$ctracks"'
-alias rsl='rsap "$stracks"'
-
-# i=1
-# sap "$((i++))"
-# sap -v $(( ($RANDOM % 50) + 1 ))
 
 ran() {
     if [[ $2 ]]; then
@@ -205,3 +157,49 @@ on() {
     fi
     sap $v "$((sc++))" "$1"
 }
+
+# sortjoin destination ...sources
+# sortjoin list1 list1 list2
+sortjoin() {
+    tmp="$(mktemp)"
+    dest="$1"
+    shift
+    cat "$@" | sort -u > "$tmp"
+    cat "$tmp" > "$dest"
+}
+
+#########
+# RADIO #
+#########
+
+radio_play() {
+    mpv "$1" 2>/dev/null |
+       awk -v lg="$2" '/icy-title/{$1=""; print; print >> lg; fflush()}'
+}
+
+save_last_song() {
+    tail -1 "$1" >> "$2"
+}
+
+rsap() {
+    sap 1 "$(sort --random-sort "$1" | head -1)"
+}
+
+RADIO_NOTES="${HOME}/Documents/TEXTFILES/radio-notes"
+mkdir -p "$RADIO_NOTES"
+
+init_radio() {
+    alias ${1}="radio_play $2 ${RADIO_NOTES}/${1}Log.txt"
+    alias ${1}save="save_last_song ${RADIO_NOTES}/${1}Log.txt ${RADIO_NOTES}/${1}.txt"
+    alias r${1}="rsap ${RADIO_NOTES}/${1}.txt"
+}
+
+init_radio jazz24 "https://live.wostreaming.net/direct/ppm-jazz24mp3-ibc1"
+init_radio salsa "https://onlineradiobox.com/json/us/rumbaysalsa/play"
+init_radio comedy "http://www.star104.net/stream/comedy-mp3.pls"
+init_radio gtronic "http://104.251.118.50:8878/stream"
+init_radio classical "http://playerservices.streamtheworld.com/api/livestream-redirect/WCPE_FMAAC128.aac"
+
+# classical music
+alias trito='mpv https://radiostreaming.ert.gr/ert-trito &>/dev/null &'
+alias ecc='mpv http://85.10.206.222:8002/stream &>/dev/null &'
