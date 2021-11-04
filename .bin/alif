@@ -15,6 +15,7 @@ alias l1='ls -1thF --color=auto'
 alias grep='grep --color=auto'
 alias dush='du -sh'
 alias ducks='du -cks * | sort -rn | head'
+alias tell='kill'
 alias rmi="rm -i"
 alias rmt="rmtrash"
 alias py=python3
@@ -33,6 +34,12 @@ alias ytds='youtube-dl --write-sub --sub-lang en --skip-download' # --sub-format
 alias w3im="startx $HOME/.config/i3/xinit"
 alias remacsp='rm ~/.emacs.d/.lsp-session-v1 && rm -r ~/.emacs.d/workspace/'
 
+alias cup='nmcli --ask con up id client'
+alias cdown='nmcli con down id client'
+alias gp='git pull --rebase origin master'
+#alias pbcopy="xclip -selection c"
+#alias pbpaste="xclip -selection clipboard -o"
+
 alias irc='screen -S irc irssi;'
 alias cafrc='caffeinate -w $(pgrep irssi)&'
 
@@ -46,6 +53,15 @@ adiar() {
 }
 
 export LESS=iSR
+
+if [[ -f ~/.bin/git-prompt.sh ]]; then
+    source ~/.bin/git-prompt.sh
+    GIT_PS1_SHOWCOLORHINTS=1 # Add colours to the indicators
+    GIT_PS1_SHOWDIRTYSTATE=1 # Show unstaged (*) and staged (+) changes next to the branch
+    GIT_PS1_SHOWUNTRACKEDFILES=1 # Show untracked (%) changes
+    GIT_PS1_SHOWSTASHSTATE=1 # Show stashed ($) changes
+    GIT_PS1_SHOWUPSTREAM="auto verbose" # Show upstream changes
+fi
 
 #############
 # FUNCTIONS #
@@ -166,6 +182,25 @@ sortjoin() {
     shift
     cat "$@" | sort -u > "$tmp"
     cat "$tmp" > "$dest"
+}
+
+ediff() {
+    emacs --eval "(ediff-files \"$1\" \"$2\")" 2>/dev/null & disown
+}
+
+gre() { grep --exclude-dir='target' --exclude-dir='.git' --exclude-dir='node_modules' --color=always -rn "$@" . | less -iSRN; }
+
+gref() {
+    grep --exclude-dir='target' --exclude-dir='.git' --exclude-dir='node_modules' -r "$@" . |
+        awk '$1!="Binary"{print}' |
+        awk -F':' '{print $1}' |
+        sort -u
+}
+
+fixup() {
+    SHA=$(git rev-parse HEAD)
+    git commit --fixup $SHA &&
+        git rebase -i --autosquash $SHA~
 }
 
 #########

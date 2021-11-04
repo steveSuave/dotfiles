@@ -69,20 +69,20 @@
     "For use in `java-mode-hook'."
     (require 'google-java-format)
     (local-set-key "\C-cj" #'google-java-format-region)
-    ;; (local-set-key "\C-cI" #'lsp-java-organize-imports)
-    ;; (local-set-key "\C-ci" #'lsp-java-add-import)
-    ;; (local-set-key "\C-cg" #'lsp-goto-implementation)
-    ;; (local-set-key "\C-cG" #'lsp-goto-type-definition)
-    ;; (local-set-key "\C-ce" #'flycheck-next-error)
-    ;; (local-set-key "\C-cE" #'flycheck-previous-error)
-    ;; (local-set-key "\C-ct" #'dap-java-run-test-class)
-    ;; (local-set-key "\C-cT" #'dap-java-run-test-method)
-    ;; (local-set-key "\C-cr" #'lsp-treemacs-references)
-    ;; (local-set-key "\C-cR" #'lsp-treemacs-implementations)
-    ;; (local-set-key "\C-cs" #'lsp-treemacs-symbols)
-    ;; (local-set-key "\M-n"  #'dap-next)
-    ;; (local-set-key "\M-N"  #'dap-continue)
-    ;; (local-set-key "\M-q"  #'dap-disconnect)
+    (local-set-key "\C-cI" #'lsp-java-organize-imports)
+    (local-set-key "\C-ci" #'lsp-java-add-import)
+    (local-set-key "\C-cg" #'lsp-goto-implementation)
+    (local-set-key "\C-cG" #'lsp-goto-type-definition)
+    (local-set-key "\C-ce" #'flycheck-next-error)
+    (local-set-key "\C-cE" #'flycheck-previous-error)
+    (local-set-key "\C-ct" #'dap-java-run-test-class)
+    (local-set-key "\C-cT" #'dap-java-run-test-method)
+    (local-set-key "\C-cr" #'lsp-treemacs-references)
+    (local-set-key "\C-cR" #'lsp-treemacs-implementations)
+    (local-set-key "\C-cs" #'lsp-treemacs-symbols)
+    (local-set-key "\M-n"  #'dap-next)
+    (local-set-key "\M-N"  #'dap-continue)
+    (local-set-key "\M-q"  #'dap-disconnect)
     (setq dap-auto-configure-features '(locals)) ;controls tooltip sessions
     (setq lsp-ui-doc-enable nil)
     (setq lsp-ui-sideline-enable nil))
@@ -355,6 +355,38 @@ tokens, and DELIMITED as prefix arg."
                                         case-fold-search)))))
     (query-replace-regexp matcher to-spec nil start end)))
 
+(defun my-change-number-at-point (change increment)
+  (or (looking-at "[0-9]+")
+      (progn
+        (re-search-forward "[0-9]")
+        (forward-char -1)))
+  (let ((number (number-at-point))
+        (point (point)))
+    (when number
+      (progn
+        (forward-word)
+        (search-backward (number-to-string number))
+        (replace-match (number-to-string (funcall change number increment)))
+        (goto-char point)))))
+
+(defun my-increment-number-at-point (&optional increment)
+  "Increment number at point like vim's C-a"
+  (interactive "p")
+  (my-change-number-at-point '+ (or increment 1))
+  (set-temporary-overlay-map
+    (let ((map (make-sparse-keymap)))
+      (define-key map (kbd "a") 'my-increment-number-at-point)
+      map)))
+
+(defun my-decrement-number-at-point (&optional increment)
+  "Decrement number at point like vim's C-x"
+  (interactive "p")
+  (my-change-number-at-point '- (or increment 1))
+  (set-temporary-overlay-map
+    (let ((map (make-sparse-keymap)))
+      (define-key map (kbd "x") 'my-decrement-number-at-point)
+      map)))
+
 ;; --------
 ;; BINDINGS
 ;; --------
@@ -419,6 +451,8 @@ tokens, and DELIMITED as prefix arg."
 (global-set-key "\M-p" "\C-x0\C-x2\C-xb") ;; switch horizontal to vertical split
 (global-set-key "\M-n" "\C-x0\C-x4b") ;; switch vertical to horizontal split
 (global-set-key (kbd "C-h j") 'javadoc-lookup)
+(global-set-key (kbd "C-c a") 'my-increment-number-at-point)
+(global-set-key (kbd "C-c x") 'my-decrement-number-at-point)
 
 ;; another key notation: [(meta insert)]
 
@@ -481,7 +515,6 @@ tokens, and DELIMITED as prefix arg."
          ("\\.c\\'" . c-mode)
          ("\\.conf\\'" . conf-mode)
          ("\\.config\\'" . conf-mode)
-         ("config" . conf-mode)
          ("\\.css\\'" . css-mode)
          ("Dockerfile" . dockerfile-mode)
          ("\\.diff\\'" . diff-mode)
