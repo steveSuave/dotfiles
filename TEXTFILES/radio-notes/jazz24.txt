@@ -3,6 +3,7 @@
  Adrian Cunningham - It's Awfully Nice To Be With You
  Ahmad Jamal - Hi Fly
  Ahmad Jamal - Marseille
+ Ahmad Jamal - Volga Boatman
  Alicia Olatuja - Give Me One Reason
  Allen Toussaint - Dolores' Boyfriend
  Allen Toussaint - Tipitina And Me
@@ -11,6 +12,7 @@
  Art Blakey & the Jazz Messengers - Hipsippy Blues
  Art Farmer - Fair Weather
  Art Tatum - Blue Skies
+ Art Tatum - St. Louis Blues
  Bebo Valdes - Lamento Cubano
  Ben Webster - Someone To Watch Over Me
  Benny Golson - Step Lightly
@@ -57,6 +59,7 @@
  Delfeayo Marsalis - Jazz Party
  Dizzy Gillespie - Bang Bang
  Donald Byrd - Amen
+ Dr. Lonnie Smith - 50 Ways To Leave Your Lover
  Duke Ellington - It's Bad To Be Forgotten
  Eddie Harris - Listen Here
  Ella Fitzgerald - September Song
@@ -87,6 +90,7 @@
  Jacques Loussier - Allegro-Concerto #1 f Major
  Jacques Loussier - The Girl With The Flaxen Hair
  Jacqui Naylor - Black Coffee
+ Jake Shimabukuro - Dragon
  Jean-Pierre Mas - Prelude in E Minor
  Jean-Yves Thibaudet - Reflections In D
  Jessica Williams - Toshiko
@@ -141,9 +145,11 @@
  Mike Stern - Who Knows
  Miles Davis - Freddie Freeloader
  Miles Davis / Sonny Rollins - It's Only A Paper Moon
+ Mitchel Forman - Yaqui Indian Folk Song
  MonkeyJunk - Fuzzy Poodle
  Monty Alexander - Brown Skin Girl
  Mulgrew Miller - Comes Love
+ Nancy Erickson - The Whipoorwill Song
  Nellie McKay - Small Day Tomorrow
  Norah Jones - Sleeping Wild
  Oliver Nelson - Stolen Moments
@@ -177,6 +183,7 @@
  Takuya Kuroda - Rising Sun
  Thad Jones - April In Paris
  The Bad Plus - Super America
+ The Greyboy Allstars - Hot Pants Breakdown
  The Westerlies - All To Ourselves
  Thelonious Monk - It Don't Mean A Thing...
  Thelonious Monk - Straight, No Chaser
@@ -186,3 +193,5 @@
  Wilbur Harden - Shall We Dance
  Wynton Kelly - It's All Right
  Yellowjackets - Mile High
+Lynne Ariale Trio - Reunion
+MonkeyJunk - Fuzzy Poodle

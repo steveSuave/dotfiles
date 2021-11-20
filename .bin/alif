@@ -256,5 +256,5 @@ updateradio() { # hostradionotes reporadionotes
 
 hostradionotes=$HOME/Documents/TEXTFILES/radio-notes
 reporadionotes=$HOME/Documents/dotfiles/TEXTFILES/radio-notes
-alias upradio="updateradio \"$hostradionotes\" \"$reporadionotes\""
+alias upradio="LC_COLLATE=C updateradio \"$hostradionotes\" \"$reporadionotes\""
 
