@@ -24,6 +24,7 @@ alias nboat=newsboat
 alias vboat="newsboat -u $HOME/.newsboat/yturls -c $HOME/.newsboat/ytcache.db -C $HOME/.newsboat/ytconfig"
 alias boat='nboat && vboat'
 alias hu='last | less'
+alias temp='echo $(bc <<< "$(cat /sys/devices/platform/coretemp.0/hwmon/hwmon*/temp*_input | sort -nr | head -1) / 1000")°C'
 
 alias ytd='youtube-dl -o "%(title)s.%(ext)s"'
 alias ytdv='youtube-dl -o "%(title)s.%(ext)s" -f mp4'
@@ -33,10 +34,11 @@ alias ytds='youtube-dl --write-sub --sub-lang en --skip-download' # --sub-format
 
 alias w3im="startx $HOME/.config/i3/xinit"
 alias remacsp='rm ~/.emacs.d/.lsp-session-v1 && rm -r ~/.emacs.d/workspace/'
+alias magit="emacs --eval='(magit-status)'"
 
 alias cup='nmcli --ask con up id client'
 alias cdown='nmcli con down id client'
-alias gp='git pull --rebase origin master'
+alias pull='git pull --tags --rebase origin master'
 #alias pbcopy="xclip -selection c"
 #alias pbpaste="xclip -selection clipboard -o"
 
@@ -52,7 +54,7 @@ adiar() {
         { sleep $(( $1 * 60 )) && dodis; }&
 }
 
-export LESS=iSR
+export LESS=iSR #FXN
 
 if [[ -f ~/.bin/git-prompt.sh ]]; then
     source ~/.bin/git-prompt.sh
@@ -174,6 +176,10 @@ on() {
     sap $v "$((sc++))" "$1"
 }
 
+strap() {
+    while read -r line; do sap 1 "$line"; done < <(sort --random-sort "$1")
+}
+
 ediff() {
     emacs --eval "(ediff-files \"$1\" \"$2\")" 2>/dev/null & disown
 }
@@ -223,12 +229,13 @@ init_radio jazz24 "https://live.wostreaming.net/direct/ppm-jazz24mp3-ibc1"
 init_radio salsa "https://onlineradiobox.com/json/us/rumbaysalsa/play"
 init_radio comedy "http://www.star104.net/stream/comedy-mp3.pls"
 init_radio gtronic "http://104.251.118.50:8878/stream"
-init_radio classical "http://playerservices.streamtheworld.com/api/livestream-redirect/WCPE_FMAAC128.aac"
+init_radio classical "https://cms.stream.publicradio.org/cms.aac"
+#http://playerservices.streamtheworld.com/api/livestream-redirect/WCPE_FMAAC128.aac
 
-# classical music
+# non logged radio
 alias trito='mpv https://radiostreaming.ert.gr/ert-trito &>/dev/null &'
 alias ecc='mpv http://85.10.206.222:8002/stream &>/dev/null &'
-alias spo='mpv https://sportfm.live24.gr/sportfm7712 2>/dev/null &'
+alias spo='mpv https://sportfm.live24.gr/sportfm7712 &>/dev/null &'
 
 # sortjoin destination ...sources
 # sortjoin list1 list1 list2

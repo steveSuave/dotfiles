@@ -24,6 +24,16 @@
 (straight-use-package 'expand-region)
 (straight-use-package 'javadoc-lookup)
 
+(flycheck-define-checker java-checkstyle
+  "A java syntax checker using checkstyle.
+
+See URL `https://www.checkstyle.org'."
+  :command ("java" "-jar" "/home/stefanos.levantis/Downloads/checkstyle-9.1-all.jar"
+            "-c" "/space/dev-repo/checkstyle/src/main/resources/sun_checks.xml" source)
+  :error-patterns
+  ((error line-start "[ERROR] " (file-name) ":" line ":" column ": " (message) ". [" (id (one-or-more alnum)) "]" line-end))
+  :modes java-mode)
+
 (use-package which-key
   :straight t
   :config (which-key-mode))
@@ -39,9 +49,8 @@
   (("C-x C-f" . helm-find-files))
   (("C-x b" . helm-buffers-list))
   (("C-c b" . helm-bookmarks))
-  (("C-c C-f" . helm-recentf))   ;; Add new key to recentf
-  ;; (("C-c g" . helm-grep-do-git-grep)) ;; Search using grep in a git project
-  )
+  (("C-c C-f" . helm-recentf))         ;; Add new key to recentf
+  (("C-c g" . helm-grep-do-git-grep))) ;; Search using grep in a git project
 
 (use-package helm-descbinds
   :straight t
@@ -78,75 +87,75 @@
   :config
   (add-hook 'compilation-filter-hook 'my/ansi-colorize-buffer))
 
-(use-package projectile
-  :straight t
-  :init (projectile-mode +1)
-  :config
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+;; (use-package projectile
+;;   :straight t
+;;   :init (projectile-mode +1)
+;;   :config
+;;   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
-(straight-use-package 'hydra)
+;; (straight-use-package 'hydra)
 
-(use-package dap-mode
-  :straight t
-  :after (lsp-mode)
-  :functions dap-hydra/nil
-  :config
-  (require 'dap-java)
-  :bind (:map lsp-mode-map
-              ("<f8>" . dap-debug)
-              ("M-<f8>" . dap-hydra))
-  :hook ((dap-mode . dap-ui-mode)
-         ;;   (dap-session-created . (lambda (&_rest) (dap-hydra)))
-         ;;   (dap-terminated . (lambda (&_rest) (dap-hydra/nil)))
-         ))
+;; (use-package dap-mode
+;;   :straight t
+;;   :after (lsp-mode)
+;;   :functions dap-hydra/nil
+;;   :config
+;;   (require 'dap-java)
+;;   :bind (:map lsp-mode-map
+;;               ("<f8>" . dap-debug)
+;;               ("M-<f8>" . dap-hydra))
+;;   :hook ((dap-mode . dap-ui-mode)
+;;          ;;   (dap-session-created . (lambda (&_rest) (dap-hydra)))
+;;          ;;   (dap-terminated . (lambda (&_rest) (dap-hydra/nil)))
+;;          ))
 
-(use-package lsp-treemacs
-  :straight t
-  :after (lsp-mode treemacs)
-  :commands lsp-treemacs-errors-list
-  :bind (:map lsp-mode-map
-              ("M-9" . lsp-treemacs-errors-list)))
+;; (use-package lsp-treemacs
+;;   :straight t
+;;   :after (lsp-mode treemacs)
+;;   :commands lsp-treemacs-errors-list
+;;   :bind (:map lsp-mode-map
+;;               ("M-9" . lsp-treemacs-errors-list)))
 
-(use-package treemacs
-  :straight t
-  :commands (treemacs)
-  :after (lsp-mode))
+;; (use-package treemacs
+;;   :straight t
+;;   :commands (treemacs)
+;;   :after (lsp-mode))
 
-(use-package lsp-ui
-  :straight t
-  :after (lsp-mode)
-  :bind (:map lsp-ui-mode-map
-              ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-              ([remap xref-find-references] . lsp-ui-peek-find-references))
-  :init (setq lsp-ui-doc-delay 1.5
-              lsp-ui-doc-position 'bottom
-              lsp-ui-doc-max-width 100))
+;; (use-package lsp-ui
+;;   :straight t
+;;   :after (lsp-mode)
+;;   :bind (:map lsp-ui-mode-map
+;;               ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+;;               ([remap xref-find-references] . lsp-ui-peek-find-references))
+;;   :init (setq lsp-ui-doc-delay 1.5
+;;               lsp-ui-doc-position 'bottom
+;;               lsp-ui-doc-max-width 100))
 
-(use-package helm-lsp
-  :straight t
-  :after (lsp-mode)
-  :commands (helm-lsp-workspace-symbol)
-  :init (define-key lsp-mode-map [remap xref-find-apropos] #'helm-lsp-workspace-symbol))
+;; (use-package helm-lsp
+;;   :straight t
+;;   :after (lsp-mode)
+;;   :commands (helm-lsp-workspace-symbol)
+;;   :init (define-key lsp-mode-map [remap xref-find-apropos] #'helm-lsp-workspace-symbol))
 
-(use-package lsp-mode
-  :straight t
-  :hook ((lsp-mode . lsp-enable-which-key-integration)
-         (java-mode . #'lsp-deferred))
-  :init (setq
-         lsp-keymap-prefix "C-c l"              ; this is for which-key integration documentation, need to use lsp-mode-map
-         lsp-enable-file-watchers nil
-         read-process-output-max (* 1024 1024)  ; 1 mb
-         lsp-completion-provider :capf
-         lsp-idle-delay 0.500)
-  :config
-  (setq lsp-intelephense-multi-root nil) ; don't scan unnecessary projects
-  (with-eval-after-load 'lsp-intelephense
-    (setf (lsp--client-multi-root (gethash 'iph lsp-clients)) nil))
-  (define-key lsp-mode-map (kbd "C-c l") lsp-command-map))
+;; (use-package lsp-mode
+;;   :straight t
+;;   :hook ((lsp-mode . lsp-enable-which-key-integration)
+;;          (java-mode . #'lsp-deferred))
+;;   :init (setq
+;;          lsp-keymap-prefix "C-c l"              ; this is for which-key integration documentation, need to use lsp-mode-map
+;;          lsp-enable-file-watchers nil
+;;          read-process-output-max (* 1024 1024)  ; 1 mb
+;;          lsp-completion-provider :capf
+;;          lsp-idle-delay 0.500)
+;;   :config
+;;   (setq lsp-intelephense-multi-root nil) ; don't scan unnecessary projects
+;;   (with-eval-after-load 'lsp-intelephense
+;;     (setf (lsp--client-multi-root (gethash 'iph lsp-clients)) nil))
+;;   (define-key lsp-mode-map (kbd "C-c l") lsp-command-map))
 
-(use-package lsp-java
-  :straight t
-  :config (add-hook 'java-mode-hook 'lsp))
+;; (use-package lsp-java
+;;   :straight t
+;;   :config (add-hook 'java-mode-hook 'lsp))
 
 ;;================================================================
 ;; LSP JAVA "minimal"

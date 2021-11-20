@@ -10,7 +10,7 @@ trap 'small; stand=2' SIGUSR2
 # reset to beginning
 trap 'big' SIGWINCH
 # print the timer
-trap 'log' SIGINFO
+trap 'log' SIGINFO #SIGPROF
 # traps to be aliased in some dotfile
 # kill -SIG{x} $(pgrep -f carrot)
 
@@ -31,18 +31,23 @@ braek() {
 }
 
 small() {
+    # notify-send "Look Away" "20 secs"
+    # printf "\a"
     osascript -e 'display notification "20 secs" with title "look away"'
     minutes=0
     stand=$(( stand+1 ))
 }
 
 big() {
+    # notify-send "GIT UP" "and do some loggin'"
+    # printf "\a"
     osascript -e 'display notification "do some walkin" with title "GIT UP"'
     stand=0
     minutes=0
 }
 
 log() {
+    #notify-send "KAROTO STATUS" "Minutes: $minutes\nStand: $stand"
     osascript -e "display notification \"===============\" with title \"Break: $minutes	Stand: $stand\""
 }
 
@@ -80,4 +85,3 @@ fi
 # for windows subsystem for linux
 # could notify with powershell or:
 # msg.exe /time:4 $USERNAME "look away"
-# for some linux distros: notify-send

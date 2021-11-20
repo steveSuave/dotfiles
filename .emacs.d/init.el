@@ -288,7 +288,7 @@ then re-create *scratch* and switch to it, or else change buffers until a 'front
   (if (andmap
        (lambda (el)
          (not (front-bufsp el)))
-       (frame-bufs-buffer-list (selected-frame))) ;(buffer-list))
+       (frame-bufs-buffer-list (selected-frame))) ;; (buffer-list))
       (create-and-switch-to-scratch-buffer)
     (progn (where-to prev)
            (while (not (front-bufsp))
@@ -447,7 +447,7 @@ tokens, and DELIMITED as prefix arg."
 (global-set-key "\C-cw" (lambda () (interactive) (metaar)))
 (global-set-key "\C-cW" (lambda () (interactive) (taaf)))
 (global-set-key "\C-x52" (lambda () (interactive) (switch-to-buffer-other-frame "*Messages*")))
-(global-set-key "\C-x\C-b" (lambda () (interactive) (progn (list-buffers) (other-window 1))))
+;; (global-set-key "\C-x\C-b" (lambda () (interactive) (progn (list-buffers) (other-window 1))))
 (global-set-key "\M-p" "\C-x0\C-x2\C-xb") ;; switch horizontal to vertical split
 (global-set-key "\M-n" "\C-x0\C-x4b") ;; switch vertical to horizontal split
 (global-set-key (kbd "C-h j") 'javadoc-lookup)
@@ -501,9 +501,9 @@ tokens, and DELIMITED as prefix arg."
 ;;          (sql-port 5432))))
 
 (setq display-buffer-alist
-      '(("\\*\\(grep\\|log-edit-files\\|vc-log\\|Buffer List\\)\\*"
+      '(("\\*\\(grep\\|log-edit-files\\|vc-log\\)\\*"
          (display-buffer-below-selected))
-        ("\\*\\(java\\|sql\\|js\\|SQL: <db>\\)\\*"
+        ("\\*\\(java\\|sql\\|js\\|SQL: <db>\\|Buffer List\\)\\*"
          (display-buffer-same-window))))
 
 (yas--define-parents 'minibuffer-inactive-mode '(fundamental-mode))
@@ -549,8 +549,8 @@ tokens, and DELIMITED as prefix arg."
          ("\\.xml$" . xml-mode) ;; psgml-mode, nxml-mode
          ("\\.xsd$" . nxml-mode) ;; xsl-mode
          ("\\.xsl$" . nxml-mode) ;; xsl-mode
-         ("\\.yaml\\'" . yaml-mode)
-         ("\\.yml\\'" . yaml-mode)
+         ;; ("\\.yaml\\'" . yaml-mode)
+         ;; ("\\.yml\\'" . yaml-mode)
          ("github.*\\.txt$" . markdown-mode)
          ;; ("pom.xml" . nxml-mode)
          ("\\.http$" . restclient-mode)
@@ -571,6 +571,8 @@ tokens, and DELIMITED as prefix arg."
 (display-time)
 (diary)
 
+(require 'server)
+(unless (server-running-p) (server-start))
 ;;(setq lsp-java-jdt-download-url  "https://download.eclipse.org/jdtls/milestones/0.57.0/jdt-language-server-0.57.0-202006172108.tar.gz")
 
 ;; ================================================================
