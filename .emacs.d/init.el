@@ -288,7 +288,7 @@ then re-create *scratch* and switch to it, or else change buffers until a 'front
   (if (andmap
        (lambda (el)
          (not (front-bufsp el)))
-       (buffer-list))
+       (frame-bufs-buffer-list (selected-frame))) ;(buffer-list))
       (create-and-switch-to-scratch-buffer)
     (progn (where-to prev)
            (while (not (front-bufsp))
@@ -460,6 +460,7 @@ tokens, and DELIMITED as prefix arg."
   ;; or (global-set-key (kbd "C-z") nil)
   (global-unset-key (kbd "C-z")))
 
+(define-key help-map "\C-h" 'which-key-C-h-dispatch)
 (define-key helm-map (kbd "TAB") #'helm-execute-persistent-action)
 (define-key helm-map (kbd "<tab>") #'helm-execute-persistent-action)
 (define-key helm-map (kbd "C-j") #'helm-select-action)

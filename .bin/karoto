@@ -15,48 +15,48 @@ trap 'log' SIGINFO
 # kill -SIG{x} $(pgrep -f carrot)
 
 # remove lockdir before exiting
-trap 'loop=1; rm -rf "$lockdir"; exit' SIGTERM SIGHUP SIGQUIT SIGINT 
+trap 'loop=1; rm -rf "$lockdir"; exit' SIGTERM SIGHUP SIGQUIT SIGINT
 
 loop=0
-minutes=0 
+minutes=0
 stand=0
 
 braek() {
-	local counter=0
-	until (( counter == 60 )); do
-		sleep 1
-		counter=$(( counter+1 ))
-	done
-	minutes=$(( minutes+1 ))
+    local counter=0
+    until (( counter == 60 )); do
+        sleep 1
+        counter=$(( counter+1 ))
+    done
+    minutes=$(( minutes+1 ))
 }
 
 small() {
-	osascript -e 'display notification "20 secs" with title "look away"'
-    	minutes=0
-	stand=$(( stand+1 ))
+    osascript -e 'display notification "20 secs" with title "look away"'
+    minutes=0
+    stand=$(( stand+1 ))
 }
 
 big() {
-	osascript -e 'display notification "do some walkin" with title "GIT UP"'
-	stand=0
-	minutes=0
+    osascript -e 'display notification "do some walkin" with title "GIT UP"'
+    stand=0
+    minutes=0
 }
 
 log() {
-	osascript -e "display notification \"===============\" with title \"Break: $minutes	Stand: $stand\""
+    osascript -e "display notification \"===============\" with title \"Break: $minutes	Stand: $stand\""
 }
 
 main() {
-	while (( loop == 0 )); do         
-		if (( minutes == 20 )) && (( stand == 2 ))
-		then
-			big
-		elif (( minutes == 20 )); then             
-			small
-		else             
-			braek
-		fi  
-	done
+    while (( loop == 0 )); do
+        if (( minutes == 20 )) && (( stand == 2 ))
+        then
+            big
+        elif (( minutes == 20 )); then
+            small
+        else
+            braek
+        fi
+    done
 }
 
 # locking the script so that only
@@ -64,21 +64,20 @@ main() {
 lockdir=/tmp/carrot.lock
 if mkdir "$lockdir" 2> /dev/null
 then
-	main	
+    main
 else
-	# echo "cannot acquire lock"
-	exit 1
+    # echo "cannot acquire lock"
+    exit 1
 fi
 
 # on linux could acquire lock with flock(1)
 
 # could start and end the karoto cycle from
 # either bash_profile / bash_logout
-# or by binding it and its signals 
+# or by binding it and its signals
 # to shortcuts with e.g. karabiner
 
-# for windows subsystem for linux 
+# for windows subsystem for linux
 # could notify with powershell or:
 # msg.exe /time:4 $USERNAME "look away"
 # for some linux distros: notify-send
-

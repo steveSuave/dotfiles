@@ -10,8 +10,8 @@ alias mysql.status="sudo /usr/local/mysql/support-files/mysql.server status"
 alias kk="clear && printf '\e[3J'"
 alias rt='cd;kk'
 alias dstop='docker stop $(docker ps -a -q)'
-alias lsa='ls -lahF --color=auto'
-alias l1='ls -1thF --color=auto'
+alias lsa='ls -lahF'
+alias l1='ls -1thF'
 alias grep='grep --color=auto'
 alias dush='du -sh'
 alias ducks='du -cks * | sort -rn | head'
@@ -122,13 +122,13 @@ joinpdf () {
 # current airport weather report in a codified format
 # metar LGAV gets data from El.Venizelos Athens airport
 metar() {
-    curl https://tgftp.nws.noaa.gov/data/observations/metar/stations/$(awk '{ print toupper($0) }' <<< "$1").TXT
+    curl "https://tgftp.nws.noaa.gov/data/observations/metar/stations/$(awk '{ print toupper($0) }' <<< "$1").TXT"
 }
 
 # taf also provides codified weather data
 # but includes some predictions
 taf() {
-    curl https://tgftp.nws.noaa.gov/data/forecasts/taf/stations/$(awk '{ print toupper($0) }' <<< "$1").TXT
+    curl "https://tgftp.nws.noaa.gov/data/forecasts/taf/stations/$(awk '{ print toupper($0) }' <<< "$1").TXT"
 }
 
 # paste text online and get a link
@@ -172,16 +172,6 @@ on() {
         v="-v"
     fi
     sap $v "$((sc++))" "$1"
-}
-
-# sortjoin destination ...sources
-# sortjoin list1 list1 list2
-sortjoin() {
-    tmp="$(mktemp)"
-    dest="$1"
-    shift
-    cat "$@" | sort -u > "$tmp"
-    cat "$tmp" > "$dest"
 }
 
 ediff() {
@@ -238,3 +228,26 @@ init_radio classical "http://playerservices.streamtheworld.com/api/livestream-re
 # classical music
 alias trito='mpv https://radiostreaming.ert.gr/ert-trito &>/dev/null &'
 alias ecc='mpv http://85.10.206.222:8002/stream &>/dev/null &'
+alias spo='mpv https://sportfm.live24.gr/sportfm7712 2>/dev/null &'
+
+# sortjoin destination ...sources
+# sortjoin list1 list1 list2
+sortjoin() {
+    tmp="$(mktemp)"
+    dest="$1"
+    shift
+    cat "$@" | sort -u > "$tmp"
+    cat "$tmp" > "$dest"
+}
+
+updateradio() { # hostradionotes reporadionotes
+    for i in `find "$1" -type f -not -iname '*log.txt'`; do
+        dotsaves="$2/${i##*/}"
+        sortjoin "$dotsaves" "$dotsaves" "$i"
+    done
+}
+
+hostradionotes=$HOME/Documents/TEXTFILES/radio-notes
+reporadionotes=$HOME/Documents/dotfiles/TEXTFILES/radio-notes
+alias upradio="updateradio \"$hostradionotes\" \"$reporadionotes\""
+

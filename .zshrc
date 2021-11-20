@@ -43,13 +43,21 @@ thePrompt=1
 chprmt() {
     if (( thePrompt == 1 )); then
         precmd()  { print "" }
-        preexec() { print "" }
-        PROMPT=$'%/\n${status_host_user} %# '
+        # preexec() { print "" }
+        PROMPT=$'%/\n${status_host_user}`__git_ps1` %# '
         thePrompt=2
     elif ((thePrompt == 2 )); then
         precmd() {}
-        preexec() {}
+        # preexec() {}
         PROMPT="$status_host_user: %1~ %# "
         thePrompt=1
     fi
 }
+
+preexec() {
+    if [[ $PWD == *"repo"* ]]; then
+        thePrompt=1
+        chprmt
+    fi
+}
+

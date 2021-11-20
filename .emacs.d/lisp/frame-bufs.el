@@ -218,7 +218,7 @@ mode-function `frame-bufs-mode' is run."
   :group 'frame-bufs
   :type 'boolean)
 
-(defcustom frame-bufs-always-include-names '("*scratch*" "*notes*" "*Messages*")
+(defcustom frame-bufs-always-include-names '("*Messages*" "*scratch*")
   "Buffers whose names are in this list are associated with every frame."
   :group 'frame-bufs
   :type '(repeat string))

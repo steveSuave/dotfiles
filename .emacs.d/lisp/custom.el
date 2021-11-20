@@ -3,10 +3,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(calendar-date-style (quote iso))
+ '(calendar-date-style 'iso)
  '(display-time-24hr-format t)
- '(ediff-split-window-function (quote split-window-horizontally))
- '(ediff-window-setup-function (quote ediff-setup-windows-plain))
+ '(ediff-split-window-function 'split-window-horizontally)
+ '(ediff-window-setup-function 'ediff-setup-windows-plain)
  '(holiday-bahai-holidays nil)
  '(holiday-christian-holidays nil)
  '(holiday-general-holidays nil)
@@ -14,8 +14,7 @@
  '(holiday-islamic-holidays nil)
  '(holiday-oriental-holidays nil)
  '(holiday-other-holidays
-   (quote
-    ((holiday-fixed 1 1 "Prwtoxronia")
+   '((holiday-fixed 1 1 "Prwtoxronia")
      (holiday-fixed 1 6 "Theofaneia")
      (holiday-fixed 3 25 "Eyaggelismos")
      ;; kathara deytera = easter - 48 days
@@ -25,15 +24,18 @@
      (holiday-fixed 8 15 "Koimisi")
      (holiday-fixed 10 28 "Oxi")
      (holiday-fixed 12 25 "Christougenna")
-     (holiday-fixed 12 26 "Synaxi"))))
+     (holiday-fixed 12 26 "Synaxi")))
  '(holiday-solar-holidays nil)
+ '(magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
+ '(mode-require-final-newline 'ask)
  '(newsticker-url-list
-   (quote
-    (("thalassoporoi" "https://greatnavigators.com/feed" nil nil nil)
+   '(("thalassoporoi" "https://greatnavigators.com/feed" nil nil nil)
      ("anaskafi" "http://anaskafi.blogspot.com/feeds/posts/default" nil nil nil)
      ("slashdot" "http://rss.slashdot.org/Slashdot/slashdotMain" nil nil nil)
-     ("eli-bendersky" "https://eli.thegreenplace.net/feeds/all.atom.xml" nil nil nil))))
+     ("eli-bendersky" "https://eli.thegreenplace.net/feeds/all.atom.xml" nil nil nil)))
  '(python-shell-interpreter "python3")
+ '(require-final-newline 'ask)
+ '(show-trailing-whitespace t)
  '(treemacs-show-hidden-files nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -41,4 +43,5 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(erc-input-face ((t (:foreground "salmon"))))
- '(erc-my-nick-face ((t (:foreground "goldenrod" :weight bold)))))
+ '(erc-my-nick-face ((t (:foreground "goldenrod" :weight bold))))
+ '(trailing-whitespace ((t (:background "cyan")))))

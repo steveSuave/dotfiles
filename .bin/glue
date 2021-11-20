@@ -13,7 +13,7 @@ cat << EOF
     Outputs a "cattd" file. Bash 4+ is required.
 
     cd to a dir and run 'glue [options]'
-    alternatively from anywhere run 
+    alternatively from anywhere run
     glue [options] -d /full/path/to/dir
 
     ex.
@@ -33,7 +33,7 @@ shopt -s globstar
 while getopts c:d:e:h opt; do
     case "$opt" in
         c) com="$OPTARG" ;;
-        d) dir="$OPTARG" ;; 
+        d) dir="$OPTARG" ;;
         e) ext=".${OPTARG}" ;;
         h) show_help; exit 0 ;;
         *) exit 1 ;;
@@ -48,8 +48,7 @@ for file in "${files[@]}"; do
         printf '\n\n%s\n%s\n%s\n\n' \
             "${com}================" \
             "${com}${file##*/}" \
-            "${com}================" >> cattd"${ext}" 
+            "${com}================" >> cattd"${ext}"
         cat "$file" >> cattd"${ext}"
     fi
 done
-
