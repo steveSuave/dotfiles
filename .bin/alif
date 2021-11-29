@@ -39,8 +39,8 @@ alias magit="emacs --eval='(magit-status)'"
 alias cup='nmcli --ask con up id client'
 alias cdown='nmcli con down id client'
 alias pull='git pull --tags --rebase origin master'
-#alias pbcopy="xclip -selection c"
-#alias pbpaste="xclip -selection clipboard -o"
+alias pbcopy="xclip -selection c"
+alias pbpaste="xclip -selection clipboard -o"
 
 alias irc='screen -S irc irssi;'
 alias cafrc='caffeinate -w $(pgrep irssi)&'
