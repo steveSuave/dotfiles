@@ -569,11 +569,20 @@ tokens, and DELIMITED as prefix arg."
 ;; (darktooth-modeline)
 (when (display-graphic-p)
   (load-theme 'wombat))
-(display-time)
-(diary)
 
 (require 'server)
 (unless (server-running-p) (server-start))
+
+;; make sure the diary file exists
+((lambda ()
+   (let ((diary-file
+          (expand-file-name "diary" user-emacs-directory)))
+     (unless (file-exists-p diary-file)
+       (write-region "" nil diary-file)))))
+
+(display-time)
+(diary)
+
 ;;(setq lsp-java-jdt-download-url  "https://download.eclipse.org/jdtls/milestones/0.57.0/jdt-language-server-0.57.0-202006172108.tar.gz")
 
 ;; ================================================================
