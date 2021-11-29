@@ -217,7 +217,7 @@ them."
     (with-current-buffer (get-buffer-create name)
       (funcall mode)
       (when contents
-          (save-excursion (insert contents)))
+        (save-excursion (insert contents)))
 
       (setq-local scratch-buffer t)
       (unless current-prefix-arg
@@ -239,7 +239,7 @@ When called interactively with a prefix arg, prompt for the mode."
     (pop-to-buffer
      (if (bufferp buf) ; buf ; Existing scratch buffer  ;; originally just redirected to existing scratch buffer
          ;; create new "incremented" scratch, this is a custom addition
-         (scratch--create mode (concat "|" (symbol-name mode) (number-to-string (random 111)) "|")) ;(concat name (number-to-string (random 111))))
+         (scratch--create mode (generate-new-buffer-name name))
        ;; New scratch buffer
        (scratch--create mode name))
      '(display-buffer-same-window . nil))))

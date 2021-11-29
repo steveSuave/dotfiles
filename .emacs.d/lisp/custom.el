@@ -44,4 +44,5 @@
  ;; If there is more than one, they won't work right.
  '(erc-input-face ((t (:foreground "salmon"))))
  '(erc-my-nick-face ((t (:foreground "goldenrod" :weight bold))))
+ '(hl-line ((t (:inherit highlight :extend t :underline nil))))
  '(trailing-whitespace ((t (:background "cyan")))))
