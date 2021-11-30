@@ -87,11 +87,11 @@ See URL `https://www.checkstyle.org'."
   :config
   (add-hook 'compilation-filter-hook 'my/ansi-colorize-buffer))
 
-;; (use-package projectile
-;;   :straight t
-;;   :init (projectile-mode +1)
-;;   :config
-;;   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+(use-package projectile
+  :straight t
+  :init (projectile-mode +1)
+  :config
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
 ;; (straight-use-package 'hydra)
 
