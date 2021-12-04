@@ -14,6 +14,7 @@
 (straight-use-package 'magit)
 (straight-use-package 'diff-hl)
 (straight-use-package 'go-mode)
+;; (straight-use-package 'hydra)
 (straight-use-package 'lua-mode)
 (straight-use-package 'sml-mode)
 (straight-use-package 'flycheck)
@@ -24,15 +25,9 @@
 (straight-use-package 'expand-region)
 (straight-use-package 'javadoc-lookup)
 
-(flycheck-define-checker java-checkstyle
-  "A java syntax checker using checkstyle.
-
-See URL `https://www.checkstyle.org'."
-  :command ("java" "-jar" "/home/stefanos.levantis/Downloads/checkstyle-9.1-all.jar"
-            "-c" "/space/dev-repo/checkstyle/src/main/resources/sun_checks.xml" source)
-  :error-patterns
-  ((error line-start "[ERROR] " (file-name) ":" line ":" column ": " (message) ". [" (id (one-or-more alnum)) "]" line-end))
-  :modes java-mode)
+(use-package minions
+  :straight t
+  :config (minions-mode 1))
 
 (use-package which-key
   :straight t
@@ -60,24 +55,6 @@ See URL `https://www.checkstyle.org'."
   :straight t
   :config (global-company-mode 1))
 
-(straight-use-package 'yasnippet-snippets)
-(use-package yasnippet :straight t :config (yas-global-mode))
-
-;;================================================================
-;; LSP JAVA
-
-;; (setenv "JAVA_HOME"  "path_to_java_folder/Contents/Home/")
-;; (setq lsp-java-java-path "path_to_java_folder/Contents/Home/bin/java"
-
-;; Avoid garbage collection at statup
-;; (setq gc-cons-threshold most-positive-fixnum ; 2^61 bytes
-;;       gc-cons-percentage 0.6)
-
-;; (add-hook 'emacs-startup-hook
-;;   (lambda ()
-;;     (setq gc-cons-threshold 300000000 ; 300mb
-;;           gc-cons-percentage 0.1)))
-
 (defun my/ansi-colorize-buffer ()
   (let ((buffer-read-only nil))
     (ansi-color-apply-on-region (point-min) (point-max))))
@@ -93,7 +70,33 @@ See URL `https://www.checkstyle.org'."
   :config
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
-;; (straight-use-package 'hydra)
+(straight-use-package 'yasnippet-snippets)
+(use-package yasnippet :straight t :config (yas-global-mode))
+
+(flycheck-define-checker java-checkstyle
+  "A java syntax checker using checkstyle.
+
+See `https://www.checkstyle.org'."
+  :command ("java" "-jar" "~/Downloads/checkstyle-9.1-all.jar"
+            "-c" "~/checkstyle/src/main/resources/sun_checks.xml" source)
+  :error-patterns
+  ((error line-start "[ERROR] " (file-name) ":" line ":" column ": " (message) ". [" (id (one-or-more alnum)) "]" line-end))
+  :modes java-mode)
+
+;;================================================================
+;; LSP JAVA
+
+;; (setenv "JAVA_HOME"  "path_to_java_folder/Contents/Home/")
+;; (setq lsp-java-java-path "path_to_java_folder/Contents/Home/bin/java"
+
+;; Avoid garbage collection at statup
+;; (setq gc-cons-threshold most-positive-fixnum ; 2^61 bytes
+;;       gc-cons-percentage 0.6)
+
+;; (add-hook 'emacs-startup-hook
+;;   (lambda ()
+;;     (setq gc-cons-threshold 300000000 ; 300mb
+;;           gc-cons-percentage 0.1)))
 
 ;; (use-package dap-mode
 ;;   :straight t
