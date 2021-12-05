@@ -72,6 +72,20 @@ Avoid garbage collection at statup
   :straight t
   :config (add-hook 'java-mode-hook 'lsp))
 
+
+
+(setq lsp-java-vmargs '("-noverify"
+                            "-Xmx1G"
+                            "-XX:+UseG1GC"
+                            "-XX:+UseStringDeduplication"
+                            "--add-exports"
+                            "jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED"))
+(setq lsp-java-9-args '("--add-modules=ALL-SYSTEM"
+                             "--add-opens java.base/java.util=ALL-UNNAMED"
+                             "--add-opens java.base/java.lang=ALL-UNNAMED"
+                             "--add-exports"
+                             "java.base/jdk.internal.math=ALL-UNNAMED"))
+
 ================================================================
 LSP JAVA "minimal"
 
@@ -154,15 +168,3 @@ LSP JAVA "minimal"
   (interactive)
   ;; displays current java version
   (message (concat "Java HOME: " (getenv "JAVA_HOME"))))
-
-(setq lsp-java-vmargs '("-noverify"
-                            "-Xmx1G"
-                            "-XX:+UseG1GC"
-                            "-XX:+UseStringDeduplication"
-                            "--add-exports"
-                            "jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED"))
-(setq lsp-java-9-args '("--add-modules=ALL-SYSTEM"
-                             "--add-opens java.base/java.util=ALL-UNNAMED"
-                             "--add-opens java.base/java.lang=ALL-UNNAMED"
-                             "--add-exports"
-                             "java.base/jdk.internal.math=ALL-UNNAMED"))

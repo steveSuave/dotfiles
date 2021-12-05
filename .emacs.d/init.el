@@ -386,6 +386,18 @@ tokens, and DELIMITED as prefix arg."
       (define-key map (kbd "x") 'my-decrement-number-at-point)
       map)))
 
+(defun toggle-transparency ()
+  (interactive)
+  (let ((alpha (frame-parameter nil 'alpha)))
+    (set-frame-parameter
+     nil 'alpha
+     (if (eql (cond ((numberp alpha) alpha)
+                    ((numberp (cdr alpha)) (cdr alpha))
+                    ;; Also handle undocumented (<active> <inactive>) form.
+                    ((numberp (cadr alpha)) (cadr alpha)))
+              100)
+         '(85 . 50) '(100 . 100)))))
+
 ;; --------
 ;; BINDINGS
 ;; --------
@@ -453,6 +465,7 @@ tokens, and DELIMITED as prefix arg."
 (global-set-key (kbd "C-c a") 'my-increment-number-at-point)
 (global-set-key (kbd "C-c x") 'my-decrement-number-at-point)
 (global-set-key "\C-cL" 'hl-line-mode)
+(global-set-key (kbd "C-c ct") 'toggle-transparency)
 
 ;; another key notation: [(meta insert)]
 
@@ -559,6 +572,10 @@ tokens, and DELIMITED as prefix arg."
 ;; -------
 ;; FINALLY
 ;; -------
+
+;; Enable transparency
+(set-frame-parameter (selected-frame) 'alpha '(85 . 50)) ;; other 3rd arguments: <both> '(<active> . <inactive>)
+(add-to-list 'default-frame-alist '(alpha . (85 . 50)))
 
 (set-face-attribute 'default nil :height 160)
 (make-directory "~/.emacs.d/sql/" t)

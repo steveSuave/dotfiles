@@ -184,8 +184,7 @@ always be there."
   "Query the user for a class name."
   (unless (jdl/core-indexed-p)
     (ignore-errors ; Provide *something* useful, if needed
-      (jdl/web "http://docs.oracle.com/javase/8/docs/api/"
-               "https://docs.spring.io/spring-framework/docs/current/javadoc-api/")))
+      (jdl/web "http://docs.oracle.com/javase/8/docs/api/")))
   (let ((default (thing-at-point 'symbol))
         (classes (jdl/get-class-list)))
     (funcall javadoc-lookup-completing-read-function "Class: "
