@@ -49,7 +49,6 @@
 ;; --------
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")
-;;(require 'minor-mode-to-make-alt-tab-work)
 (require 'my-used-packages)
 (require 'scratch)
 
@@ -453,7 +452,7 @@ tokens, and DELIMITED as prefix arg."
 (global-set-key (kbd "C-h j") 'javadoc-lookup)
 (global-set-key (kbd "C-c a") 'my-increment-number-at-point)
 (global-set-key (kbd "C-c x") 'my-decrement-number-at-point)
-(global-set-key "\C-cl" 'hl-line-mode)
+(global-set-key "\C-cL" 'hl-line-mode)
 
 ;; another key notation: [(meta insert)]
 
