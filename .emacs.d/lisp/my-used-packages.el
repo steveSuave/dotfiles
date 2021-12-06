@@ -91,8 +91,7 @@ See `https://www.checkstyle.org'."
 ;;   :init (setq
 ;;          lsp-keymap-prefix "C-c l"    ; this is for which-key integration documentation, need to use lsp-mode-map
 ;;          lsp-enable-file-watchers nil)
-;;   :hook ((lsp-mode . lsp-enable-which-key-integration))
-;;   :config (setq lsp-completion-enable-additional-text-edit nil))
+;;   :hook ((lsp-mode . lsp-enable-which-key-integration)))
 
 ;; (use-package lsp-java
 ;;   :straight t
@@ -103,6 +102,11 @@ See `https://www.checkstyle.org'."
 ;;   ;;       "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml")
 ;;   ;; (setq lsp-java-format-settings-profile "GoogleStyle")
 ;;   )
+
+;; (require 'lsp-java-boot)
+;; ;; to enable the lenses
+;; (add-hook 'lsp-mode-hook #'lsp-lens-mode)
+;; (add-hook 'java-mode-hook #'lsp-java-boot-lens-mode)
 
 ;; (use-package dap-mode
 ;;   :straight t

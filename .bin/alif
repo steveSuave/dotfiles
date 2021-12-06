@@ -32,10 +32,6 @@ alias ytda='youtube-dl -o "%(title)s.%(ext)s" -x --audio-format mp3'
 alias ytdp='youtube-dl -o "%(playlist_index)s - %(title)s.%(ext)s"' # -f mp4
 alias ytds='youtube-dl --write-sub --sub-lang en --skip-download' # --sub-format ass/srt/best
 
-alias w3im="startx $HOME/.config/i3/xinit"
-alias remacsp='rm ~/.emacs.d/.lsp-session-v1 && rm -r ~/.emacs.d/workspace/'
-alias magit="emacs --eval='(magit-status)'"
-
 alias cup='nmcli --ask con up id client'
 alias cdown='nmcli con down id client'
 alias pull='git pull --tags --rebase origin master'
@@ -44,6 +40,18 @@ alias pbpaste="xclip -selection clipboard -o"
 
 alias irc='screen -S irc irssi;'
 alias cafrc='caffeinate -w $(pgrep irssi)&'
+
+alias w3im="startx $HOME/.config/i3/xinit"
+alias magit="emacs --eval='(magit-status)'"
+alias remacsp='rm ~/.emacs.d/.lsp-session-v1 && rm -r ~/.emacs.d/workspace/'
+alias relsp='rm ~/.emacs.d/.lsp-session-v1 &&
+             rm -rf ~/.emacs.d/.cache/ &&
+             rm -rf ~/.emacs.d/eclipse.jdt.ls &&
+             rm -rf ~/.emacs.d/workspace &&
+             rm -rf ~/.emacs.d/straight/repos/lsp-* &&
+             rm -rf ~/.emacs.d/straight/repos/helm-lsp &&
+             rm -rf ~/.emacs.d/straight/repos/treemacs &&
+             rm -rf ~/.emacs.d/straight/repos/dap-mode'
 
 alias prot='sudo renice -n -20 -p $(pgrep -f karoto)'
 alias kar='kill -SIGINFO $(pgrep -f karoto)'
