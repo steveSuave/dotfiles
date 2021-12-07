@@ -74,11 +74,8 @@
 (use-package yasnippet :straight t :config (yas-global-mode))
 
 (flycheck-define-checker java-checkstyle
-  "A java syntax checker using checkstyle.
-
-See `https://www.checkstyle.org'."
-  :command ("java" "-jar" "~/Downloads/checkstyle-9.1-all.jar"
-            "-c" "~/checkstyle/src/main/resources/sun_checks.xml" source)
+  "A java syntax checker using checkstyle. See `https://www.checkstyle.org'."
+  :command ("java" "-jar" "~/Downloads/checkstyle-9.1-all.jar" "-c" "~/checkstyle/src/main/resources/sun_checks.xml" source)
   :error-patterns
   ((error line-start "[ERROR] " (file-name) ":" line ":" column ": " (message) ". [" (id (one-or-more alnum)) "]" line-end))
   :modes java-mode)
