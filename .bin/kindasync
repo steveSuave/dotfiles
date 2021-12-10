@@ -7,7 +7,7 @@ GLOBIGNORE="*.DS_Store*:.git/*:Windows*:README*"
 
 dotfiles="$HOME/Documents/dotfiles"
 
-pushd $dotfiles || exit 1
+cd $dotfiles || exit 1
 printf "\n\nopen/continue/abort? (Return/Space/Ctrl-C)\n\n"
 for gdotfile in **/*; do
     homedotfile="$HOME/$gdotfile"
@@ -18,10 +18,9 @@ for gdotfile in **/*; do
         read -s -n1
         if [[ "$REPLY" == " " ]]; then continue
         else
-            $emacs -Q --eval "(ediff-files \"$homedotfile\" \"$gdotfile\")" 2>/dev/null;
+            emacs -Q --eval "(ediff-files \"$homedotfile\" \"$gdotfile\")" 2>/dev/null;
         fi
     fi
 done
 echo
-popd
 
