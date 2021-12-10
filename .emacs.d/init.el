@@ -466,6 +466,9 @@ tokens, and DELIMITED as prefix arg."
 (global-set-key (kbd "C-c x") 'my-decrement-number-at-point)
 (global-set-key "\C-cL" 'hl-line-mode)
 (global-set-key (kbd "C-c ct") 'toggle-transparency)
+(global-set-key "\C-ccw" (lambda () (interactive)
+                           (setq show-trailing-whitespace (not show-trailing-whitespace))
+                           (redraw-display)))
 
 ;; another key notation: [(meta insert)]
 

@@ -14,8 +14,8 @@ autoload -Uz compinit
 compinit
 
 HISTFILE=~/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
+HISTSIZE=10000
+SAVEHIST=10000
 
 setopt autocd extendedglob notify correct 
 setopt EXTENDED_HISTORY          # Write the history file in the ':start:elapsed;command' format.
