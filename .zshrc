@@ -2,6 +2,8 @@ source ~/.bin/alif
 
 umask 027
 
+# The following lines were added by compinstall
+
 zstyle ':completion:*' completer _expand _complete _ignored
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
@@ -12,7 +14,8 @@ zstyle :compinstall filename "~/.zshrc"
 
 autoload -Uz compinit
 compinit
-
+# End of lines added by compinstall
+# Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
 HISTSIZE=10000
 SAVEHIST=10000
@@ -31,6 +34,9 @@ setopt HIST_VERIFY               # Do not execute immediately upon history expan
 setopt APPEND_HISTORY            # append to history file
 setopt HIST_NO_STORE             # Don't store history commands
 setopt promptsubst
+
+# bindkey -v
+# End of lines configured by zsh-newuser-install
 
 RPROMPT=%T
 autoload -U colors && colors

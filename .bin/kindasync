@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 shopt -s globstar
 shopt -s dotglob
@@ -8,17 +8,20 @@ GLOBIGNORE="*.DS_Store*:.git/*:Windows*:README*"
 dotfiles="$HOME/Documents/dotfiles"
 
 pushd $dotfiles || exit 1
-
+printf "\n\nopen/continue/abort? (Return/Space/Ctrl-C)\n\n"
 for gdotfile in **/*; do
     homedotfile="$HOME/$gdotfile"
-    if [[ -f $homedotfile ]] && 
-       ! [[ $gdotfile = *DS_Store ]] &&
-       ! diff $homedotfile $gdotfile &>/dev/null; then
-        emacs -Q --eval "(ediff-files \"$homedotfile\" \"$gdotfile\")" 2>/dev/null
-        echo "continue? (Return/Ctrl-C)"
-        read cont
+    if [[ -f $homedotfile ]] &&
+           ! [[ $gdotfile = *DS_Store ]] &&
+           ! diff $homedotfile $gdotfile &>/dev/null; then
+        echo "$gdotfile $homedotfile"
+        read -s -n1
+        if [[ "$REPLY" == " " ]]; then continue
+        else
+            $emacs -Q --eval "(ediff-files \"$homedotfile\" \"$gdotfile\")" 2>/dev/null;
+        fi
     fi
 done
-
+echo
 popd
 

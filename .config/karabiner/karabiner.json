@@ -64,6 +64,30 @@
                                 "type": "basic"
                             }
                         ]
+                    },{
+                        "description": "Open Emacs",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "m",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "left_option",
+                                            "left_command"
+                                        ],
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "open /Applications/MacPorts/EmacsMac.app"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
                     },
                     {
                         "description": "Open Terminal",
@@ -84,6 +108,26 @@
                                 "to": [
                                     {
                                         "shell_command": "open -a 'Terminal.app'"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+{
+                                "from": {
+                                    "key_code": "r",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "left_option",
+                                            "left_command"
+                                        ],
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "open -a 'iTerm.app'"
                                     }
                                 ],
                                 "type": "basic"
