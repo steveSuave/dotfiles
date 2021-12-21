@@ -107,8 +107,6 @@
 ;;         (define-key sql-interactive-mode-map "\t" 'comint-dynamic-complete)
 ;;         (sql-mysql-completion-init)))
 
-(add-hook 'js-mode-hook 'my-json-hooks)
-(add-hook 'restclient-mode-hook 'my-json-hooks)
 (add-hook 'dired-mode-hook 'dired-hide-details-mode)
 (add-hook 'calendar-today-visible-hook 'calendar-mark-today)
 (add-hook 'sql-interactive-mode-hook 'my-sql-save-history-hook)
@@ -212,10 +210,13 @@
                              (buffer-name)
                              t)))
 
-(defun my-json-hooks ()
-  "For use in `js-mode-hook'."
-  (local-set-key "\C-cj" (lambda () (interactive) (json-format)))
-  (local-set-key "\C-cJ" (lambda () (interactive) (json-format t))))
+(defun xml-format (&optional bool)
+  (interactive)
+  (if bool
+      (progn
+        (replace-regexp "\\(^[[:space:]]*\\|\n\\)" "" nil (region-beginning) (1- (region-end)))
+        (move-beginning-of-line nil))
+    (shell-command-on-region (region-beginning) (region-end) "xmllint --format -" (buffer-name) t)))
 
 (defun myerc ()
   (interactive)
@@ -464,6 +465,11 @@ tokens, and DELIMITED as prefix arg."
 (global-set-key (kbd "C-h j") 'javadoc-lookup)
 (global-set-key (kbd "C-c a") 'my-increment-number-at-point)
 (global-set-key (kbd "C-c x") 'my-decrement-number-at-point)
+(global-set-key "\C-cj" (lambda () (interactive) (json-format)))
+(global-set-key "\C-cJ" (lambda () (interactive) (json-format t)))
+(global-set-key "\C-ccx" (lambda () (interactive) (xml-format)))
+(global-set-key "\C-ccX" (lambda () (interactive) (xml-format t)))
+
 (global-set-key "\C-cL" 'hl-line-mode)
 (global-set-key (kbd "C-c ct") 'toggle-transparency)
 (global-set-key "\C-ccw" (lambda () (interactive)
