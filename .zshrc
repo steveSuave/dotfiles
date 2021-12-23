@@ -1,4 +1,5 @@
 source ~/.bin/alif
+source ~/.bin/git-prompt.sh
 
 umask 027
 

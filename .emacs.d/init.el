@@ -487,8 +487,6 @@ tokens, and DELIMITED as prefix arg."
 (define-key helm-map (kbd "<tab>") #'helm-execute-persistent-action)
 (define-key helm-map (kbd "C-j") #'helm-select-action)
 
-(define-key minibuffer-local-map [tab] yas-maybe-expand)
-
 ;; ---------
 ;; VARIABLES
 ;; ---------
@@ -527,8 +525,6 @@ tokens, and DELIMITED as prefix arg."
          (display-buffer-below-selected))
         ("\\*\\(java\\|sql\\|js\\|SQL: <db>\\|Buffer List\\)\\*"
          (display-buffer-same-window))))
-
-(yas--define-parents 'minibuffer-inactive-mode '(fundamental-mode))
 
 (setq auto-mode-alist
       (append

@@ -25,6 +25,10 @@
 (straight-use-package 'expand-region)
 (straight-use-package 'javadoc-lookup)
 
+(use-package esup
+  :straight t
+  :config (setq esup-depth 0))
+
 (use-package minions
   :straight t
   :config (minions-mode 1))
@@ -53,6 +57,7 @@
 
 (use-package company
   :straight t
+  :defer t
   :config (global-company-mode 1))
 
 (defun my/ansi-colorize-buffer ()
@@ -66,12 +71,20 @@
 
 (use-package projectile
   :straight t
+  :defer t
   :init (projectile-mode +1)
   :config
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
 (straight-use-package 'yasnippet-snippets)
-(use-package yasnippet :straight t :config (yas-global-mode))
+(use-package yasnippet
+  :straight t
+  :defer t
+  :config
+  (yas-global-mode)
+  (define-key minibuffer-local-map [tab] yas-maybe-expand)
+  (yas--define-parents 'minibuffer-inactive-mode '(fundamental-mode)))
+
 
 (flycheck-define-checker java-checkstyle
   "A java syntax checker using checkstyle. See `https://www.checkstyle.org'."
