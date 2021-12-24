@@ -110,6 +110,11 @@
     (async-shell-command
      (format "mpv %s" (mapconcat #'identity (mapcar #'elfeed-entry-link (elfeed-search-selected)) " "))))
   (define-key elfeed-search-mode-map (kbd "v") 'elfeed-view-entry-mpv)
+  (defun elfeed-msg-title ()
+    (interactive)
+    (let ((entry (elfeed-search-selected :ignore-region)))
+      (message (or (elfeed-meta entry :title) (elfeed-entry-title entry) ""))))
+  (define-key elfeed-search-mode-map (kbd "w") 'elfeed-msg-title)
   (defun elfeed-view-article-mpv ()
     "Watch a video from URL in MPV"
     (interactive)
