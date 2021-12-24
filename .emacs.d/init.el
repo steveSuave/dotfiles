@@ -429,7 +429,7 @@ tokens, and DELIMITED as prefix arg."
 (global-set-key (kbd "C-c c s") 'scratch-with-prefix-arg)
 (global-set-key "\C-c$" 'toggle-truncate-lines)
 (global-set-key (kbd "C-S-s") 'isearch-forward-symbol-at-point)
-(global-set-key "\C-cN" #'newsticker-show-news)
+;; (global-set-key "\C-cN" #'newsticker-show-news)
 (global-set-key "\C-cm" #'treemacs)
 (global-set-key "\C-c\C-e" #'myerc)
 (global-set-key "\C-cC" #'calendar)
@@ -524,7 +524,9 @@ tokens, and DELIMITED as prefix arg."
       '(("\\*\\(grep\\|log-edit-files\\|vc-log\\)\\*"
          (display-buffer-below-selected))
         ("\\*\\(java\\|sql\\|js\\|SQL: <db>\\|Buffer List\\)\\*"
-         (display-buffer-same-window))))
+         (display-buffer-same-window))
+        ("*Async Shell Command*"
+         display-buffer-no-window (nil))))
 
 (setq auto-mode-alist
       (append

@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: testaki
+# key: t
+# --
+$0
+Point will start at 1 and end at 0
+Placeholder will appear dim and will be substituted ${1:Placeholder}
+the point will get here after 1 tabs $2
+the current buffer name will appear next `(buffer-name)`
+whatever was written when point was at 1 will appear below as well
+${1:$(concat "--> One: "  yas-text)}
+just dollar-sign-one would also copy position 1's text

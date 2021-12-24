@@ -1,5 +1,4 @@
 source ~/.bin/alif
-source ~/.bin/git-prompt.sh
 
 umask 027
 
@@ -68,3 +67,6 @@ preexec() {
     fi
 }
 
+PATH="$PATH:~/Projects/apache-maven-3.6.1/bin"
+export PATH="$(go env GOPATH)/bin:$PATH"
+export PATH="/Users/duamba/.bin:$PATH"

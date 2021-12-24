@@ -31,7 +31,7 @@ export PATH="$PATH:~/.bin"
 
 export PATH="$(go env GOPATH)/bin:$PATH"
 
-if [[ "$TERM_PROGRAM" != 'vscode' ]]; then
-    karoto&
-fi
+# if [[ "$TERM_PROGRAM" != 'vscode' ]]; then
+#     karoto&
+# fi
 

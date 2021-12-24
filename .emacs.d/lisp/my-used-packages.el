@@ -85,6 +85,37 @@
   (define-key minibuffer-local-map [tab] yas-maybe-expand)
   (yas--define-parents 'minibuffer-inactive-mode '(fundamental-mode)))
 
+(use-package elfeed
+  :straight t
+  :bind ("C-c N" . elfeed)
+  :config
+  (setq elfeed-feeds
+        '(("http://anaskafi.blogspot.com/feeds/posts/default" anaskafi archaeo)
+          ("http://rss.slashdot.org/Slashdot/slashdotMain" slashdot tech)
+          ("https://sarantakos.wordpress.com/feed" sarantakos fun)
+          ("https://www.reutersagency.com/feed/" reuters news)
+          ("http://feeds2.feedburner.com/MarksDailyApple/" marksapple health)
+          ("https://eli.thegreenplace.net/feeds/all.atom.xml" eli tech)
+          ("https://binarycoders.dev/feed/" bcoders tech)
+          ("https://greatnavigators.com/feed" navigators sea fun)
+          ("https://mostlydeadlanguages.tumblr.com/rss" deadlang archaeo)
+          ("https://www.youtube.com/feeds/videos.xml?channel_id=UC6fZpuI4-W4jAyEquo7A-Sw" youtube marcelofinco capoeira)
+          ("https://www.youtube.com/feeds/videos.xml?channel_id=UCbNpPBMvCHr-TeJkkezog7Q" youtube davidbeazley tech)
+          ("https://www.youtube.com/feeds/videos.xml?channel_id=UCDdKVro-7hS8cMjBrcqaAMQ" youtube tilf music)
+          ("https://www.youtube.com/feeds/videos.xml?channel_id=UCqq3PZwp8Ob8_jN0esCunIw" youtube justforlaughs comedy)
+          ("https://www.youtube.com/feeds/videos.xml?channel_id=UCrgLfFlVsszE1JSzYCmj9Yg" youtube tomcunliffe sea)))
+  (defun elfeed-view-entry-mpv ()
+    "Watch a video from URL in MPV"
+    (interactive)
+    (async-shell-command
+     (format "mpv %s" (mapconcat #'identity (mapcar #'elfeed-entry-link (elfeed-search-selected)) " "))))
+  (define-key elfeed-search-mode-map (kbd "v") 'elfeed-view-entry-mpv)
+  (defun elfeed-view-article-mpv ()
+    "Watch a video from URL in MPV"
+    (interactive)
+    (async-shell-command
+     (format "mpv %s" (elfeed-entry-link elfeed-show-entry))))
+  (define-key elfeed-show-mode-map (kbd "v") 'elfeed-view-article-mpv))
 
 (flycheck-define-checker java-checkstyle
   "A java syntax checker using checkstyle. See `https://www.checkstyle.org'."
