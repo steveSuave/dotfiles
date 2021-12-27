@@ -34,7 +34,7 @@ title=$(curl "$theLink" 2>/dev/null |
         pup 'meta[property="og:title"] attr{content}' |
         python3 -c 'import html, sys; [print(html.unescape(l), end="") for l in sys.stdin]')
 
-history="$HOME/Documents/TEXTFILES/sap-history.txt"
+history="$HOME/TEXTFILES/sap-history.txt"
 
 echo               | tee -a "$history"
 echo "$videoParam" | tee -a "$history"

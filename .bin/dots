@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+shopt -s dotglob
+
+GLOBIGNORE="*.DS_Store*:.git/*:Windows*:README*"
+REPO=$HOME/Documents/dotfiles
+HOMEBAKUP="$HOME/.oldotfiles"
+
+if [[ "$1" != "install" ]] && [[ "$1" != "uninstall" ]]; then
+    echo "usage: $0 [install | uninstall]"
+    exit 1
+fi
+
+read -p "please be sure of what you want"
+
+################################################################
+# INSTALL
+
+if [[ "$1" == "install" ]]; then
+
+    if [[ -d "$HOMEBAKUP" ]]; then
+        echo "$HOMEBAKUP already exists, please sort this manually"
+        exit 1
+    fi
+
+    mkdir -p "$HOMEBAKUP"
+
+    cd $REPO || { echo "could not cd into $REPO" && exit 2; }
+
+    for i in *; do
+        if [[ -e "$HOME/$i" ]]; then
+            cp -r "$HOME/$i" "$HOMEBAKUP"
+            cp -r "$i" "$HOME"
+        fi
+    done
+
+fi
+
+################################################################
+# UNINSTALL
+
+if [[ "$1" == "uninstall" ]]; then
+
+    if ! [[ -d "$HOMEBAKUP" ]]; then
+        echo "no $HOMEBAKUP, nothing to restore"
+        exit 1
+    fi
+
+    cd $REPO || { echo "could not cd into $REPO" && exit 2; }
+
+    for i in *; do
+        if [[ -e "$HOME/$i" ]]; then
+            rm -r "$i"
+        fi
+    done
+
+    mv "$HOMEBAKUP"/* ~
+    rmdir "$HOMEBAKUP"
+fi

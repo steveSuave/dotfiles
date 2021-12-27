@@ -21,7 +21,7 @@ all=(
     .emacs.d/{init.el,lisp/*}
     .newsboat/{,yt}{config,urls}
     .config/{karabiner/*,i3/{config,status.conf,xinit}}
-    Documents/TEXTFILES/*
+    TEXTFILES/*
 )
 
 ACTUAL_UPDATE=()

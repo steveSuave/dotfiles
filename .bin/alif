@@ -224,7 +224,7 @@ rsap() {
     sap 1 "$(sort --random-sort "$1" | head -1)"
 }
 
-RADIO_NOTES="${HOME}/Documents/TEXTFILES/radio-notes"
+RADIO_NOTES="${HOME}/TEXTFILES/radio-notes"
 mkdir -p "$RADIO_NOTES"
 
 init_radio() {
@@ -262,7 +262,7 @@ updateradio() { # hostradionotes reporadionotes
     done
 }
 
-hostradionotes=$HOME/Documents/TEXTFILES/radio-notes
+hostradionotes=$HOME/TEXTFILES/radio-notes
 reporadionotes=$HOME/Documents/dotfiles/TEXTFILES/radio-notes
 alias upradio="LC_COLLATE=C updateradio \"$hostradionotes\" \"$reporadionotes\""
 
