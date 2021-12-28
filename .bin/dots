@@ -3,7 +3,7 @@
 shopt -s dotglob
 
 export GLOBIGNORE="*.DS_Store*:.git/*:Windows*:README*"
-REPO=$HOME/Documents/dotfiles
+REPO="$HOME/Documents/dotfiles"
 HOMEBAKUP="$HOME/.oldotfiles"
 
 if [[ $# != 1 ]] || [[ "$1" != "install" ]] && [[ "$1" != "uninstall" ]]; then
