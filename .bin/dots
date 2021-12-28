@@ -2,12 +2,12 @@
 
 shopt -s dotglob
 
-GLOBIGNORE="*.DS_Store*:.git/*:Windows*:README*"
+export GLOBIGNORE="*.DS_Store*:.git/*:Windows*:README*"
 REPO=$HOME/Documents/dotfiles
 HOMEBAKUP="$HOME/.oldotfiles"
 
-if [[ "$1" != "install" ]] && [[ "$1" != "uninstall" ]]; then
-    echo "usage: $0 [install | uninstall]"
+if [[ $# != 1 ]] || [[ "$1" != "install" ]] && [[ "$1" != "uninstall" ]]; then
+    echo "usage: ${0##*/} [install | uninstall]"
     exit 1
 fi
 
@@ -23,14 +23,15 @@ if [[ "$1" == "install" ]]; then
         exit 1
     fi
 
+    cd "$REPO" || { echo "could not cd into $REPO" && exit 2; }
     mkdir -p "$HOMEBAKUP"
-
-    cd $REPO || { echo "could not cd into $REPO" && exit 2; }
 
     for i in *; do
         if [[ -e "$HOME/$i" ]]; then
+            echo cp -r "$HOME/$i" "$HOMEBAKUP"
             cp -r "$HOME/$i" "$HOMEBAKUP"
         fi
+        echo cp -r "$i" "$HOME"
         cp -r "$i" "$HOME"
     done
 
@@ -46,14 +47,17 @@ if [[ "$1" == "uninstall" ]]; then
         exit 1
     fi
 
-    cd $REPO || { echo "could not cd into $REPO" && exit 2; }
+    cd "$REPO" || { echo "could not cd into $REPO" && exit 2; }
 
     for i in *; do
         if [[ -e "$HOME/$i" ]]; then
-            rm -r "$HOME/$i"
+            echo rm -rf "$HOME/$i"
+            rm -rf "$HOME/${i:?}"
         fi
     done
 
+    echo mv "$HOMEBAKUP"/* ~
     mv "$HOMEBAKUP"/* ~
+    echo rmdir "$HOMEBAKUP"
     rmdir "$HOMEBAKUP"
 fi
