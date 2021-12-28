@@ -2,6 +2,11 @@
 # ALIAS #
 #########
 
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
+
 alias mysql.start="sudo /usr/local/mysql/support-files/mysql.server start"
 alias mysql.stop="sudo /usr/local/mysql/support-files/mysql.server stop"
 alias mysql.restart="sudo /usr/local/mysql/support-files/mysql.server restart"
