@@ -30,8 +30,8 @@ if [[ "$1" == "install" ]]; then
     for i in *; do
         if [[ -e "$HOME/$i" ]]; then
             cp -r "$HOME/$i" "$HOMEBAKUP"
-            cp -r "$i" "$HOME"
         fi
+        cp -r "$i" "$HOME"
     done
 
 fi
@@ -50,7 +50,7 @@ if [[ "$1" == "uninstall" ]]; then
 
     for i in *; do
         if [[ -e "$HOME/$i" ]]; then
-            rm -r "$i"
+            rm -r "$HOME/$i"
         fi
     done
 

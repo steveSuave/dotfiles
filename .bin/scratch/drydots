@@ -6,45 +6,56 @@ GLOBIGNORE="*.DS_Store*:.git/*:Windows*:README*"
 REPO=$HOME/Documents/dotfiles
 HOMEBAKUP="$HOME/.oldotfiles"
 
+
 if [[ "$1" != "install" ]] && [[ "$1" != "uninstall" ]]; then
     echo "usage: $0 [install | uninstall]"
     exit 1
 fi
 
+################################################################
+# INSTALL
+
 if [[ "$1" == "install" ]]; then
 
-    bakupdirtest() { [[ -d "$HOMEBAKUP" ]]; }
-    createbakupdir() { mkdir -p "$HOMEBAKUP"; }
-    bakuperror="$HOMEBAKUP already exists, please sort this manually"
-    dotcommand() { cp -r "$HOME/$1" "$HOMEBAKUP" && cp -r "$1" "$HOME"; }
-
-elif [[ "$1" == "uninstall" ]]; then
-
-    bakupdirtest() { ! [[ -d "$HOMEBAKUP" ]]; }
-    bakuperror="no $HOMEBAKUP, nothing to restore"
-    dotcommand() { rm -r "$1"; }
-    restorebakupdir() { mv "$HOMEBAKUP"/* ~ && rmdir "$HOMEBAKUP"; }
-
-fi
-
-if bakupdirtest; then
-    echo "$bakuperror"
-    exit 1
-fi
-
-if declare -F createbakupdir 2>/dev/null; then
-    type createbakupdir                                                        #type
-fi
-
-cd $REPO || { echo "could not cd into $REPO" && exit 2; }
-
-for i in *; do
-    if [[ -e "$HOME/$i" ]] && ! [[ $i == *DS_Store ]]; then
-        echo $i                                                              #type
-        type dotcommand  #"$i"                                                     #type
+    if [[ -d "$HOMEBAKUP" ]]; then
+        echo "$HOMEBAKUP already exists, please sort this manually"
+        exit 1
     fi
-done
 
-if declare -F restorebakupdir 2>/dev/null; then
-    type restorebakupdir                                                         #type
+    echo mkdir -p "$HOMEBAKUP"                                                   #echo
+
+    cd $REPO || { echo "could not cd into $REPO" && exit 2; }
+
+    for i in *; do
+        # echo $i
+        if [[ -e "$HOME/$i" ]]; then
+            echo cp -r "$HOME/$i" "$HOMEBAKUP"                                   #echo
+        fi
+        echo cp -r "$i" "$HOME"                                                  #echo
+    done
+
+fi
+
+################################################################
+# UNINSTALL
+
+if [[ "$1" == "uninstall" ]]; then
+
+    if ! [[ -d "$HOMEBAKUP" ]]; then
+        echo "no $HOMEBAKUP, nothing to restore"
+        exit 1
+    fi
+
+    cd $REPO || { echo "could not cd into $REPO" && exit 2; }
+
+    for i in *; do
+        # echo $i
+        if [[ -e "$HOME/$i" ]]; then
+            echo rm -r "$HOME/$i"                                                #echo
+        fi
+    done
+
+    echo mv "$HOMEBAKUP"/* ~                                                     #echo
+    echo rmdir "$HOMEBAKUP"                                                      #echo
+
 fi
