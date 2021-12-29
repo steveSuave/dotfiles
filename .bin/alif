@@ -67,6 +67,7 @@ adiar() {
         { sleep $(( $1 * 60 )) && dodis; }&
 }
 
+stty -ixon # use C-s for forward search instead of freezing the keyboard
 export LESS=iSR #FXN
 
 if [[ -f ~/.bin/git-prompt.sh ]]; then

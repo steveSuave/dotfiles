@@ -1,0 +1,105 @@
+# tap for click in touchpad
+# xinput list-props etc to find numbers etc
+xinput set-prop 12 321 1
+
+# repeated keypress
+xset r on
+
+================================================================
+
+xrandr --output DP2 --auto --above eDP1
+(VGA-1 , DVI-I-1)
+xrandr --output HDMI-1 --same-as VGA-1
+xrandr --output HDMI-1 --left-of VGA-1
+xrandr --output HDMI-1 --right-of VGA-1
+
+gtf 1280 800 60
+xrandr --newmode "1280x800_60.00"  83.46  1280 1344 1480 1680  800 801 804 828  -HSync +Vsync
+xrandr --addmode VGA1 1280x800_60.00
+xrandr --output VGA1 --mode 1280x800_60.00
+
+xrandr --output LVDS1 --mode 1280x800_60.00
+xrandr --addmode LVDS1 1280x800_60.00
+xrandr --output LVDS1 --mode 1280x800_60.00
+
+================================================================
+
+docker exec -u root -t -i 2122eb8f01f /bin/bash
+docker cp install-letsencrypt-in-jdk.sh 2122eb8f01f5:/install-letsencrypt-in-jdk.sh
+
+find . -mindepth 3 -type d ! -regex '^.*/ZKC\(/.*\)?'
+find . -mindepth 3 -type d ! -regex '^.*/ZKC\(/.*\)?' -exec echo rm -r '{}' \;
+
+scp -i $HOME/Projects/UAT_PPKs/UAT-Admin.pem ./ear-1.1-SNAPSHOT.ear ec2-user@ec2-xxx.eu-west-1.compute.amazonaws.com:/opt/app-deploy/
+ssh -i $HOME/Projects/UAT_PPKs/UAT-Admin.pem ec2-user@ec2-xxx.eu-west-1.compute.amazonaws.com '/opt/glassfish3/glassfish/bin/asadmin deploy /opt/app-deploy/ear-1.1-SNAPSHOT.ear'
+
+wget -c --no-cookies --no-check-certificate --header Cookie: oraclelicense=accept-securebackup-cookie https://download.oracle.com/otn-pub/java/jdk/8u251-b08/3d5a2bb8f8d4428bbe94aed7ec7ae784/jdk-8u251-linux-x64.tar.gz
+
+svn log | less
+svn diff -c r10282
+
+seahorse
+gnome-keyring-daemon -r -d
+
+# generate sql insert statement from (column_name, column_value, db, table)
+docker exec -i "deps_mysql_1" mysqldump -p1111 --compact --no-create-info  --where="flowid='A-FLOW'" --databases some-db --tables some-table 2>/dev/null
+
+================================================================
+
+while read -r line; do sap 1 "$line"; done < <(cat $gtlog | sort --random-sort)
+
+# bach stephen farr organ chorales partitas
+mpv --no-video 'https://www.youtube.com/playlist?list=OLAK5uy_lLsCqp7iDAIoc_NCpyr-pJx3uxut-r44k'
+
+# the goon show
+mpv --no-video 'https://www.youtube.com/playlist?list=PLZJfXozPB7csMovJB28KxTXCUyixDmzj1'
+mpv --no-video 'https://www.youtube.com/playlist?list=PLDMceejQ40NBYsU9iFiiBFCmAzAtPDtMu'
+
+================================================================
+
+dconf write /org/gnome/desktop/input-sources/xkb-options "['grp:alt_space_toggle','grp_led:scroll']"
+# dconf read ...
+man xkeyboard-config # for other values
+
+gsettings set org.gnome.desktop.input-sources xkb-options "['grp:alt_shift_toggle', 'grp_led:scroll', 'lv3:switch']"
+
+(
+    $ gsettings set org.gnome.desktop.wm.keybindings switch-input-source "['<Alt>Shift_L']"
+    $ gsettings get org.gnome.desktop.wm.keybindings switch-input-source-backward
+    >['<Super>space']
+
+    Examples of other key bindings:
+        <Primary>space, Alt_R, <Shift>Control_R, <Shift><Super>space
+)
+================================================================
+
+gsettings list-recursively | sort
+
+gsettings set org.gnome.desktop.background primary-color '#3f0705'
+
+gsettings get org.gnome.desktop.screensaver primary-color -> '#023c88'
+gsettings set org.gnome.desktop.screensaver primary-color '#3f0705'
+
+# secondary is used in conjuction with "gradient" color-shading-type
+
+================================================================
+
+3856189
+/sys/class/backlight/intel_backlight/brightness
+added /etc/X11/xorg.conf and binding to i3 config to make it work
+
+echo 100 | sudo tee /sys/class/backlight/intel_backlight/brightness
+
+================================================================
+
+systemctl set-default multi-user.target
+systemctl enable getty@tty2
+
+or
+
+GRUB_CMDLINE_LINUX="resume=UUID=1c4ab846-3ec0-44ec-b932-82147050180e rhgb quiet"
+
+from /etc/default/grub
+erase "rhgb" and then run
+grub2-mkconfig
+

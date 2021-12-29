@@ -1,7 +1,0 @@
-GRUB_CMDLINE_LINUX="resume=UUID=1c4ab846-3ec0-44ec-b932-82147050180e rhgb quiet"
-
-
-from /etc/default/grub
-erase "rhgb" and then run
-grub2-mkconfig
-

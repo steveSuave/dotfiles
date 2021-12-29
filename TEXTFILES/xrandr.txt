@@ -1,9 +1,0 @@
-gtf 1280 800 60
-xrandr --newmode "1280x800_60.00"  83.46  1280 1344 1480 1680  800 801 804 828  -HSync +Vsync
-xrandr --addmode VGA1 1280x800_60.00
-xrandr --output VGA1 --mode 1280x800_60.00 
-
-xrandr --output LVDS1 --mode 1280x800_60.00 
-xrandr --addmode LVDS1 1280x800_60.00
-xrandr --output LVDS1 --mode 1280x800_60.00 
-
