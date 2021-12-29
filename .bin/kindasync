@@ -1,19 +1,13 @@
 #!/usr/bin/env bash
 
-shopt -s globstar
-shopt -s dotglob
-
-GLOBIGNORE="*.DS_Store*:.git/*:Windows*:README*"
-
 dotfiles="$HOME/Documents/dotfiles"
 
 cd $dotfiles || exit 1
 printf "\n\nopen/continue/abort? (Return/Space/Ctrl-C)\n\n"
-for gdotfile in **/*; do
+for gdotfile in $(git ls-files); do
     homedotfile="$HOME/$gdotfile"
-    if [[ -f $homedotfile ]] &&
-           ! [[ $gdotfile = *DS_Store ]] &&
-           ! diff $homedotfile $gdotfile &>/dev/null; then
+    if [[ -f "$homedotfile" ]] &&
+           ! diff "$homedotfile" "$gdotfile" &>/dev/null; then
         echo "$gdotfile $homedotfile"
         read -s -n1
         if [[ "$REPLY" == " " ]]; then continue

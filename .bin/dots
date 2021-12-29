@@ -2,7 +2,7 @@
 
 shopt -s dotglob
 
-export GLOBIGNORE="*.DS_Store*:.git/*:Windows*:README*"
+export GLOBIGNORE="*.DS_Store:.git*:Windows*:README*"
 REPO="$HOME/Documents/dotfiles"
 HOMEBAKUP="$HOME/.oldotfiles"
 
