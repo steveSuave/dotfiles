@@ -584,7 +584,7 @@ tokens, and DELIMITED as prefix arg."
 (set-frame-parameter (selected-frame) 'alpha '(85 . 50)) ;; other 3rd arguments: <both> '(<active> . <inactive>)
 (add-to-list 'default-frame-alist '(alpha . (85 . 50)))
 
-(set-face-attribute 'default nil :font "Menlo" :height 160)
+;; (set-face-attribute 'default nil :font "Menlo" :height 160)
 (make-directory "~/.emacs.d/sql/" t)
 (load custom-file)
 

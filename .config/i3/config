@@ -31,17 +31,19 @@ floating_modifier $mod
 default_border pixel 0
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
-# bindsym $mod+Return exec xterm -xrm 'xterm*selectToClipboard: true' -xrm 'xterm*VT100.metaSendsEscape: true'
+# bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec xterm -xrm 'xterm*selectToClipboard: true' -xrm 'xterm*VT100.metaSendsEscape: true'
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
-# for_window [class="vlc"] floating enable
+for_window [class="vlc"] floating enable
+for_window [class="mpv"] floating enable
+for_window [class="feh"] floating enable
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
-# bindsym $mod+d exec dmenu_run -b -i -fn 'Ubuntu Mono:pixelsize=22' -nb '#000000'
+# bindsym $mod+d exec dmenu_run
+bindsym $mod+d exec dmenu_run -b -i -fn 'Ubuntu Mono:pixelsize=22' -nb '#000000'
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -78,8 +80,7 @@ bindsym $mod+h split h
 bindsym $mod+v split v
 
 # enter fullscreen mode for the focused container
-bindsym $mod+o fullscreen toggle
-# I changed it from mod+f for emacs reasons
+bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
@@ -175,7 +176,7 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
         position top
-        font pango:monospace 12
+        font pango:monospace 9 
         status_command i3status --config ~/.config/i3/status.conf
 }
 
@@ -183,8 +184,9 @@ bindsym F11 exec --no-startup-id $HOME/.bin/karoto
 bindsym F12 exec --no-startup-id pkill -f karoto
 bindsym F7  exec --no-startup-id kill -PROF $(pgrep -f karoto)
 
-bindsym XF86MonBrightnessUp   exec --no-startup-id xbacklight -inc 2
-bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 2
+# screen brightness controls
+bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 10
+bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10
 
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +2db
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -2db
@@ -197,19 +199,26 @@ bindsym $mod+z exec i3lock -i ~/Pictures/lock.png
 bindsym $mod+shift+n exec netbeans
 bindsym $mod+shift+b exec dbeaver
 bindsym $mod+shift+p exec Postman
-bindsym $mod+b exec firefox
 bindsym $mod+g exec google-chrome --disable-gpu # --disable-software-rasterizer
+bindsym $mod+b exec firefox
+bindsym $mod+y exec firefox https://www.youtube.com
+bindsym $mod+i exec firefox --private-window https://www.youtube.com
 bindsym $mod+m exec emacs
 bindsym $mod+n exec xcalib -invert -alter
 
-#exec --no-startup-id setxkbmap -layout "us,gr" -option "grp:alt_space_toggle"
-exec --no-startup-id setxkbmap -layout "us,gr" -option "grp:win_space_toggle"
+# exec --no-startup-id xinput set-prop 12 320 1
+
+exec --no-startup-id setxkbmap -layout "us,gr" -option "grp:alt_space_toggle"
+#exec --no-startup-id setxkbmap -layout "us,gr" -option "grp:win_space_toggle"
+
 exec --no-startup-id feh --bg-scale $HOME/Pictures/bak.jpg 
 exec --no-startup-id dunst -font "LiberationSans Mono 12"
-exec --no-startup-id xinput set-prop 12 320 1
 exec --no-startup-id xflux -l 37 -g 24
 exec --no-startup-id compton
 
 #exec --no-startup-id xset s off
 #exec --no-startup-id xset -dpms
+
+# xoris VGA i apo kato grammi mallon peritteyei
+#exec --no-startup-id sleep 1 && xrandr --output LVDS1 --mode 1024x768
 

@@ -103,3 +103,7 @@ from /etc/default/grub
 erase "rhgb" and then run
 grub2-mkconfig
 
+================================================================
+
+sudo apt install emacs i3 feh xflux compton pcmanfm go xcalib mpv zsh
+# scheme smlnj racket 
