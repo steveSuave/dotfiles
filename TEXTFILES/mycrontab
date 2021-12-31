@@ -1,2 +1,4 @@
 53 09 * * 1-5 $HOME/.bin/recordRadioShow
 
+53 09 * * 1-5 $HOME/.bin/hatzara
+58 11 * * 1-5 $HOME/.bin/alati

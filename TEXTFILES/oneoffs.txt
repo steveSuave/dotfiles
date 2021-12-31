@@ -106,4 +106,21 @@ grub2-mkconfig
 ================================================================
 
 sudo apt install emacs i3 feh xflux compton pcmanfm go xcalib mpv zsh
-# scheme smlnj racket 
+# scheme smlnj racket
+
+================================================================
+
+When eightBitMeta=true (this is default)
+alt+dot = ® (Registered trademark)
+alt+0 = ° (degree)
+alt+q = ñ
+and there are many of these accented characters.
+
+When eightBitMeta=false (in bash)
+(xterm -xrm '*eightBitInput: false')
+alt+dot = insert-last-argument
+alt+0 = (arg: 0). same as ESC+0
+alt+q (and others) =nothing
+
+There are long discussion which one should be default: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=326200
+
