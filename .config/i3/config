@@ -205,6 +205,8 @@ bindsym $mod+y exec firefox https://www.youtube.com
 bindsym $mod+i exec firefox --private-window https://www.youtube.com
 bindsym $mod+m exec emacs
 bindsym $mod+n exec xcalib -invert -alter
+bindsym $mod+minus move scratchpad
+bindsym $mod+Shift+minus scratchpad show
 
 # exec --no-startup-id xinput set-prop 12 320 1
 
