@@ -27,8 +27,8 @@
 # urxvt*color4: RoyalBlue
 # urxvt*color12: RoyalBlue
 
-urxvt*foreground: LightGrey
-urxvt*background: Black
-urxvt*font: xft:Bitstream Vera Sans Mono:pixelsize=20:antialias=true:hinting=true
-urxvt*boldFont: xft:Bitstream Vera Sans Mono:bold:pixelsize=20:antialias=true:hinting=true
-urxvt.scrollBar: false
+URxvt*foreground: LightGrey
+URxvt*background: Black
+URxvt*font: xft:Bitstream Vera Sans Mono:pixelsize=20:antialias=true:hinting=true
+URxvt*boldFont: xft:Bitstream Vera Sans Mono:bold:pixelsize=20:antialias=true:hinting=true
+URxvt.scrollBar: false

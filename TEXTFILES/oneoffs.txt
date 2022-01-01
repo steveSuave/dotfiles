@@ -1,4 +1,16 @@
 # tap for click in touchpad
+
+new file /etc/X11/xorg.conf.d/xx-touchpad.conf with contents:
+```
+Section "InputClass"
+        Identifier "touchpad"
+        MatchIsTouchpad "on"
+        Driver "libinput"
+        Option "Tapping" "on"
+	Option "TappingButtonMap" "lrm"
+EndSection
+```
+or
 # xinput list-props etc to find numbers etc
 xinput set-prop 12 321 1
 
@@ -105,8 +117,9 @@ grub2-mkconfig
 
 ================================================================
 
-sudo apt install emacs i3 feh xflux compton pcmanfm go xcalib mpv zsh
-# scheme smlnj racket
+sudo apt install emacs i3 feh compton pcmanfm go xcalib mpv zsh
+# scheme smlnj racket lua git pavucontrol curl wget firefox bc
+# irssi man
 
 ================================================================
 

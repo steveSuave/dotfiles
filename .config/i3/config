@@ -218,8 +218,9 @@ exec --no-startup-id dunst -font "LiberationSans Mono 12"
 exec --no-startup-id xflux -l 37 -g 24
 exec --no-startup-id compton
 
-#exec --no-startup-id xset s off
-#exec --no-startup-id xset -dpms
+#exec --no-startup-id xset r on  # repeated keypress
+#exec --no-startup-id xset s off # screensaver off
+#exec --no-startup-id xset -dpms # disable DPMS (energy handling)
 
 # xoris VGA i apo kato grammi mallon peritteyei
 #exec --no-startup-id sleep 1 && xrandr --output LVDS1 --mode 1024x768
