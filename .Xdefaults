@@ -1,12 +1,34 @@
-#URxvt*color4: RoyalBlue
-#URxvt*color12: RoyalBlue
-xterm*foreground: LightGrey
-xterm*background: Black
-xterm*font: xft:Menlo:pixelsize=18:antialias=true:hinting=true
-xterm*boldFont: xft:Bitstream Vera Sans Mono:bold:pixelsize=18:antialias=true:hinting=true
+# xterm*foreground: LightGrey
+# xterm*background: Black
+# xterm*font: xft:Menlo:pixelsize=18:antialias=true:hinting=true
+# xterm*font: xft:Bitstream Vera Sans Mono:pixelsize=18:antialias=true:hinting=true
+# xterm*boldFont: xft:Bitstream Vera Sans Mono:bold:pixelsize=18:antialias=true:hinting=true
+# xterm*VT100.Translations: #override \
+#                  Shift <Key>Insert:    insert-selection(SELECT) \n\
+#                  Ctrl Shift <Key>V:    insert-selection(SELECT) \n\
+#                  Ctrl Shift <Key>C:    copy-selection(SELECT)
 
-xterm*VT100.Translations: #override \
-                 Shift <Key>Insert:    insert-selection(SELECT) \n\
-                 Ctrl Shift <Key>V:    insert-selection(SELECT) \n\
-                 Ctrl Shift <Key>C:    copy-selection(SELECT)
+# urxvt*inheritPixmap: true
+# urxvt*transparent: true
+# urxvt*tintColor: Blue
+# urxvt*shading: 40
+# urxvt*saveLines: 12000
+# urxvt*font: xft:DejaVu Sans Mono:pixelsize=12:antialias=true:hinting=true
+# urxvt*boldFont: xft:DejaVu Sans Mono:bold:pixelsize=12:antialias=true:hinting=true
+# urxvt*font: xft:Liberation Mono:pixelsize=13:antialias=true:hinting=true
+# urxvt*boldFont: xft:Liberation Mono:bold:pixelsize=13:antialias=true:hinting=true
+# urxvt*font: xft:terminus:pixelsize=15
+# urxvt*boldFont: xft:terminus:bold:pixelsize=15
+# urxvt*font:-*-courier-medium-r-normal-*-14-*-*-*-*-*-iso8859-1
+# urxvt*boldFont:-*-courier-bold-r-normal-*-14-*-*-*-*-*-iso8859-1
+# urxvt*scrollBar: true
+# urxvt*scrollBar_right: false
+# urxvt*scrollstyle: rxvt
+# urxvt*color4: RoyalBlue
+# urxvt*color12: RoyalBlue
 
+urxvt*foreground: LightGrey
+urxvt*background: Black
+urxvt*font: xft:Bitstream Vera Sans Mono:pixelsize=20:antialias=true:hinting=true
+urxvt*boldFont: xft:Bitstream Vera Sans Mono:bold:pixelsize=20:antialias=true:hinting=true
+urxvt.scrollBar: false
