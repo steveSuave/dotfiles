@@ -25,6 +25,17 @@
 (straight-use-package 'expand-region)
 (straight-use-package 'javadoc-lookup)
 
+(straight-use-package 'vlfi)
+(require 'vlf-setup)
+(defun make-large-file-read-only-hook ()
+  "If a file is over a given size, make the buffer read only."
+  (when (< (* 1024 1024 2) ;2M
+           (file-attribute-size (file-attributes (buffer-file-name))))
+    (setq buffer-read-only t)
+    (hl-line-mode)
+    (view-mode)))
+(add-hook 'vlf-before-chunk-update-hook 'make-large-file-read-only-hook)
+
 (use-package esup
   :straight t
   :config (setq esup-depth 0))
@@ -121,6 +132,21 @@
     (async-shell-command
      (format "mpv %s" (elfeed-entry-link elfeed-show-entry))))
   (define-key elfeed-show-mode-map (kbd "v") 'elfeed-view-article-mpv))
+
+(use-package hideshow
+  :bind (("C-c TAB" . hs-toggle-hiding)
+         ("M-+" . hs-show-all))
+  :init (add-hook #'prog-mode-hook #'hs-minor-mode)
+  :diminish hs-minor-mode
+  :config
+  (setq hs-special-modes-alist
+        (mapcar 'purecopy
+                '((c-mode "{" "}" "/[*/]" nil nil)
+                  (c++-mode "{" "}" "/[*/]" nil nil)
+                  (java-mode "{" "}" "/[*/]" nil nil)
+                  (js-mode "{" "}" "/[*/]" nil)
+                  (json-mode "{" "}" "/[*/]" nil)
+                  (javascript-mode  "{" "}" "/[*/]" nil)))))
 
 (flycheck-define-checker java-checkstyle
   "A java syntax checker using checkstyle. See `https://www.checkstyle.org'."

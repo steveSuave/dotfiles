@@ -27,6 +27,8 @@
      (holiday-fixed 12 26 "Synaxi")))
  '(holiday-solar-holidays nil)
  '(magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
+ '(minions-mode-line-lighter "etc")
+ '(minions-prominent-modes '(vlf-mode))
  '(mode-require-final-newline 'ask)
  '(newsticker-url-list
    '(("thalassoporoi" "https://greatnavigators.com/feed" nil nil nil)
