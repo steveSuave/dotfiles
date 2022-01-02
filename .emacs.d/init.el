@@ -127,6 +127,13 @@
 (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
 (add-hook 'go-mode-hook #'lsp-deferred)
 
+(defun make-tramp-file-read-only-hook ()
+  (when (file-remote-p (buffer-file-name))
+    (setq buffer-read-only t)
+    (hl-line-mode)
+    (view-mode)))
+(add-hook 'find-file-hook 'make-tramp-file-read-only-hook)
+
 ;; ---------
 ;; FUNCTIONS
 ;; ---------
