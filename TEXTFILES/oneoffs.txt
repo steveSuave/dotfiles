@@ -7,7 +7,7 @@ Section "InputClass"
         MatchIsTouchpad "on"
         Driver "libinput"
         Option "Tapping" "on"
-	Option "TappingButtonMap" "lrm"
+        Option "TappingButtonMap" "lrm"
 EndSection
 ```
 or
@@ -143,6 +143,25 @@ systemctl enable --user emacs
 systemctl start --user emacs
 
 ================================================================
+
 if dual boot not working as expected then
 add to /etc/default/grub
 GRUB_DISABLE_OS_PROBER=false
+
+================================================================
+
+sudo dd bs=4M if=/path/to/iso of=/dev/sdX status=progress && sync
+
+sudo wipefs --al /dev/sdX
+sudo cfdisk /dev/sdX
+ -- DOS
+ -- NEW
+ -- keep max size
+ -- primary
+ -- write
+ -- quit
+
+sudo fdisk -l # to see if partition is created
+
+sudo mkfs.vfat -n 'SomeLabel' /dev/sdX1
+
