@@ -39,6 +39,8 @@ setopt promptsubst
 # End of lines configured by zsh-newuser-install
 
 bindkey '\C-w' kill-region
+bindkey '\C-]' vi-find-next-char
+bindkey '\C-[' vi-find-prev-char
 bindkey '^[^S' history-incremental-pattern-search-forward
 bindkey '^[^R' history-incremental-pattern-search-backward
 
