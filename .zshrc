@@ -38,6 +38,10 @@ setopt promptsubst
 # bindkey -v
 # End of lines configured by zsh-newuser-install
 
+bindkey '\C-w' kill-region
+bindkey '^[^S' history-incremental-pattern-search-forward
+bindkey '^[^R' history-incremental-pattern-search-backward
+
 RPROMPT=%T
 autoload -U colors && colors
 # (return status) host.user
