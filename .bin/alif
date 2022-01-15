@@ -90,7 +90,8 @@ up() {
             local distro=$(cat /etc/*-release)
             if [[ "$distro" =~ "fedora" ]]; then
                 sudo dnf upgrade && sudo dnf autoremove
-            elif [[ "$distro" =~ "ubuntu" ]]; then
+            elif [[ "$distro" =~ "ubuntu" ]] ||
+                 [[ "$distro" =~ "debian" ]]; then
                 sudo apt update && sudo apt upgrade && sudo apt autoremove && sudo apt autoclean
             fi
             ;;

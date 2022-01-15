@@ -117,12 +117,6 @@ grub2-mkconfig
 
 ================================================================
 
-sudo apt install emacs i3 feh compton pcmanfm go xcalib mpv zsh
-# scheme smlnj racket lua git pavucontrol curl wget firefox bc
-# irssi man ncdu xclip screen file htop
-
-================================================================
-
 When eightBitMeta=true (this is default)
 alt+dot = ® (Registered trademark)
 alt+0 = ° (degree)
@@ -165,3 +159,10 @@ sudo fdisk -l # to see if partition is created
 
 sudo mkfs.vfat -n 'SomeLabel' /dev/sdX1
 
+================================================================
+
+sudo apt install emacs i3 feh compton pcmanfm go xcalib mpv zsh
+# scheme smlnj racket lua git pavucontrol curl wget firefox bc
+# irssi man ncdu xclip screen file htop unzip xmllint jq pup
+# rsync openssh-server samba tree
+# ifconfig nc netstat
