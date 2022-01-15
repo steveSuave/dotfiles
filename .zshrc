@@ -48,7 +48,7 @@ RPROMPT=%T
 autoload -U colors && colors
 # (return status) host.user
 status_host_user="(%?) %{$fg[blue]%}%m%{$reset_color%}.%{$fg[green]%}%n%{$reset_color%}"
-PROMPT="$status_host_user: %1~ %# "
+PROMPT="$status_host_user: %{$fg[yellow]%}%1~ %{$reset_color%}%# "
 
 # accomodate when paths are important and long
 thePrompt=1
@@ -56,12 +56,12 @@ chprmt() {
     if (( thePrompt == 1 )); then
         precmd()  { print "" }
         # preexec() { print "" }
-        PROMPT=$'%/\n${status_host_user}`__git_ps1` %# '
+        PROMPT=$'%{$fg[yellow]%}%/%{$reset_color%}\n${status_host_user}`__git_ps1` %# '
         thePrompt=2
     elif ((thePrompt == 2 )); then
         precmd() {}
         # preexec() {}
-        PROMPT="$status_host_user: %1~ %# "
+        PROMPT="$status_host_user: %{$fg[yellow]%}%1~ %{$reset_color%}%# "
         thePrompt=1
     fi
 }
