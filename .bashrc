@@ -27,5 +27,5 @@ shopt -s histappend
 export PS1="[\$?] \h.\u: \W \$ "
 # PS1="\[\033[00m\]\A [\$?] \[\033[36m\]\u\[\033[00m\]: \w $ "
 
-# export PS1="[\$?] ${BLUE}\h${RESTORE}.${GREEN}\u: ${YELLOW}\W ${RESTORE}\$ "
+# export PS1="[\$?] ${BLUE}\h${RESTORE}.${GREEN}\u${RESTORE}: ${YELLOW}\W ${RESTORE}\$ "
 
