@@ -30,6 +30,7 @@ alias vboat="newsboat -u $HOME/.newsboat/yturls -c $HOME/.newsboat/ytcache.db -C
 alias boat='nboat && vboat'
 alias hu='last | less'
 alias temp='echo $(bc <<< "$(cat /sys/devices/platform/coretemp.0/hwmon/hwmon*/temp*_input | sort -nr | head -1) / 1000")°C'
+alias sysus='systemctl suspend'
 
 alias ytd='youtube-dl -o "%(title)s.%(ext)s"'
 alias ytdv='youtube-dl -o "%(title)s.%(ext)s" -f mp4'
@@ -200,6 +201,16 @@ ediff() {
 }
 
 gre() { grep --exclude-dir='target' --exclude-dir='.git' --exclude-dir='node_modules' --color=always -rn "$@" . | less -iSRN; }
+
+gree() { grep --exclude-dir='target' --exclude-dir='.git' --exclude-dir='node_modules' -rn "$@" . ; }
+
+greef() {
+    grep --exclude-dir='target' --exclude-dir='.git' --exclude-dir='node_modules' -r "$@" . |
+        awk '$1!="Binary"{print}' |
+        awk -F':' '{print $1}' |
+        sort -u |
+        less -iSRN
+}
 
 gref() {
     grep --exclude-dir='target' --exclude-dir='.git' --exclude-dir='node_modules' -r "$@" . |

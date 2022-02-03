@@ -77,10 +77,8 @@ fi
 
 # on linux could acquire lock with flock(1)
 
-# could start and end the karoto cycle from
-# either bash_profile / bash_logout
-# or by binding it and its signals
-# to shortcuts with e.g. karabiner
+# on ubuntu if printf '\a' is not working:
+# paplay /usr/share/sounds/ubuntu/stereo/button-pressed.ogg
 
 # for windows subsystem for linux
 # could notify with powershell or:
