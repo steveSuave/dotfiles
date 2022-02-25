@@ -51,6 +51,7 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (require 'my-used-packages)
 (require 'scratch)
+(require 'oberon)
 
 (require 'frame-bufs)
 (frame-bufs-mode t)
@@ -84,7 +85,11 @@
     (local-set-key "\M-q"  #'dap-disconnect)
     (setq dap-auto-configure-features '(locals)) ;controls tooltip sessions
     (setq lsp-ui-doc-enable nil)
-    (setq lsp-ui-sideline-enable nil))
+    (setq lsp-ui-sideline-enable nil)
+    (when scratch-buffer
+              (goto-char (point-min))
+              (insert "public class LetsDoDis {\n\n\n\n}")
+              (forward-line -2)))
   (add-hook 'java-mode-hook 'my-java-hooks))
 
 (when (fboundp 'sql-mode)
@@ -112,12 +117,17 @@
 (add-hook 'sql-interactive-mode-hook 'my-sql-save-history-hook)
 (add-hook 'sql-interactive-mode-hook 'company-mode)
 (add-hook 'minibuffer-setup-hook 'yas-minor-mode)
-(add-hook 'java-mode-hook
-          (lambda ()
-            (when scratch-buffer
-              (goto-char (point-min))
-              (insert "public class LetsDoDis {\n\n\n\n}")
-              (forward-line -2))))
+
+(when (fboundp 'oberon-mode)
+  (defun ob-compile-command ()
+    (interactive)
+      (compile (concat "~/.bin/OBBIEC "
+                       (file-truename buffer-file-name))))
+  (defun my-oberon-hooks ()
+    "For use in `oberon-mode-hook'."
+    (abbrev-mode t)
+    (local-set-key "\C-c\C-c" #'ob-compile-command))
+  (add-hook 'oberon-mode-hook 'my-oberon-hooks))
 
 ;; Set up before-save hooks to format buffer and add/delete imports.
 ;; Make sure you don't have other gofmt/goimports hooks enabled.
@@ -581,7 +591,9 @@ tokens, and DELIMITED as prefix arg."
          ("github.*\\.txt$" . markdown-mode)
          ;; ("pom.xml" . nxml-mode)
          ("\\.http$" . restclient-mode)
-         ("\\.rest$" . restclient-mode))))
+         ("\\.rest$" . restclient-mode)
+         ("\\.Mod$" . oberon-mode)
+         ("\\.mod$" . oberon-mode))))
 
 ;; -------
 ;; FINALLY
