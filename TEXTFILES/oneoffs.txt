@@ -164,5 +164,5 @@ sudo mkfs.vfat -n 'SomeLabel' /dev/sdX1
 sudo apt install emacs i3 feh compton pcmanfm go xcalib mpv zsh
 # scheme smlnj racket lua git pavucontrol curl wget firefox bc
 # irssi man ncdu xclip screen file htop unzip xmllint jq pup
-# rsync openssh-server samba tree
+# rsync openssh-server samba tree rlwrap python3-pip
 # ifconfig nc netstat
