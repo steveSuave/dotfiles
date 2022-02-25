@@ -117,7 +117,7 @@ check() {
 }
 
 cht() {
-        curl https://cht.sh/"$*" | less
+        curl -s https://cht.sh/"$*" | less
 }
 
 cl() {
