@@ -239,7 +239,7 @@ fixup() {
 
 radio_play() {
     mpv "$1" 2>/dev/null |
-       awk -v lg="$2" '/icy-title/{$1=""; print; print >> lg; fflush()}'
+       awk -v lg="$2" '/icy-title/ && ! /ad\|main - Commercial Break/ {$1=""; print; print >> lg; fflush()}'
 }
 
 save_last_song() {

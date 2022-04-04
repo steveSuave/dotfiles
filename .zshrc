@@ -34,6 +34,7 @@ setopt HIST_VERIFY               # Do not execute immediately upon history expan
 setopt APPEND_HISTORY            # append to history file
 setopt HIST_NO_STORE             # Don't store history commands
 setopt promptsubst
+setopt interactivecomments
 
 # bindkey -v
 # End of lines configured by zsh-newuser-install
