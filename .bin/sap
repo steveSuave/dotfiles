@@ -31,7 +31,7 @@ allvideos=$(grep -E -o "watch\?v=.{11}" <<< "$ytsearch")
 videoParam=$(echo "$allvideos" | awk "FNR==$resNum")
 theLink="${youtube}/${videoParam}"
 title=$(curl "$theLink" 2>/dev/null |
-        pup 'meta[property="og:title"] attr{content}' |
+        pup --charset utf8 'meta[property="og:title"] attr{content}' |
         python3 -c 'import html, sys; [print(html.unescape(l), end="") for l in sys.stdin]')
 
 history="$HOME/TEXTFILES/sap-history.txt"

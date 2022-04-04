@@ -29,6 +29,10 @@ alias nboat=newsboat
 alias vboat="newsboat -u $HOME/.newsboat/yturls -c $HOME/.newsboat/ytcache.db -C $HOME/.newsboat/ytconfig"
 alias boat='nboat && vboat'
 alias hu='last | less'
+alias son='xset s on && xset +dpms'
+alias soff='xset s off && xset -dpms'
+alias 1='kill %1'
+
 alias temp='echo $(bc <<< "$(cat /sys/devices/platform/coretemp.0/hwmon/hwmon*/temp*_input | sort -nr | head -1) / 1000")°C'
 alias sysus='systemctl suspend'
 
@@ -36,7 +40,7 @@ alias ytd='youtube-dl -o "%(title)s.%(ext)s"'
 alias ytdv='youtube-dl -o "%(title)s.%(ext)s" -f mp4'
 alias ytda='youtube-dl -o "%(title)s.%(ext)s" -x --audio-format mp3'
 alias ytdp='youtube-dl -o "%(playlist_index)s - %(title)s.%(ext)s"' # -f mp4
-alias ytds='youtube-dl --write-sub --sub-lang en --skip-download' # --sub-format ass/srt/best
+alias ytds='youtube-dl --write-sub --write-auto-sub --sub-lang en --skip-download' # --sub-format ass/srt/best
 
 alias cup='nmcli --ask con up id client'
 alias cdown='nmcli con down id client'
@@ -180,16 +184,18 @@ ran() {
         v="-v"
     fi
     sap $v $(( (RANDOM % 50) + 1 )) "$1"
+    unset v
 }
 
 on() {
-    if [[ -z $sc ]]; then
-       sc=1
+    if [[ -z $i ]]; then
+       i=1
     fi
     if [[ $2 ]]; then
         v="-v"
     fi
-    sap $v "$((sc++))" "$1"
+    sap $v "$((i++))" "$1"
+    unset v
 }
 
 strap() {
