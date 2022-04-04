@@ -200,6 +200,8 @@ ediff() {
     emacs --eval "(ediff-files \"$1\" \"$2\")" 2>/dev/null & disown
 }
 
+gret() { git grep -i "$@" $(git rev-list --all); }
+
 gre() { grep --exclude-dir='target' --exclude-dir='.git' --exclude-dir='node_modules' --color=always -rn "$@" . | less -iSRN; }
 
 gree() { grep --exclude-dir='target' --exclude-dir='.git' --exclude-dir='node_modules' -rn "$@" . ; }

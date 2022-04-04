@@ -19,6 +19,7 @@
 (straight-use-package 'sml-mode)
 (straight-use-package 'flycheck)
 (straight-use-package 'sqlformat)
+(straight-use-package 'yaml-mode)
 (straight-use-package 'restclient)
 (straight-use-package 'use-package)
 (straight-use-package 'racket-mode)
