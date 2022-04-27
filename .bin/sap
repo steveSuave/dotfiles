@@ -34,6 +34,8 @@ title=$(curl "$theLink" 2>/dev/null |
         pup --charset utf8 'meta[property="og:title"] attr{content}' |
         python3 -c 'import html, sys; [print(html.unescape(l), end="") for l in sys.stdin]')
 
+if [[ "$title" == "" ]]; then exit; fi
+
 history="$HOME/TEXTFILES/sap-history.txt"
 
 echo               | tee -a "$history"
