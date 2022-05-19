@@ -256,7 +256,8 @@ rsap() {
 }
 
 hits() {
-    while true; do rsap "$reporadionotes/$1.txt"; sleep 1; done
+    # while true; do rsap "$reporadionotes/$1.txt"; sleep 1; done
+    strap "$reporadionotes/$1.txt"
 }
 
 init_radio() {

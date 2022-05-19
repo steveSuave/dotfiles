@@ -65,9 +65,26 @@
 (diff-hl-margin-mode)
 
 (when (fboundp 'java-mode)
+
+  (defun j-compile-command ()
+    "run current program (that requires no input)"
+    (interactive)
+    (let* ((source (file-name-nondirectory buffer-file-name))
+           (out    (file-name-sans-extension source))
+           (class  (concat out ".class")))
+      (save-buffer)
+      (shell-command (format "rm -f %s && javac %s" class source))
+      (if (file-exists-p class)
+          (shell-command (format "java %s" out) "*compilation*")
+        (progn
+          (set (make-local-variable 'compile-command)
+               (format "javac %s" source))
+          (command-execute 'compile)))))
+
   (defun my-java-hooks ()
     "For use in `java-mode-hook'."
     (require 'google-java-format)
+    (local-set-key "\C-c\C-c" #'j-compile-command)
     (local-set-key "\C-cj" #'google-java-format-region)
     (local-set-key "\C-cI" #'lsp-java-organize-imports)
     (local-set-key "\C-ci" #'lsp-java-add-import)
