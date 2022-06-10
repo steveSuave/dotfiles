@@ -381,7 +381,14 @@ ignores = (
   { level = "JOINS PARTS QUITS NICKS"; channels = ( "#postgresql" ); },
   { level = "JOINS PARTS QUITS NICKS"; channels = ( "##htop" ); },
   { level = "JOINS PARTS QUITS NICKS"; channels = ( "##hntop" ); },
-  { level = "JOINS PARTS QUITS NICKS"; channels = ( "#java" ); }
+  { level = "JOINS PARTS QUITS NICKS"; channels = ( "#java" ); },
+  { level = "JOINS PARTS QUITS NICKS"; channels = ( "#linux" ); },
+  { level = "JOINS PARTS QUITS NICKS"; channels = ( "#ansible" ); },
+  { level = "JOINS PARTS QUITS NICKS"; channels = ( "#prometheus" ); },
+  { level = "JOINS PARTS QUITS NICKS"; channels = ( "#sml" ); },
+  { level = "JOINS PARTS QUITS NICKS"; channels = ( "##news" ); },
+  { level = "JOINS PARTS QUITS NICKS"; channels = ( "##math" ); },
+  { level = "JOINS PARTS QUITS NICKS"; channels = ( "#oberon" ); }
 );
 hilights = (
   { text = "greycat!*@*"; nick = "yes"; word = "yes"; mask = "yes"; },

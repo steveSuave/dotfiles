@@ -3,10 +3,10 @@
 ## play one of the first results of a youtube query
 ## directly from the terminal using mpv
 
-if [[ ! "$1" == "-v" ]]; then
-    mpvParams='--no-video'
-else
+if [[ "$1" == "-v" ]]; then
     shift
+else
+    mpvParams='--no-video'
 fi
 
 if [[ ! $1 =~ [123456789] ]]; then
@@ -20,6 +20,8 @@ else
     resNum=$1
 fi
 
+# echo back input query
+printf ">>>%s<<<\n" "$2"
 query="${2// /+}"
 if [[ "$3" == "latest" ]]; then
     query="${query}&sp=CAI%253D"
@@ -27,8 +29,8 @@ fi
 youtube="https://www.youtube.com"
 searchLink="${youtube}/results?search_query=${query}"
 ytsearch=$(curl "$searchLink" 2>/dev/null)
-allvideos=$(grep -E -o "watch\?v=.{11}" <<< "$ytsearch")
-videoParam=$(echo "$allvideos" | awk "FNR==$resNum")
+allvideos=$(grep -E -o "watch\?v=.{11}" <<< "$ytsearch" | uniq)
+videoParam=$(awk "FNR==$resNum" <<< "$allvideos")
 theLink="${youtube}/${videoParam}"
 title=$(curl "$theLink" 2>/dev/null |
         pup --charset utf8 'meta[property="og:title"] attr{content}' |

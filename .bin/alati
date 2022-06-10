@@ -2,7 +2,9 @@
 
 today=$(date +"%Y-%m-%d")
 
+mkdir -p $HOME/Music/alati
+
 sleep $(( 65 * 60 )) && pkill mpv & 
-mpv --stream-record=$HOME/Music/alati--${today}.mp3 \
+mpv --stream-record=$HOME/Music/alati/alati--${today}.mp3 \
   http://85.10.206.222:8002/stream
 

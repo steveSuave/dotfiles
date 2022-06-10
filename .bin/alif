@@ -12,7 +12,7 @@ alias mysql.stop="sudo /usr/local/mysql/support-files/mysql.server stop"
 alias mysql.restart="sudo /usr/local/mysql/support-files/mysql.server restart"
 alias mysql.status="sudo /usr/local/mysql/support-files/mysql.server status"
 
-alias kk="clear && printf '\e[3J'"
+alias kk='tput reset' #"clear && printf '\e[3J'"
 alias rt='cd;kk'
 alias dstop='docker stop $(docker ps -a -q)'
 alias lsa='ls -lahF'
@@ -200,7 +200,12 @@ on() {
 }
 
 strap() {
-    while read -r line; do sap 1 "$line"; done < <(sort --random-sort "$1")
+    while read -r line; do
+        if [[ $1 == *gtronic* ]]; then
+            line="$(original-awk '$NF ~ /\[.*\]/ {$NF="";print}' <<< "$line")"
+        fi
+        sap 1 "$line";
+    done < <(sort --random-sort "$1")
 }
 
 ediff() {

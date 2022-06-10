@@ -2,7 +2,9 @@
 
 today=$(date +"%Y-%m-%d")
 
+mkdir -p $HOME/Music/hatzara
+
 sleep $(( 10 * 60 )) && pkill mpv & 
-mpv --stream-record=$HOME/Music/hatzara--${today}.mp3 \
+mpv --stream-record=$HOME/Music/hatzara/hatzara--${today}.mp3 \
   https://radiostreaming.ert.gr/ert-trito
 

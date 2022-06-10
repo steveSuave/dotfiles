@@ -214,8 +214,10 @@ bindsym $mod+g exec google-chrome --disable-gpu # --disable-software-rasterizer
 bindsym $mod+b exec firefox
 bindsym $mod+y exec firefox https://www.youtube.com
 bindsym $mod+i exec firefox --private-window https://www.youtube.com
-bindsym $mod+m exec emacs
-bindsym $mod+n exec xcalib -invert -alter
+bindsym $mod+m exec emacsclient --create-frame #--alternate-editor="" # emacs
+bindsym $mod+g exec xcalib -invert -alter
+bindsym $mod+n exec pcmanfm
+bindsym $mod+t exec gtick
 bindsym $mod+minus move scratchpad
 bindsym $mod+Shift+minus scratchpad show
 
