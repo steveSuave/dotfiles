@@ -17,6 +17,7 @@ alias rt='cd;kk'
 alias dstop='docker stop $(docker ps -a -q)'
 alias lsa='ls -lahF'
 alias l1='ls -1thF'
+alias ll1='ls -1thF | head'
 alias grep='grep --color=auto'
 alias dush='du -sh'
 alias ducks='du -cks * | sort -rn | head'
@@ -300,5 +301,5 @@ updateradio() { # hostradionotes reporadionotes
     done
 }
 
-alias upradio="LC_COLLATE=C updateradio \"$hostradionotes\" \"$reporadionotes\""
+alias upradio="LC_ALL=C updateradio \"$hostradionotes\" \"$reporadionotes\""
 
