@@ -138,13 +138,29 @@
 (when (fboundp 'oberon-mode)
   (defun ob-compile-command ()
     (interactive)
-      (compile (concat "~/.bin/OBBIEC "
-                       (file-truename buffer-file-name))))
+      (compile (concat "obnc "
+                       (file-truename buffer-file-name)
+                       " && "
+                       (file-name-sans-extension buffer-file-name))))
   (defun my-oberon-hooks ()
     "For use in `oberon-mode-hook'."
     (abbrev-mode t)
     (local-set-key "\C-c\C-c" #'ob-compile-command))
   (add-hook 'oberon-mode-hook 'my-oberon-hooks))
+
+(when (fboundp 'c-mode)
+  (defun c-compile-command ()
+    (interactive)
+      (compile (concat "cc "
+                       (file-truename buffer-file-name)
+                       " -o "
+                       (file-name-sans-extension ( file-name-nondirectory buffer-file-name))
+                       " && "
+                       (file-name-sans-extension buffer-file-name))))
+  (defun my-c-hooks ()
+    "For use in `oberonc-mode-hook'."
+    (local-set-key "\C-c\C-c" #'c-compile-command))
+  (add-hook 'c-mode-hook 'my-c-hooks))
 
 ;; Set up before-save hooks to format buffer and add/delete imports.
 ;; Make sure you don't have other gofmt/goimports hooks enabled.
@@ -609,6 +625,8 @@ tokens, and DELIMITED as prefix arg."
          ;; ("pom.xml" . nxml-mode)
          ("\\.http$" . restclient-mode)
          ("\\.rest$" . restclient-mode)
+         ("\\.st$" . smalltalk-mode)
+         ("\\.obn$" . oberon-mode)
          ("\\.Mod$" . oberon-mode)
          ("\\.mod$" . oberon-mode))))
 

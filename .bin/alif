@@ -53,7 +53,7 @@ alias irc='screen -S irc irssi;'
 alias cafrc='caffeinate -w $(pgrep irssi)&'
 
 alias w3im="startx" # $HOME/.config/i3/xinit"
-alias emacs='emacsclient --create-frame --alternate-editor=""'
+alias emacs='emacsclient -n --create-frame --alternate-editor=""'
 alias magit="emacs --eval='(magit-status)'"
 alias remacsp='rm ~/.emacs.d/.lsp-session-v1 && rm -r ~/.emacs.d/workspace/'
 alias relsp='rm ~/.emacs.d/.lsp-session-v1 &&
@@ -146,13 +146,13 @@ joinpdf () {
 # current airport weather report in a codified format
 # metar LGAV gets data from El.Venizelos Athens airport
 metar() {
-    curl "https://tgftp.nws.noaa.gov/data/observations/metar/stations/$(awk '{ print toupper($0) }' <<< "$1").TXT"
+    curl "https://tgftp.nws.noaa.gov/data/observations/metar/stations/$(original-awk '{ print toupper($0) }' <<< "$1").TXT"
 }
 
 # taf also provides codified weather data
 # but includes some predictions
 taf() {
-    curl "https://tgftp.nws.noaa.gov/data/forecasts/taf/stations/$(awk '{ print toupper($0) }' <<< "$1").TXT"
+    curl "https://tgftp.nws.noaa.gov/data/forecasts/taf/stations/$(original-awk '{ print toupper($0) }' <<< "$1").TXT"
 }
 
 # paste text online and get a link
@@ -221,16 +221,16 @@ gree() { grep --exclude-dir='target' --exclude-dir='.git' --exclude-dir='node_mo
 
 greef() {
     grep --exclude-dir='target' --exclude-dir='.git' --exclude-dir='node_modules' -r "$@" . |
-        awk '$1!="Binary"{print}' |
-        awk -F':' '{print $1}' |
+        original-awk '$1!="Binary"{print}' |
+        original-awk -F':' '{print $1}' |
         sort -u |
         less -iSRN
 }
 
 gref() {
     grep --exclude-dir='target' --exclude-dir='.git' --exclude-dir='node_modules' -r "$@" . |
-        awk '$1!="Binary"{print}' |
-        awk -F':' '{print $1}' |
+        original-awk '$1!="Binary"{print}' |
+        original-awk -F':' '{print $1}' |
         sort -u
 }
 
@@ -250,7 +250,7 @@ mkdir -p "$hostradionotes"
 
 radio_play() {
     mpv "$1" 2>/dev/null |
-       awk -v lg="$2" '/icy-title/ && ! /ad\|main - Commercial Break/ {$1=""; print; print >> lg; fflush()}'
+       original-awk -v lg="$2" '/icy-title/ && ! /ad\|main - Commercial Break/ {$1=""; print; print >> lg; fflush()}'
 }
 
 save_last_song() {
