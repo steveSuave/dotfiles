@@ -65,7 +65,6 @@
 (diff-hl-margin-mode)
 
 (when (fboundp 'java-mode)
-
   (defun j-compile-command ()
     "run current program (that requires no input)"
     (interactive)
@@ -129,12 +128,6 @@
 ;;         (define-key sql-interactive-mode-map "\t" 'comint-dynamic-complete)
 ;;         (sql-mysql-completion-init)))
 
-(add-hook 'dired-mode-hook 'dired-hide-details-mode)
-(add-hook 'calendar-today-visible-hook 'calendar-mark-today)
-(add-hook 'sql-interactive-mode-hook 'my-sql-save-history-hook)
-(add-hook 'sql-interactive-mode-hook 'company-mode)
-(add-hook 'minibuffer-setup-hook 'yas-minor-mode)
-
 (when (fboundp 'oberon-mode)
   (defun ob-compile-command ()
     (interactive)
@@ -162,6 +155,16 @@
     (local-set-key "\C-c\C-c" #'c-compile-command))
   (add-hook 'c-mode-hook 'my-c-hooks))
 
+(when (fboundp 'haskell-mode)
+  (defun haskell-compile-command ()
+    (interactive)
+      (compile (concat "runhaskell "
+                       (file-truename buffer-file-name))))
+  (defun my-haskell-hooks ()
+    "For use in `haskell-mode-hook'."
+    (local-set-key "\C-c\C-c" #'haskell-compile-command))
+  (add-hook 'haskell-mode-hook 'my-haskell-hooks))
+
 ;; Set up before-save hooks to format buffer and add/delete imports.
 ;; Make sure you don't have other gofmt/goimports hooks enabled.
 (defun lsp-go-install-save-hooks ()
@@ -176,6 +179,12 @@
     (hl-line-mode)
     (view-mode)))
 (add-hook 'find-file-hook 'make-tramp-file-read-only-hook)
+
+(add-hook 'dired-mode-hook 'dired-hide-details-mode)
+(add-hook 'calendar-today-visible-hook 'calendar-mark-today)
+(add-hook 'sql-interactive-mode-hook 'my-sql-save-history-hook)
+(add-hook 'sql-interactive-mode-hook 'company-mode)
+(add-hook 'minibuffer-setup-hook 'yas-minor-mode)
 
 ;; ---------
 ;; FUNCTIONS
