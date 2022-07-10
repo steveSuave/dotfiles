@@ -180,6 +180,19 @@
     (view-mode)))
 (add-hook 'find-file-hook 'make-tramp-file-read-only-hook)
 
+(with-eval-after-load 'dired
+  (require 'dired-x)
+  ;; Set dired-x global variables here.  For example:
+  ;; (setq dired-guess-shell-gnutar "gtar")
+  ;; (setq dired-x-hands-off-my-keys nil)
+  (setq dired-omit-files
+        (concat dired-omit-files "\\|^\\..+$")))
+
+(add-hook 'dired-mode-hook
+          (lambda ()
+            ;; Set dired-x buffer-local variables here.  For example:
+            (dired-omit-mode 1)))
+
 (add-hook 'dired-mode-hook 'dired-hide-details-mode)
 (add-hook 'calendar-today-visible-hook 'calendar-mark-today)
 (add-hook 'sql-interactive-mode-hook 'my-sql-save-history-hook)
