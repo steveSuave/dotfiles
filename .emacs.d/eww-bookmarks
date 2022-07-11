@@ -1,0 +1,9 @@
+;; Auto-generated file; don't edit -*- mode: lisp-data -*-
+((:url "https://people.inf.ethz.ch/wirth/index.html" :title "Niklaus Wirth" :time "Mon Jul 11 20:29:57 2022")
+ (:url "https://www.cs.cmu.edu/~crary/819-f09/" :title "Classic Papers in Programming Languages and Logic" :time "Mon Jul 11 20:21:49 2022")
+ (:url "https://learnxinyminutes.com/" :title "Learn X in Y Minutes: Scenic Programming Language Tours" :time "Mon Jul 11 20:17:22 2022")
+ (:url "https://cs.dartmouth.edu/~doug/" :title "M. Douglas McIlroy" :time "Mon Jul 11 20:17:08 2022")
+ (:url "http://users.uoa.gr/~nektar/" :title "www.nektarios.gr" :time "Mon Jul 11 08:27:17 2022")
+ (:url "http://aleph0.clarku.edu/~djoyce/" :title "David Joyce's Home Page" :time "Mon Jul 11 08:23:08 2022")
+ (:url "https://cuis-smalltalk.github.io/TheCuisBook/" :title "Top (The Cuis-Smalltalk Book)" :time "Sat Jul  9 23:35:00 2022")
+ (:url "https://www.classes.cs.uchicago.edu/archive/2012/spring/22300-1/" :title "Home — CMSC 22300; Spring 2012" :time "Sat Jul  9 16:36:59 2022"))
