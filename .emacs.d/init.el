@@ -151,7 +151,7 @@
                        " && "
                        (file-name-sans-extension buffer-file-name))))
   (defun my-c-hooks ()
-    "For use in `oberonc-mode-hook'."
+    "For use in `c-mode-hook'."
     (local-set-key "\C-c\C-c" #'c-compile-command))
   (add-hook 'c-mode-hook 'my-c-hooks))
 

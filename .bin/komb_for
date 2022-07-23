@@ -1,0 +1,30 @@
+#!/usr/bin/env tclsh
+
+# Kombucha recipe:
+# ---------------
+# 14 cups water
+# 1 cup sugar
+# 8 tea bags
+# 2 cups kombucha starter
+
+if {$argc != 2} {
+    puts "usage: $argv0 <ingredient> <ingredient size>"
+    puts "  where ingredient is one of: {water, sugar, tea, starter} and"
+    puts "  ingredient size is in teabags for tea and cups for everything else"
+    exit 1
+}
+
+set the_ingredient [lindex $argv 0]
+set the_size [lindex $argv 1]
+set cups_of(water) 14.0
+set cups_of(sugar) 1.0
+set cups_of(tea) 8.0 ;# that's actually teabags and not cups
+set cups_of(starter) 2.0
+set cups_of(custom_$the_ingredient) $the_size
+set multiplier [expr $cups_of(custom_$the_ingredient) / $cups_of($the_ingredient)]
+
+puts "water    [expr $cups_of(water)   * $multiplier]"
+puts "sugar    [expr $cups_of(sugar)   * $multiplier]"
+puts "tea      [expr $cups_of(tea)     * $multiplier]"
+puts "starter  [expr $cups_of(starter) * $multiplier]"
+
