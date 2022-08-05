@@ -16,7 +16,7 @@
 (prefer-coding-system 'utf-8-unix)
 (put 'upcase-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
-(setq-default indent-tabs-mode nil)
+;; (setq-default indent-tabs-mode nil)
 (setq treemacs--width-is-locked nil)
 ;;(global-display-line-numbers-mode 1)
 (put 'downcase-region 'disabled nil)
@@ -568,7 +568,7 @@ tokens, and DELIMITED as prefix arg."
       calendar-latitude 37.9
       calendar-longitude 23.7
       inhibit-startup-screen t
-      completion-ignore-case t
+      ;; completion-ignore-case t
       ;; split-width-threshold 180
       ;; frame-background-mode nil
       Buffer-menu-name-width 35

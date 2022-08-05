@@ -295,7 +295,7 @@ and comments have been removed."
     "TO" "TYPE" "UNTIL" "VAR" "WHILE" "WITH"))
 
 (defconst obn-basic-types
-  '("BOOLEAN" "CHAR" "SHORTINT" "INTEGER" "LONGINT" "REAL" "LONGREAL" "SET"))
+  '("BOOLEAN" "BYTE" "CHAR" "SHORTINT" "INTEGER" "LONGINT" "REAL" "LONGREAL" "SET"))
 
 (defconst obn-pre-decl-const '("TRUE" "FALSE")
   "predeclared constants")

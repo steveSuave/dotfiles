@@ -1,21 +1,84 @@
 #!/bin/bash
 
-# taken from Doug McIlroy's home page
+# Functional composition
 
-leave() {
-	seq 2 1000000
+# Classical Unix philosophy
+# 	(not for much of Gnu Unix)
+
+# Make each program do one thing well. To do a new
+# job, build afresh rather than complicate old programs
+# by adding new features.
+
+# Expect the output of every program to become the input
+# to another, as yet unknown, program. Don't clutter output
+# with extraneous information.
+
+
+# Function composition!
+
+# Use tools in preference to unskilled help to lighten a
+# programming task, even if you have to detour to build the
+# tools and expect to throw some of them out after you've
+# finished using them.
+
+# The story of grep
+
+# The story of less
+
+# Detours. We do it all the time. Indeed mathematical
+# modeling is a detour from the physical world to
+# formalism.
+
+# detour, Melzak Bypasses
+# walker sort words in reverse alphabetic order
+
+# more complicated compositions
+
+# sieve in the shell
+
+# usage: sieve [n]  generate primes up to n (default 1,000,000)
+
+sourc() {        # "source" can tangle with a bash builtin
+    seq 2 $1
 }
+
 cull() {
-	while true; do
-		read n
-		(($n % $1 != 0)) && echo $n
-	done
+    while
+        read p || exit
+    do
+        (($p % $1 != 0)) && echo $p
+    done
+}
+
+sink() {
+    read p || exit
+    echo $p
+    cull $p | sink &
+}
+
+sourc ${1-1000000} | sink
+
+# ================================================================
+# More efficient sieve
+
+source() {
+    seq 3 1000000
+}
+cull() { # same as in Program 2
+    while true
+    do read n
+       (($n % $1 != 0)) && echo $n
+    done
 }
 sink() {
-	read p
-	echo $p
-	cull $p | sink &
+    read -u $primes pp
+    while
+        read p
+        (($p < $pp*$pp))
+    do
+        echo $p
+    done
+    cull $pp | sink &
 }
-
-leave | sink
-
+mkfifo fifo
+(echo 2; (source | sink {primes}<fifo)) | tee fifo
