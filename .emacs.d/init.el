@@ -409,7 +409,7 @@ according to syntax-table; otherwise match symbols.
 When called interactively, PLIST is input as space separated
 tokens, and DELIMITED as prefix arg."
   (interactive
-   `(,(loop with input = (read-from-minibuffer "Replace: ")
+   `(,(cl-loop with input = (read-from-minibuffer "Replace: ")
             with limit = (length input)
             for  j = 0 then i
             for (item . i) = (read-from-string input j)
@@ -417,7 +417,7 @@ tokens, and DELIMITED as prefix arg."
      ,current-prefix-arg
      ,@(if (use-region-p) `(,(region-beginning) ,(region-end)))))
   (let* ((alist (cond ((= (length plist) 2) (list plist (reverse plist)))
-                      ((loop for (key val . tail) on plist by #'cddr
+                      ((cl-loop for (key val . tail) on plist by #'cddr
                              collect (list (prin1-to-string key t) val)))))
          (matcher (regexp-opt (mapcar #'car alist)
                               ;; (if delimited 'words 'symbols)
@@ -687,3 +687,21 @@ tokens, and DELIMITED as prefix arg."
 ;; ================================================================
 ;; (global-set-key (kbd "s-x") '(lambda () (interactive) (message "hello")))
 
+(defun djcb-opacity-modify (&optional dec)
+  "modify the transparency of the emacs frame; if DEC is t,
+    decrease the transparency, otherwise increase it in 10%-steps"
+  (let* ((alpha-or-nil (frame-parameter nil 'alpha)) ; nil before setting
+          (oldalpha (if alpha-or-nil alpha-or-nil 100))
+          (newalpha (if dec (- oldalpha 10) (+ oldalpha 10))))
+    (when (and (>= newalpha frame-alpha-lower-limit) (<= newalpha 100))
+      (modify-frame-parameters nil (list (cons 'alpha newalpha))))))
+
+ ;; C-8 will increase opacity (== decrease transparency)
+ ;; C-9 will decrease opacity (== increase transparency
+ ;; C-0 will returns the state to normal
+(global-set-key (kbd "C-8") '(lambda()(interactive)(djcb-opacity-modify)))
+(global-set-key (kbd "C-9") '(lambda()(interactive)(djcb-opacity-modify t)))
+(global-set-key (kbd "C-0") '(lambda()(interactive)
+                               (modify-frame-parameters nil `((alpha . 100)))))
+
+;; (set-fontset-font t 'greek (font-spec :family "Monaco Sans Mono"))
