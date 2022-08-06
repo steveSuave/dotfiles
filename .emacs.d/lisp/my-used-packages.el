@@ -24,6 +24,7 @@
 (straight-use-package 'use-package)
 (straight-use-package 'racket-mode)
 (straight-use-package 'haskell-mode)
+(straight-use-package 'markdown-mode)
 (straight-use-package 'expand-region)
 (straight-use-package 'smalltalk-mode)
 (straight-use-package 'javadoc-lookup)

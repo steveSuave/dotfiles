@@ -38,8 +38,8 @@
     (setq mac-command-modifier 'meta)
     ;; values can be 'control, 'alt, 'meta, 'super, 'hyper, nil
     ;; (setting to nil allows the OS to assign values)
-    (global-set-key (kbd "<C-tab>") 'move-front-end-window)
-    (global-set-key (kbd "<C-S-tab>") 'move-front-end-window-back)
+    (global-set-key (kbd "<C-tab>") 'move-front-end-window-back)
+    (global-set-key (kbd "<C-S-tab>") 'move-front-end-window)
     (let ((my-path "/usr/local/mysql/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:"))
       (setenv "PATH" (concat my-path (getenv "PATH")))
       (setq exec-path (append (split-string my-path path-separator) exec-path)))))

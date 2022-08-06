@@ -14,6 +14,7 @@ alias mysql.status="sudo /usr/local/mysql/support-files/mysql.server status"
 
 alias kk='tput reset' #"clear && printf '\e[3J'"
 alias rt='cd;kk'
+alias ed='rlwrap ed'
 alias dstop='docker stop $(docker ps -a -q)'
 alias lsa='ls -lahF'
 alias l1='ls -1thF'
