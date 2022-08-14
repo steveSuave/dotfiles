@@ -56,6 +56,9 @@
 (require 'frame-bufs)
 (frame-bufs-mode t)
 
+;; (add-to-list 'load-path "/Applications/LilyPond.app/Contents/Resources/share/emacs/site-lisp/")
+;; (autoload 'LilyPond-mode "lilypond-mode")
+
 ;; ---------------
 ;; MODES AND HOOKS
 ;; ---------------
@@ -193,11 +196,29 @@
             ;; Set dired-x buffer-local variables here.  For example:
             (dired-omit-mode 1)))
 
+(when (fboundp 'LilyPond-mode)
+  (defun l-compile-command ()
+    "..."
+    (interactive)
+    (let* ((source (file-name-nondirectory buffer-file-name))
+	   (out    (file-name-sans-extension source))
+	   (pdf  (concat out ".pdf"))
+	   (midi  (concat out ".midi")))
+      (shell-command (format "open %s" pdf))
+      (async-shell-command (format "fluidsynth -i %s" midi))))
+
+  (defun my-lilypond-hooks ()
+    "For use in `lilypond-mode-hook'."
+    (local-set-key "\C-c\C-d" #'l-compile-command)
+    (local-unset-key (kbd "C-c C-f")))
+  (add-hook 'LilyPond-mode-hook 'my-lilypond-hooks))
+
 (add-hook 'dired-mode-hook 'dired-hide-details-mode)
 (add-hook 'calendar-today-visible-hook 'calendar-mark-today)
 (add-hook 'sql-interactive-mode-hook 'my-sql-save-history-hook)
 (add-hook 'sql-interactive-mode-hook 'company-mode)
 (add-hook 'minibuffer-setup-hook 'yas-minor-mode)
+;; (add-hook 'LilyPond-mode-hook (lambda () (turn-on-font-lock)))
 
 ;; ---------
 ;; FUNCTIONS
@@ -620,6 +641,7 @@ tokens, and DELIMITED as prefix arg."
          ("\\.js$" . js-mode)
          ("\\.json$" . js-mode)
          ("\\.lua$" . lua-mode)
+	 ("\\.ly$" . LilyPond-mode)
          ("\\Makefile$" . makefile-mode)
          ("\\makefile$" . makefile-mode)
          ("\\.md$" . markdown-mode)
