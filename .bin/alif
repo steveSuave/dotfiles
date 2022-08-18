@@ -44,9 +44,9 @@ alias ytda='youtube-dl -o "%(title)s.%(ext)s" -x --audio-format mp3'
 alias ytdp='youtube-dl -o "%(playlist_index)s - %(title)s.%(ext)s"' # -f mp4
 alias ytds='youtube-dl --write-sub --write-auto-sub --sub-lang en --skip-download' # --sub-format ass/srt/best
 
-mpvl='mpv --af=pan="[stereo|c0=c0|c1=c0]"'
-mpvr='mpv --af=pan="[stereo|c0=c1|c1=c1]"'
-mpvm='mpv --audio-channels=1'
+alias mpvl='mpv --af=pan="[stereo|c0=c0|c1=c0]"'
+alias mpvr='mpv --af=pan="[stereo|c0=c1|c1=c1]"'
+alias mpvm='mpv --audio-channels=1'
 
 alias cup='nmcli --ask con up id client'
 alias cdown='nmcli con down id client'
