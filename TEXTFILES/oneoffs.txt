@@ -166,3 +166,113 @@ sudo apt install emacs i3 feh compton pcmanfm go xcalib mpv zsh
 # irssi man ncdu xclip screen file htop unzip xmllint jq pup
 # rsync openssh-server samba tree rlwrap python3-pip
 # ifconfig nc netstat
+
+================================================================
+DEBIAN WIFI
+-----------
+
+Using IWD
+While IWD is often a backend for more comprehensive connection managers, it can also be used fully standalone, and is completely distinct from wpa_supplicant. With virtually no extra dependencies, it's one of the lightest and simplest methods for configuring wireless networking. See the IWD section for more information, and view the IWD.NETWORK(5) manpage if you're interested in writing manual connection files for IWD rather than going through IWCtl.
+Using ifupdown
+These instructions require and make use of ifupdown, iproute2, wpasupplicant (For WPA2 support), iw, and wireless-tools. Ensure you have all of these installed before continuing. You also might be interested in the instructions below that only use ifupdown and wpasupplicant, along with using a more advanced configuration. See #wpasupplicant
+Find your wireless interface and bring it up: (NOTE: wlp2s0 is an example, you will need to make sure to use the correct device name for your system)
+
+# ip a
+# iw dev
+# ip link set wlp2s0 up
+
+Scan for available networks and get network details (If you already know your wifi network id/ESSID, you can skip this step):
+
+$ su -l
+# iwlist scan
+
+Now edit /etc/network/interfaces. The required configuration is much dependent on your particular setup. The following example will work for most commonly found WPA/WPA2 networks:
+
+# my wifi device
+allow-hotplug wlp2s0
+iface wlp2s0 inet dhcp
+        wpa-ssid ESSID
+        wpa-psk PASSWORD
+
+Bring up your interface and verify the connection:
+# ifup wlp2s0
+# iw wlp2s0 link
+# ip a
+You can manually bring your interface up and down with the ifup and ifdown commands. If you added allow-hotplug wlp2s0 as in the example above, the interface will be brought up automatically at boot.
+For further information on available configuration options, see man interfaces, man iw, man wireless and /usr/share/doc/wireless-tools/README.Debian.
+
+----------------------------------------------------------------
+Elsewhere:
+
+sudo ip link set dev wlp4s0 up
+sudo iwlist wlp4s0 scan | grep ESSID
+sudo apt install wpasupplicant
+wpa_passphrase your-ESSID your-wifi-passphrase | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf
+sudo wpa_supplicant -c /etc/wpa_supplicant/wpa_supplicant.conf -i wlp4s0
+sudo iwconfig
+sudo wpa_supplicant -B -c /etc/wpa_supplicant.conf -i wlp4s0  # -B for background
+
+Although we’re authenticated and connected to a wireless network, we don’t have an IP address yet. To obtain a private IP address from DHCP server, use the following command:
+
+sudo dhclient wlp4s0
+
+Now your wireless interface has a private IP address, which can be shown with:
+
+ip addr show wlp4s0
+
+Now you can access the Internet. To release the private IP address, run
+
+sudo dhclient wlp4s0 -r
+
+Auto-Connect At System Boot Time
+--------------------------------
+sudo cp /lib/systemd/system/wpa_supplicant.service /etc/systemd/system/wpa_supplicant.service
+
+Edit the file with a command-line text editor, such as Nano.
+
+sudo nano /etc/systemd/system/wpa_supplicant.service
+
+Find the following line.
+
+ExecStart=/sbin/wpa_supplicant -u -s -O /run/wpa_supplicant
+
+Change it to the following. Here we added the configuration file and the wireless interface name to the ExecStart command.
+
+ExecStart=/sbin/wpa_supplicant -u -s -c /etc/wpa_supplicant/wpa_supplicant.conf -i wlp4s0
+
+It’s recommended to always try to restart wpa_supplicant when failure is detected. Add the following right below the ExecStart line.
+
+Restart=always
+
+Save and close the file. (To save a file in Nano text editor, press Ctrl+O, then press Enter to confirm. To exit, press Ctrl+X.) Then reload systemd.
+
+sudo systemctl daemon-reload
+
+Enable wpa_supplicant service to start at boot time.
+
+sudo systemctl enable wpa_supplicant.service
+
+We also need to start dhclient at boot time to obtain a private IP address from DHCP server. This can be achieved by creating a systemd service unit for dhclient.
+
+sudo nano /etc/systemd/system/dhclient.service
+
+Put the following text into the file.
+
+[Unit]
+Description= DHCP Client
+Before=network.target
+After=wpa_supplicant.service
+
+[Service]
+Type=forking
+ExecStart=/sbin/dhclient wlp4s0 -v
+ExecStop=/sbin/dhclient wlp4s0 -r
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+Save and close the file. Then enable this service.
+sudo systemctl enable dhclient.service
+
+================================================================
