@@ -14,7 +14,8 @@ tempo=$1
 start=$2
 end=$3
 song=$4
-mpv --start="${start}" --ab-loop-a="${start}" --ab-loop-b="${end}" --speed="${tempo}" "$song"
+shift 4
+mpv --start="${start}" --ab-loop-a="${start}" --ab-loop-b="${end}" --speed="${tempo}" "$song" "$@"
 
 ###############################################################################
 ## ffplay alpha version
