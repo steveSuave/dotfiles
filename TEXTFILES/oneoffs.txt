@@ -276,3 +276,6 @@ Save and close the file. Then enable this service.
 sudo systemctl enable dhclient.service
 
 ================================================================
+# delete images older than 6 months ago; 4320h = 24 hour/day * 30 days/month * 6 months
+docker image prune --all --filter "until=4320h"
+
