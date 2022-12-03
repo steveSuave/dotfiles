@@ -208,7 +208,7 @@
   (vertico-mode)
 
   ;; Different scroll margin
-  ;; (setq vertico-scroll-margin 0)
+  (setq vertico-scroll-margin 0)
 
   ;; Show more candidates
   (setq vertico-count 15)
@@ -228,7 +228,16 @@
   ;;       orderless-component-separator #'orderless-escapable-split-on-space)
   (setq completion-styles '(orderless basic)
         completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion)))))
+        completion-category-overrides '((file (styles partial-completion)))
+        orderless-matching-styles '(orderless-regexp orderless-literal orderless-flex)
+        orderless-style-dispatchers '(without-if-bang)))
+
+(defun without-if-bang (pattern _index _total)
+  (cond
+   ((equal "!" pattern)
+    '(orderless-literal . ""))
+   ((string-prefix-p "!" pattern)
+    `(orderless-without-literal . ,(substring pattern 1)))))
 
 ;; ;; Persist history over Emacs restarts. Vertico sorts by history position.
 ;; (use-package savehist
