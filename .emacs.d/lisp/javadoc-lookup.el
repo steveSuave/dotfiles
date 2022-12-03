@@ -58,7 +58,7 @@
 (defcustom javadoc-lookup-cache-dir (locate-user-emacs-file "javadoc-cache")
   "Filesystem location to store index and cache database.")
 
-(defcustom javadoc-lookup-completing-read-function #'helm--completing-read-default
+(defcustom javadoc-lookup-completing-read-function #'completing-read ;#'helm--completing-read-default
   "Function used when performing a minibuffer read.")
 
 ;; Internal variables

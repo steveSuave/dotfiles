@@ -626,7 +626,10 @@ itself."
          #'(lambda (x)
              (if (not
                   (or (string-match "^ " (buffer-name x))
-                      (string-match "\\*helm.*" (buffer-name x))))
+                      (string-match "\\*helm.*" (buffer-name x))
+                      (string-match "*straight-process*" (buffer-name x))
+                      (string-match "*Async-native-compile-log*" (buffer-name x))
+		      ))
                  x))
          bufs)))
 

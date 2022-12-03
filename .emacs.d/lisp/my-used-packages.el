@@ -20,6 +20,7 @@
 (straight-use-package 'flycheck)
 (straight-use-package 'sqlformat)
 (straight-use-package 'yaml-mode)
+(straight-use-package 'rust-mode)
 (straight-use-package 'restclient)
 (straight-use-package 'use-package)
 (straight-use-package 'racket-mode)
@@ -29,8 +30,10 @@
 (straight-use-package 'smalltalk-mode)
 (straight-use-package 'javadoc-lookup)
 
-(straight-use-package 'vlfi)
-(require 'vlf-setup)
+;; (straight-use-package 'vlfi)
+;; (require 'vlf-setup)
+;; (add-hook 'vlf-before-chunk-update-hook 'make-large-file-read-only-hook)
+
 (defun make-large-file-read-only-hook ()
   "If a file is over a given size, make the buffer read only."
   (when (< (* 1024 1024 2) ;2M
@@ -38,7 +41,7 @@
     (setq buffer-read-only t)
     (hl-line-mode)
     (view-mode)))
-(add-hook 'vlf-before-chunk-update-hook 'make-large-file-read-only-hook)
+(add-hook 'find-file-hook 'make-large-file-read-only-hook)
 
 (use-package esup
   :straight t
@@ -52,28 +55,28 @@
   :straight t
   :config (which-key-mode))
 
-(use-package helm
-  :straight t
-  :init
-  (helm-mode 1)
-  (progn (setq helm-buffers-fuzzy-matching t))
-  :bind
-  (("C-c h" . helm-command-prefix))
-  (("M-x" . helm-M-x))
-  (("C-x C-f" . helm-find-files))
-  (("C-x b" . helm-buffers-list))
-  (("C-c b" . helm-bookmarks))
-  (("C-c C-f" . helm-recentf))         ;; Add new key to recentf
-  (("C-c g" . helm-grep-do-git-grep))) ;; Search using grep in a git project
+;; (use-package helm
+;;   :straight t
+;;   :init
+;;   (helm-mode 1)
+;;   (progn (setq helm-buffers-fuzzy-matching t))
+;;   :bind
+;;   (("C-c h" . helm-command-prefix))
+;;   (("M-x" . helm-M-x))
+;;   (("C-x C-f" . helm-find-files))
+;;   (("C-x b" . helm-buffers-list))
+;;   (("C-c b" . helm-bookmarks))
+;;   (("C-c C-f" . helm-recentf))         ;; Add new key to recentf
+;;   (("C-c g" . helm-grep-do-git-grep))) ;; Search using grep in a git project
 
-(use-package helm-descbinds
-  :straight t
-  :bind ("C-h b" . helm-descbinds))
+;; (use-package helm-descbinds
+;;   :straight t
+;;   :bind ("C-h b" . helm-descbinds))
 
-(use-package company
-  :straight t
-  :defer t
-  :config (global-company-mode 1))
+;; (use-package company
+;;   :straight t
+;;   :defer t
+;;   :config (global-company-mode 1))
 
 (defun my/ansi-colorize-buffer ()
   (let ((buffer-read-only nil))
@@ -84,17 +87,17 @@
   :config
   (add-hook 'compilation-filter-hook 'my/ansi-colorize-buffer))
 
-(use-package projectile
-  :straight t
-  :defer t
-  :init (projectile-mode +1)
-  :config
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+;; (use-package projectile
+;;   :straight t
+;;   :defer t
+;;   :init (projectile-mode +1)
+;;   :config
+;;   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
-(straight-use-package 'yasnippet-snippets)
+;; (straight-use-package 'yasnippet-snippets)
 (use-package yasnippet
   :straight t
-  :defer t
+  ;; :defer t
   :config
   (yas-global-mode)
   (define-key minibuffer-local-map [tab] yas-maybe-expand)
@@ -111,7 +114,7 @@
           ("https://www.reutersagency.com/feed/" reuters news)
           ("http://feeds2.feedburner.com/MarksDailyApple/" marksapple health)
           ("https://eli.thegreenplace.net/feeds/all.atom.xml" eli tech)
-          ("https://binarycoders.dev/feed/" bcoders tech)
+          ("https://binarycoders.dev/feed/" binarycoders tech)
           ("https://greatnavigators.com/feed" navigators sea fun)
           ("https://mostlydeadlanguages.tumblr.com/rss" deadlang archaeo)
           ("https://www.youtube.com/feeds/videos.xml?channel_id=UC6fZpuI4-W4jAyEquo7A-Sw" youtube marcelofinco capoeira)
@@ -125,11 +128,13 @@
     (async-shell-command
      (format "mpv %s" (mapconcat #'identity (mapcar #'elfeed-entry-link (elfeed-search-selected)) " "))))
   (define-key elfeed-search-mode-map (kbd "v") 'elfeed-view-entry-mpv)
+
   (defun elfeed-msg-title ()
     (interactive)
     (let ((entry (elfeed-search-selected :ignore-region)))
       (message (or (elfeed-meta entry :title) (elfeed-entry-title entry) ""))))
   (define-key elfeed-search-mode-map (kbd "w") 'elfeed-msg-title)
+
   (defun elfeed-view-article-mpv ()
     "Watch a video from URL in MPV"
     (interactive)
@@ -152,12 +157,12 @@
                   (json-mode "{" "}" "/[*/]" nil)
                   (javascript-mode  "{" "}" "/[*/]" nil)))))
 
-(flycheck-define-checker java-checkstyle
-  "A java syntax checker using checkstyle. See `https://www.checkstyle.org'."
-  :command ("java" "-jar" "~/Downloads/checkstyle-9.1-all.jar" "-c" "~/checkstyle/src/main/resources/sun_checks.xml" source)
-  :error-patterns
-  ((error line-start "[ERROR] " (file-name) ":" line ":" column ": " (message) ". [" (id (one-or-more alnum)) "]" line-end))
-  :modes java-mode)
+;; (flycheck-define-checker java-checkstyle
+;;   "A java syntax checker using checkstyle. See `https://www.checkstyle.org'."
+;;   :command ("java" "-jar" "~/Downloads/checkstyle-9.1-all.jar" "-c" "~/checkstyle/src/main/resources/sun_checks.xml" source)
+;;   :error-patterns
+;;   ((error line-start "[ERROR] " (file-name) ":" line ":" column ": " (message) ". [" (id (one-or-more alnum)) "]" line-end))
+;;   :modes java-mode)
 
 ;;================================================================
 ;; LSP JAVA
@@ -194,6 +199,64 @@
 ;; (use-package lsp-treemacs :straight t)
 
 ;; ================================================================
+
+
+;; Enable vertico
+(use-package vertico
+  :straight t
+  :init
+  (vertico-mode)
+
+  ;; Different scroll margin
+  ;; (setq vertico-scroll-margin 0)
+
+  ;; Show more candidates
+  (setq vertico-count 15)
+
+  ;; Grow and shrink the Vertico minibuffer
+  ;; (setq vertico-resize t)
+
+  ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
+  (setq vertico-cycle t)
+  )
+
+(use-package orderless
+  :straight t
+  :init
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
+  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
+  (setq completion-styles '(orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion)))))
+
+;; ;; Persist history over Emacs restarts. Vertico sorts by history position.
+;; (use-package savehist
+;;   :straight t
+;;   :init
+;;   (savehist-mode))
+
+
+;; (defadvice vertico-insert
+;;     (after vertico-insert-add-history activate)
+;;   "Make vertico-insert add to the minibuffer history."
+;;   (unless (eq minibuffer-history-variable t)
+;;     (add-to-history minibuffer-history-variable (minibuffer-contents))))
+
+;; ;; Enable rich annotations using the Marginalia package
+;; (use-package marginalia
+;;   :straight t
+;;   ;; Either bind `marginalia-cycle' globally or only in the minibuffer
+;;   :bind (("M-A" . marginalia-cycle)
+;;          :map minibuffer-local-map
+;;          ("M-A" . marginalia-cycle))
+
+;;   ;; The :init configuration is always executed (Not lazy!)
+;;   :init
+
+;;   ;; Must be in the :init section of use-package such that the mode gets
+;;   ;; enabled right away. Note that this forces loading the package.
+;;   (marginalia-mode))
 
 
 (provide 'my-used-packages)

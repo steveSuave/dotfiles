@@ -3,6 +3,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(LilyPond-all-midi-command "fluidsynth -i")
+ '(LilyPond-midi-command "fluidsynth -i")
+ '(LilyPond-pdf-command "xdg-open")
  '(calendar-date-style 'iso)
  '(display-time-24hr-format t)
  '(ediff-split-window-function 'split-window-horizontally)

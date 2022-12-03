@@ -492,6 +492,12 @@ tokens, and DELIMITED as prefix arg."
               100)
          '(85 . 50) '(100 . 100)))))
 
+(defun recentf-open-files-compl ()
+  (interactive)
+  (if (find-file (completing-read "Find recent file: " recentf-list))
+      (message "Opening file...")
+    (message "Aborting")))
+
 ;; --------
 ;; BINDINGS
 ;; --------
@@ -516,14 +522,14 @@ tokens, and DELIMITED as prefix arg."
 (global-set-key "\C-\M-f" 'find-file-at-point)
 (global-set-key "\C-cf" 'find-dired)
 (global-set-key "\C-cF" 'rgrep)
-(global-set-key (kbd "<C-return>") 'company-complete)
+;; (global-set-key (kbd "<C-return>") 'company-complete)
 (global-set-key (kbd "<C-S-return>") 'completion-at-point)
 ;;(global-set-key "\C-cq" 'sql-db-local)
 (global-set-key (kbd "C-c c s") 'scratch-with-prefix-arg)
 (global-set-key "\C-c$" 'toggle-truncate-lines)
 (global-set-key (kbd "C-S-s") 'isearch-forward-symbol-at-point)
 ;; (global-set-key "\C-cN" #'newsticker-show-news)
-(global-set-key "\C-cm" #'treemacs)
+;; (global-set-key "\C-cm" #'treemacs)
 (global-set-key "\C-c\C-e" #'myerc)
 (global-set-key "\C-cC" #'calendar)
 ;;(global-set-key (kbd "M-i") 'change-inner)
@@ -575,10 +581,13 @@ tokens, and DELIMITED as prefix arg."
   ;; or (global-set-key (kbd "C-z") nil)
   (global-unset-key (kbd "C-z")))
 
-(define-key help-map "\C-h" 'which-key-C-h-dispatch)
-(define-key helm-map (kbd "TAB") #'helm-execute-persistent-action)
-(define-key helm-map (kbd "<tab>") #'helm-execute-persistent-action)
-(define-key helm-map (kbd "C-j") #'helm-select-action)
+;;; Deprecating helm
+;; (define-key help-map "\C-h" 'which-key-C-h-dispatch)
+;; (define-key helm-map (kbd "TAB") #'helm-execute-persistent-action)
+;; (define-key helm-map (kbd "<tab>") #'helm-execute-persistent-action)
+;; (define-key helm-map (kbd "C-j") #'helm-select-action)
+
+(global-set-key (kbd "C-c C-f") 'recentf-open-files-compl)
 
 ;; ---------
 ;; VARIABLES
@@ -594,7 +603,7 @@ tokens, and DELIMITED as prefix arg."
       ;; frame-background-mode nil
       Buffer-menu-name-width 35
       helm-buffer-max-length nil
-      recentf-max-saved-items 50
+      recentf-max-saved-items 150
       lsp-modeline-diagnostics-enable nil
       read-buffer-completion-ignore-case t
       read-file-name-completion-ignore-case t
@@ -663,8 +672,8 @@ tokens, and DELIMITED as prefix arg."
          ("\\.xml$" . xml-mode) ;; psgml-mode, nxml-mode
          ("\\.xsd$" . nxml-mode) ;; xsl-mode
          ("\\.xsl$" . nxml-mode) ;; xsl-mode
-         ;; ("\\.yaml\\'" . yaml-mode)
-         ;; ("\\.yml\\'" . yaml-mode)
+         ("\\.yaml\\'" . yaml-mode)
+         ("\\.yml\\'" . yaml-mode)
          ("github.*\\.txt$" . markdown-mode)
          ;; ("pom.xml" . nxml-mode)
          ("\\.http$" . restclient-mode)
