@@ -198,7 +198,7 @@
 
 (when (fboundp 'LilyPond-mode)
   (defun l-compile-command ()
-    "..."
+    "Use C-c C-l to run lilypond before opening pdf and midi"
     (interactive)
     (let* ((source (file-name-nondirectory buffer-file-name))
 	   (out    (file-name-sans-extension source))
