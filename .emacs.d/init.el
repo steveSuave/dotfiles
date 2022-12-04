@@ -17,8 +17,7 @@
 (put 'upcase-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
 ;; (setq-default indent-tabs-mode nil)
-(setq treemacs--width-is-locked nil)
-;;(global-display-line-numbers-mode 1)
+;; (global-display-line-numbers-mode 1)
 (put 'downcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
 (put 'dired-find-alternate-file 'disabled nil)
@@ -216,8 +215,6 @@
 (add-hook 'dired-mode-hook 'dired-hide-details-mode)
 (add-hook 'calendar-today-visible-hook 'calendar-mark-today)
 (add-hook 'sql-interactive-mode-hook 'my-sql-save-history-hook)
-(add-hook 'sql-interactive-mode-hook 'company-mode)
-(add-hook 'minibuffer-setup-hook 'yas-minor-mode)
 (add-hook 'LilyPond-mode-hook (lambda () (turn-on-font-lock)))
 (add-hook 'find-file-hook 'make-large-file-read-only-hook)
 
@@ -532,14 +529,12 @@ tokens, and DELIMITED as prefix arg."
 (global-set-key "\C-\M-f" 'find-file-at-point)
 (global-set-key "\C-cf" 'find-dired)
 (global-set-key "\C-cF" 'rgrep)
-;; (global-set-key (kbd "<C-return>") 'company-complete)
 (global-set-key (kbd "<C-S-return>") 'completion-at-point)
 ;;(global-set-key "\C-cq" 'sql-db-local)
 (global-set-key (kbd "C-c c s") 'scratch-with-prefix-arg)
 (global-set-key "\C-c$" 'toggle-truncate-lines)
 (global-set-key (kbd "C-S-s") 'isearch-forward-symbol-at-point)
 ;; (global-set-key "\C-cN" #'newsticker-show-news)
-;; (global-set-key "\C-cm" #'treemacs)
 (global-set-key "\C-c\C-e" #'myerc)
 (global-set-key "\C-cC" #'calendar)
 ;;(global-set-key (kbd "M-i") 'change-inner)
@@ -578,6 +573,7 @@ tokens, and DELIMITED as prefix arg."
 (global-set-key "\C-cJ" (lambda () (interactive) (json-format t)))
 (global-set-key "\C-ccx" (lambda () (interactive) (xml-format)))
 (global-set-key "\C-ccX" (lambda () (interactive) (xml-format t)))
+(global-set-key (kbd "C-c C-f") 'recentf-open-files-compl)
 
 (global-set-key "\C-cL" 'hl-line-mode)
 (global-set-key (kbd "C-c ct") 'toggle-transparency)
@@ -590,8 +586,6 @@ tokens, and DELIMITED as prefix arg."
 (when (display-graphic-p)
   ;; or (global-set-key (kbd "C-z") nil)
   (global-unset-key (kbd "C-z")))
-
-(global-set-key (kbd "C-c C-f") 'recentf-open-files-compl)
 
 ;; ---------
 ;; VARIABLES

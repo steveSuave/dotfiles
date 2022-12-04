@@ -14,10 +14,8 @@
 (straight-use-package 'magit)
 (straight-use-package 'diff-hl)
 (straight-use-package 'go-mode)
-;; (straight-use-package 'hydra)
 (straight-use-package 'lua-mode)
 (straight-use-package 'sml-mode)
-(straight-use-package 'flycheck)
 (straight-use-package 'sqlformat)
 (straight-use-package 'yaml-mode)
 (straight-use-package 'rust-mode)
@@ -42,11 +40,6 @@
   :straight t
   :config (which-key-mode))
 
-;; (use-package company
-;;   :straight t
-;;   :defer t
-;;   :config (global-company-mode 1))
-
 (defun my/ansi-colorize-buffer ()
   (let ((buffer-read-only nil))
     (ansi-color-apply-on-region (point-min) (point-max))))
@@ -64,6 +57,7 @@
   (yas-global-mode)
   (define-key minibuffer-local-map [tab] yas-maybe-expand)
   (yas--define-parents 'minibuffer-inactive-mode '(fundamental-mode)))
+(add-hook 'minibuffer-setup-hook 'yas-minor-mode)
 
 (use-package elfeed
   :straight t
@@ -152,13 +146,5 @@
     '(orderless-literal . ""))
    ((string-prefix-p "!" pattern)
     `(orderless-without-literal . ,(substring pattern 1)))))
-
-;; (flycheck-define-checker java-checkstyle
-;;   "A java syntax checker using checkstyle. See `https://www.checkstyle.org'."
-;;   :command ("java" "-jar" "~/Downloads/checkstyle-9.1-all.jar" "-c" "~/checkstyle/src/main/resources/sun_checks.xml" source)
-;;   :error-patterns
-;;   ((error line-start "[ERROR] " (file-name) ":" line ":" column ": " (message) ". [" (id (one-or-more alnum)) "]" line-end))
-;;   :modes java-mode)
-
 
 (provide 'my-used-packages)
