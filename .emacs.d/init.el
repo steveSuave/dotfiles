@@ -218,11 +218,21 @@
 (add-hook 'sql-interactive-mode-hook 'my-sql-save-history-hook)
 (add-hook 'sql-interactive-mode-hook 'company-mode)
 (add-hook 'minibuffer-setup-hook 'yas-minor-mode)
-;; (add-hook 'LilyPond-mode-hook (lambda () (turn-on-font-lock)))
+(add-hook 'LilyPond-mode-hook (lambda () (turn-on-font-lock)))
+(add-hook 'find-file-hook 'make-large-file-read-only-hook)
 
 ;; ---------
 ;; FUNCTIONS
 ;; ---------
+
+(defun make-large-file-read-only-hook ()
+  "If a file is over a given size, make the buffer read only."
+  (when (and (file-exists-p (buffer-name))
+	     (< (* 1024 1024 2) ;2M
+		(file-attribute-size (file-attributes (buffer-file-name)))))
+    (setq buffer-read-only t)
+    (hl-line-mode)
+    (view-mode)))
 
 (defun annot (num char)
   (interactive "nColumn to send cursor? \nsComment symbol to insert? ")
@@ -581,12 +591,6 @@ tokens, and DELIMITED as prefix arg."
   ;; or (global-set-key (kbd "C-z") nil)
   (global-unset-key (kbd "C-z")))
 
-;;; Deprecating helm
-;; (define-key help-map "\C-h" 'which-key-C-h-dispatch)
-;; (define-key helm-map (kbd "TAB") #'helm-execute-persistent-action)
-;; (define-key helm-map (kbd "<tab>") #'helm-execute-persistent-action)
-;; (define-key helm-map (kbd "C-j") #'helm-select-action)
-
 (global-set-key (kbd "C-c C-f") 'recentf-open-files-compl)
 
 ;; ---------
@@ -730,9 +734,9 @@ tokens, and DELIMITED as prefix arg."
  ;; C-8 will increase opacity (== decrease transparency)
  ;; C-9 will decrease opacity (== increase transparency
  ;; C-0 will returns the state to normal
-(global-set-key (kbd "C-8") '(lambda()(interactive)(djcb-opacity-modify)))
-(global-set-key (kbd "C-9") '(lambda()(interactive)(djcb-opacity-modify t)))
-(global-set-key (kbd "C-0") '(lambda()(interactive)
+(global-set-key (kbd "C-8") #'(lambda()(interactive)(djcb-opacity-modify)))
+(global-set-key (kbd "C-9") #'(lambda()(interactive)(djcb-opacity-modify t)))
+(global-set-key (kbd "C-0") #'(lambda()(interactive)
                                (modify-frame-parameters nil `((alpha . 100)))))
 
 ;; (set-fontset-font t 'greek (font-spec :family "Monaco Sans Mono"))
