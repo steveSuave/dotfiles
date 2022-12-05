@@ -52,8 +52,8 @@
 (require 'scratch)
 (require 'oberon)
 
-(require 'frame-bufs)
-(frame-bufs-mode t)
+;; (require 'frame-bufs)
+;; (frame-bufs-mode t)
 
 ;; (add-to-list 'load-path "/Applications/LilyPond.app/Contents/Resources/share/emacs/site-lisp/")
 ;; (autoload 'LilyPond-mode "lilypond-mode")
@@ -388,7 +388,8 @@ then re-create *scratch* and switch to it, or else change buffers until a 'front
   (if (andmap
        (lambda (el)
          (not (front-bufsp el)))
-       (frame-bufs-buffer-list (selected-frame))) ;; (buffer-list))
+       (buffer-list))
+       ;; (frame-bufs-buffer-list (selected-frame)))
       (create-and-switch-to-scratch-buffer)
     (progn (where-to prev)
            (while (not (front-bufsp))
@@ -487,6 +488,16 @@ tokens, and DELIMITED as prefix arg."
       (define-key map (kbd "x") 'my-decrement-number-at-point)
       map)))
 
+(defun recentf-open-files-compl ()
+  (interactive)
+  (if (find-file (completing-read "Find recent file: " recentf-list))
+      (message "Opening file...")
+    (message "Aborting")))
+
+;; ;; Enable transparency
+;; (set-frame-parameter (selected-frame) 'alpha '(85 . 50)) ;; other 3rd arguments: <both> '(<active> . <inactive>)
+;; (add-to-list 'default-frame-alist '(alpha . (85 . 50)))
+
 (defun toggle-transparency ()
   (interactive)
   (let ((alpha (frame-parameter nil 'alpha)))
@@ -499,11 +510,14 @@ tokens, and DELIMITED as prefix arg."
               100)
          '(85 . 50) '(100 . 100)))))
 
-(defun recentf-open-files-compl ()
-  (interactive)
-  (if (find-file (completing-read "Find recent file: " recentf-list))
-      (message "Opening file...")
-    (message "Aborting")))
+(defun djcb-opacity-modify (&optional dec)
+  "modify the transparency of the emacs frame; if DEC is t,
+    decrease the transparency, otherwise increase it in 10%-steps"
+  (let* ((alpha-or-nil (frame-parameter nil 'alpha)) ; nil before setting
+          (oldalpha (if alpha-or-nil alpha-or-nil 100))
+          (newalpha (if dec (- oldalpha 10) (+ oldalpha 10))))
+    (when (and (>= newalpha frame-alpha-lower-limit) (<= newalpha 100))
+      (modify-frame-parameters nil (list (cons 'alpha newalpha))))))
 
 ;; --------
 ;; BINDINGS
@@ -574,13 +588,21 @@ tokens, and DELIMITED as prefix arg."
 (global-set-key "\C-ccx" (lambda () (interactive) (xml-format)))
 (global-set-key "\C-ccX" (lambda () (interactive) (xml-format t)))
 (global-set-key (kbd "C-c C-f") 'recentf-open-files-compl)
-
 (global-set-key "\C-cL" 'hl-line-mode)
+
+;; C-8 will increase opacity (== decrease transparency)
+;; C-9 will decrease opacity (== increase transparency
+;; C-0 will returns the state to normal
+(global-set-key (kbd "C-8") #'(lambda()(interactive)(djcb-opacity-modify)))
+(global-set-key (kbd "C-9") #'(lambda()(interactive)(djcb-opacity-modify t)))
+(global-set-key (kbd "C-0") #'(lambda()(interactive) (modify-frame-parameters nil `((alpha . 100)))))
 (global-set-key (kbd "C-c ct") 'toggle-transparency)
+
 (global-set-key "\C-ccw" (lambda () (interactive)
                            (setq show-trailing-whitespace (not show-trailing-whitespace))
                            (redraw-display)))
 
+;; (global-set-key (kbd "s-x") '(lambda () (interactive) (message "hello")))
 ;; another key notation: [(meta insert)]
 
 (when (display-graphic-p)
@@ -685,11 +707,8 @@ tokens, and DELIMITED as prefix arg."
 ;; FINALLY
 ;; -------
 
-;; Enable transparency
-(set-frame-parameter (selected-frame) 'alpha '(85 . 50)) ;; other 3rd arguments: <both> '(<active> . <inactive>)
-(add-to-list 'default-frame-alist '(alpha . (85 . 50)))
-
-;; (set-face-attribute 'default nil :font "Menlo" :height 160)
+;; (set-fontset-font t 'greek (font-spec :family "Monaco Sans Mono"))
+(set-face-attribute 'default nil :font "Menlo" :height 160)
 (make-directory "~/.emacs.d/sql/" t)
 (load custom-file)
 
@@ -710,27 +729,3 @@ tokens, and DELIMITED as prefix arg."
 
 (display-time)
 (diary)
-
-;;(setq lsp-java-jdt-download-url  "https://download.eclipse.org/jdtls/milestones/0.57.0/jdt-language-server-0.57.0-202006172108.tar.gz")
-
-;; ================================================================
-;; (global-set-key (kbd "s-x") '(lambda () (interactive) (message "hello")))
-
-(defun djcb-opacity-modify (&optional dec)
-  "modify the transparency of the emacs frame; if DEC is t,
-    decrease the transparency, otherwise increase it in 10%-steps"
-  (let* ((alpha-or-nil (frame-parameter nil 'alpha)) ; nil before setting
-          (oldalpha (if alpha-or-nil alpha-or-nil 100))
-          (newalpha (if dec (- oldalpha 10) (+ oldalpha 10))))
-    (when (and (>= newalpha frame-alpha-lower-limit) (<= newalpha 100))
-      (modify-frame-parameters nil (list (cons 'alpha newalpha))))))
-
- ;; C-8 will increase opacity (== decrease transparency)
- ;; C-9 will decrease opacity (== increase transparency
- ;; C-0 will returns the state to normal
-(global-set-key (kbd "C-8") #'(lambda()(interactive)(djcb-opacity-modify)))
-(global-set-key (kbd "C-9") #'(lambda()(interactive)(djcb-opacity-modify t)))
-(global-set-key (kbd "C-0") #'(lambda()(interactive)
-                               (modify-frame-parameters nil `((alpha . 100)))))
-
-;; (set-fontset-font t 'greek (font-spec :family "Monaco Sans Mono"))
