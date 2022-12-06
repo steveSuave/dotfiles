@@ -170,8 +170,8 @@ line."
 (defvar oberon-mode-syntax-table
   (let ((table (make-syntax-table)))
     (modify-syntax-entry ?\' "\"" table)
-    (modify-syntax-entry ?( "()1n" table)
-                         (modify-syntax-entry ?) ")(4n" table)
+    (modify-syntax-entry ?\( "()1n" table)
+                         (modify-syntax-entry ?\) ")(4n" table)
     (modify-syntax-entry ?* ". 23n" table)
 
     ;; Underscores in identifiers are supported by this mode (as a

@@ -69,6 +69,7 @@
   :init (projectile-mode +1)
   :config
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+(setq projectile-known-projects-file "~/.emacs.d/cache/projectile-bookmarks.eld")
 
 (use-package company
   :straight t

@@ -26,8 +26,7 @@
 (setq user-cache-directory (concat EMACS_DIR "cache"))
 (setq backup-directory-alist `(("." . ,(expand-file-name "backups" user-cache-directory)))
       url-history-file (expand-file-name "url/history" user-cache-directory)
-      auto-save-list-file-prefix (expand-file-name "auto-save-list/.saves-" user-cache-directory)
-      projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" user-cache-directory))
+      auto-save-list-file-prefix (expand-file-name "auto-save-list/.saves-" user-cache-directory))
 
 ;; mac specific settings
 (when (eq system-type 'darwin)
@@ -37,8 +36,6 @@
     (setq mac-command-modifier 'meta)
     ;; values can be 'control, 'alt, 'meta, 'super, 'hyper, nil
     ;; (setting to nil allows the OS to assign values)
-    (global-set-key (kbd "<C-tab>") 'move-front-end-window-back)
-    (global-set-key (kbd "<C-S-tab>") 'move-front-end-window)
     (let ((my-path "/usr/local/mysql/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:"))
       (setenv "PATH" (concat my-path (getenv "PATH")))
       (setq exec-path (append (split-string my-path path-separator) exec-path)))))
@@ -426,7 +423,7 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
     ". ~/.bin/alif && taf lgav 2>/dev/null")))
 
 ;; huaiyuan from https://stackoverflow.com/a/2592685
-(require 'cl)
+(require 'cl-lib)
 (defun parallel-query-replace (plist &optional delimited start end)
   "Replace every occurrence of the (2n)th token of PLIST in
 buffer with the (2n+1)th token; if only two tokens are provided,
@@ -493,6 +490,31 @@ tokens, and DELIMITED as prefix arg."
   (if (find-file (completing-read "Find recent file: " recentf-list))
       (message "Opening file...")
     (message "Aborting")))
+
+(defun toggle-window-split ()
+  (interactive)
+  (if (= (count-windows) 2)
+      (let* ((this-win-buffer (window-buffer))
+	     (next-win-buffer (window-buffer (next-window)))
+	     (this-win-edges (window-edges (selected-window)))
+	     (next-win-edges (window-edges (next-window)))
+	     (this-win-2nd (not (and (<= (car this-win-edges)
+					 (car next-win-edges))
+				     (<= (cadr this-win-edges)
+					 (cadr next-win-edges)))))
+	     (splitter
+	      (if (= (car this-win-edges)
+		     (car (window-edges (next-window))))
+		  'split-window-horizontally
+		'split-window-vertically)))
+	(delete-other-windows)
+	(let ((first-win (selected-window)))
+	  (funcall splitter)
+	  (if this-win-2nd (other-window 1))
+	  (set-window-buffer (selected-window) this-win-buffer)
+	  (set-window-buffer (next-window) next-win-buffer)
+	  (select-window first-win)
+	  (if this-win-2nd (other-window 1))))))
 
 ;; ;; Enable transparency
 ;; (set-frame-parameter (selected-frame) 'alpha '(85 . 50)) ;; other 3rd arguments: <both> '(<active> . <inactive>)
@@ -568,6 +590,7 @@ tokens, and DELIMITED as prefix arg."
 
 (global-set-key (kbd "<C-tab>") 'move-front-end-window)
 (global-set-key (kbd "<C-iso-lefttab>") 'move-front-end-window-back)
+;; (global-set-key (kbd "<C-S-tab>") 'move-front-end-window-back)
 ;; (global-set-key (kbd "<C-S-lefttab>") 'move-front-end-window-back)
 ;; (global-set-key (kbd "<S-M-tab>") 'move-front-end-window-back)
 ;; (global-set-key (kbd "ESC <backtab>") 'move-front-end-window-back)
@@ -578,8 +601,6 @@ tokens, and DELIMITED as prefix arg."
 (global-set-key "\C-cW" (lambda () (interactive) (taaf)))
 (global-set-key "\C-x52" (lambda () (interactive) (switch-to-buffer-other-frame "*Messages*")))
 ;; (global-set-key "\C-x\C-b" (lambda () (interactive) (progn (list-buffers) (other-window 1))))
-(global-set-key "\M-p" "\C-x0\C-x2\C-xb") ;; switch horizontal to vertical split
-(global-set-key "\M-n" "\C-x0\C-x4b") ;; switch vertical to horizontal split
 (global-set-key (kbd "C-h j") 'javadoc-lookup)
 (global-set-key (kbd "C-c a") 'my-increment-number-at-point)
 (global-set-key (kbd "C-c x") 'my-decrement-number-at-point)
@@ -589,6 +610,8 @@ tokens, and DELIMITED as prefix arg."
 (global-set-key "\C-ccX" (lambda () (interactive) (xml-format t)))
 (global-set-key (kbd "C-c C-f") 'recentf-open-files-compl)
 (global-set-key "\C-cL" 'hl-line-mode)
+(global-set-key (kbd "C-c ^") 'toggle-window-split)
+(global-set-key (kbd "C-c %") 'window-swap-states)
 
 ;; C-8 will increase opacity (== decrease transparency)
 ;; C-9 will decrease opacity (== increase transparency

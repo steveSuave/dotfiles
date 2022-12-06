@@ -1,12 +1,12 @@
 ;;; scratch.el --- Mode-specific scratch buffers
 
 ;; Author: Ian Eure <ian.eure@gmail.com>
-;; Version: 1.3
+;; Version: 1.4
 ;; Package-Requires: ((emacs "25.1"))
 ;; URL: https://github.com/ieure/scratch-el
 ;; Keywords: convenience, tools, files
 
-;; Copyright (c) 1999-2017, 2019 Ian Eure <ian.eure@gmail.com>
+;; Copyright (c) 1999-2017, 2019, 2022 Ian Eure <ian.eure@gmail.com>
 ;; All rights reserved.
 
 ;; Redistribution and use in source and binary forms, with or without
@@ -111,11 +111,14 @@
 ;;   buffers they were created from.
 ;;   Fix byte-compilation warnings.
 ;;   Substantially refactor & update code.
+;;
+;; 2022-03-19 Ian Eure (v1.4)
+;;   Depend on cl-lib instead of cl.
+;;   Address some minor linter complaints.
 
 ;;; Code:
 
-(eval-when-compile
-  (require 'cl))
+(require 'cl-lib)
 (require 'sql)
 (require 'subr-x)
 
@@ -142,7 +145,8 @@ buffers."
   :type '(alist :key-type symbol :value-type symbol))
 
 (defcustom scratch-create-buffer-hook nil
-  "Hooks to run when creating a scratch buffer.")
+  "Hooks to run when creating a scratch buffer."
+  :type 'cons)
 
 (defvar scratch--history nil
   "History of scratch buffers.")
@@ -190,8 +194,10 @@ them."
    (t nil)))
 
 (defun scratch--buffer-querymode ()
-  (cond
+  "Return the mode to use for a new scratch buffer.
 
+When called with a prefix argument, prompt the user."
+  (cond
    ;; Prompt user for mode
    (current-prefix-arg
     (intern (concat (completing-read
@@ -207,6 +213,9 @@ them."
    (t major-mode)))
 
 (defun scratch--create (mode name)
+  "Create scratch buffer for mode MODE, with base name NAME.
+
+Returns the new buffer."
   (let ((scratch-buffer t)
         (parent (current-buffer))
         (contents (when (region-active-p)
@@ -215,7 +224,7 @@ them."
     (with-current-buffer (get-buffer-create name)
       (funcall mode)
       (when contents
-        (save-excursion (insert contents)))
+          (save-excursion (insert contents)))
 
       (setq-local scratch-buffer t)
       (unless current-prefix-arg
@@ -234,6 +243,7 @@ When called interactively with a prefix arg, prompt for the mode."
                  (replace-regexp-in-string "-mode$" "")
                  (format "|%s|")))
          (buf (get-buffer name)))
+
     (pop-to-buffer
      (if (bufferp buf) ; buf ; Existing scratch buffer  ;; originally just redirected to existing scratch buffer
          ;; create new "incremented" scratch, this is a custom addition
