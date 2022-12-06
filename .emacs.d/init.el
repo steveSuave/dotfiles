@@ -487,9 +487,12 @@ tokens, and DELIMITED as prefix arg."
 
 (defun recentf-open-files-compl ()
   (interactive)
-  (if (find-file (completing-read "Find recent file: " recentf-list))
-      (message "Opening file...")
-    (message "Aborting")))
+  (defun find-mult (list-of-files)
+    (if (null list-of-files)
+	(message "find-mult done")
+      (find-file (car list-of-files))
+      (find-mult (cdr list-of-files))))
+  (find-mult (completing-read-multiple "Find recent files: " recentf-list)))
 
 (defun toggle-window-split ()
   (interactive)
