@@ -20,9 +20,9 @@
    '((holiday-fixed 1 1 "Prwtoxronia")
      (holiday-fixed 1 6 "Theofaneia")
      (holiday-fixed 3 25 "Eyaggelismos")
-     ;; kathara deytera = easter - 48 days
+     (holiday-greek-orthodox-easter -48 "Kathara Deytera")
      (holiday-greek-orthodox-easter)
-     ;; agiou pnevmatos = easter + 48 days
+     (holiday-greek-orthodox-easter 50 "Agiou Pnevmatos")
      (holiday-fixed 5 1 "Prwtomagia")
      (holiday-fixed 8 15 "Koimisi")
      (holiday-fixed 10 28 "Oxi")
