@@ -16,7 +16,7 @@
 (prefer-coding-system 'utf-8-unix)
 (put 'upcase-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
-;; (setq-default indent-tabs-mode nil)
+(setq-default indent-tabs-mode nil)
 ;; (global-display-line-numbers-mode 1)
 (put 'downcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
@@ -102,9 +102,9 @@
     (setq lsp-ui-doc-enable nil)
     (setq lsp-ui-sideline-enable nil)
     (when scratch-buffer
-              (goto-char (point-min))
-              (insert "public class LetsDoDis {\n\n\n\n}")
-              (forward-line -2)))
+      (goto-char (point-min))
+      (insert "public class LetsDoDis {\n\n\n\n}")
+      (forward-line -2)))
   (add-hook 'java-mode-hook 'my-java-hooks))
 
 (when (fboundp 'sql-mode)
@@ -143,12 +143,12 @@
 (when (fboundp 'c-mode)
   (defun c-compile-command ()
     (interactive)
-      (compile (concat "cc "
-                       (file-truename buffer-file-name)
-                       " -o "
-                       (file-name-sans-extension ( file-name-nondirectory buffer-file-name))
-                       " && "
-                       (file-name-sans-extension buffer-file-name))))
+    (compile (concat "cc "
+                     (file-truename buffer-file-name)
+                     " -o "
+                     (file-name-sans-extension ( file-name-nondirectory buffer-file-name))
+                     " && "
+                     (file-name-sans-extension buffer-file-name))))
   (defun my-c-hooks ()
     "For use in `c-mode-hook'."
     (local-set-key "\C-c\C-c" #'c-compile-command))
@@ -157,8 +157,8 @@
 (when (fboundp 'haskell-mode)
   (defun haskell-compile-command ()
     (interactive)
-      (compile (concat "runhaskell "
-                       (file-truename buffer-file-name))))
+    (compile (concat "runhaskell "
+                     (file-truename buffer-file-name))))
   (defun my-haskell-hooks ()
     "For use in `haskell-mode-hook'."
     (local-set-key "\C-c\C-c" #'haskell-compile-command))
@@ -197,9 +197,9 @@
     "Use C-c C-l to run lilypond before opening pdf and midi"
     (interactive)
     (let* ((source (file-name-nondirectory buffer-file-name))
-	   (out    (file-name-sans-extension source))
-	   (pdf  (concat out ".pdf"))
-	   (midi  (concat out ".midi")))
+           (out    (file-name-sans-extension source))
+           (pdf  (concat out ".pdf"))
+           (midi  (concat out ".midi")))
       (shell-command (format "open %s" pdf))
       (async-shell-command (format "fluidsynth -i %s" midi))))
 
@@ -215,6 +215,13 @@
 (add-hook 'LilyPond-mode-hook (lambda () (turn-on-font-lock)))
 (add-hook 'find-file-hook 'make-large-file-read-only-hook)
 
+;; Draw tabs with the same color as trailing whitespace
+(add-hook 'font-lock-mode-hook
+          (lambda ()
+            (font-lock-add-keywords
+             nil
+             '(("\t" 0 'trailing-whitespace prepend)))))
+
 ;; ---------
 ;; FUNCTIONS
 ;; ---------
@@ -222,8 +229,8 @@
 (defun make-large-file-read-only-hook ()
   "If a file is over a given size, make the buffer read only."
   (when (and (file-exists-p (buffer-name))
-	     (< (* 1024 1024 2) ;2M
-		(file-attribute-size (file-attributes (buffer-file-name)))))
+             (< (* 1024 1024 2) ;2M
+                (file-attribute-size (file-attributes (buffer-file-name)))))
     (setq buffer-read-only t)
     (hl-line-mode)
     (view-mode)))
@@ -386,7 +393,7 @@ then re-create *scratch* and switch to it, or else change buffers until a 'front
        (lambda (el)
          (not (front-bufsp el)))
        (buffer-list))
-       ;; (frame-bufs-buffer-list (selected-frame)))
+      ;; (frame-bufs-buffer-list (selected-frame)))
       (create-and-switch-to-scratch-buffer)
     (progn (where-to prev)
            (while (not (front-bufsp))
@@ -436,21 +443,21 @@ When called interactively, PLIST is input as space separated
 tokens, and DELIMITED as prefix arg."
   (interactive
    `(,(cl-loop with input = (read-from-minibuffer "Replace: ")
-            with limit = (length input)
-            for  j = 0 then i
-            for (item . i) = (read-from-string input j)
-            collect (prin1-to-string item t) until (<= limit i))
+               with limit = (length input)
+               for  j = 0 then i
+               for (item . i) = (read-from-string input j)
+               collect (prin1-to-string item t) until (<= limit i))
      ,current-prefix-arg
      ,@(if (use-region-p) `(,(region-beginning) ,(region-end)))))
   (let* ((alist (cond ((= (length plist) 2) (list plist (reverse plist)))
                       ((cl-loop for (key val . tail) on plist by #'cddr
-                             collect (list (prin1-to-string key t) val)))))
+                                collect (list (prin1-to-string key t) val)))))
          (matcher (regexp-opt (mapcar #'car alist)
                               ;; (if delimited 'words 'symbols)
                               ))
          (to-spec `(replace-eval-replacement replace-quote
-                    (cadr (assoc-string (match-string 0) ',alist
-                                        case-fold-search)))))
+                                             (cadr (assoc-string (match-string 0) ',alist
+                                                                 case-fold-search)))))
     (query-replace-regexp matcher to-spec nil start end)))
 
 (defun my-change-number-at-point (change increment)
@@ -472,24 +479,24 @@ tokens, and DELIMITED as prefix arg."
   (interactive "p")
   (my-change-number-at-point '+ (or increment 1))
   (set-temporary-overlay-map
-    (let ((map (make-sparse-keymap)))
-      (define-key map (kbd "a") 'my-increment-number-at-point)
-      map)))
+   (let ((map (make-sparse-keymap)))
+     (define-key map (kbd "a") 'my-increment-number-at-point)
+     map)))
 
 (defun my-decrement-number-at-point (&optional increment)
   "Decrement number at point like vim's C-x"
   (interactive "p")
   (my-change-number-at-point '- (or increment 1))
   (set-temporary-overlay-map
-    (let ((map (make-sparse-keymap)))
-      (define-key map (kbd "x") 'my-decrement-number-at-point)
-      map)))
+   (let ((map (make-sparse-keymap)))
+     (define-key map (kbd "x") 'my-decrement-number-at-point)
+     map)))
 
 (defun recentf-open-files-compl ()
   (interactive)
   (defun find-mult (list-of-files)
     (if (null list-of-files)
-	(message "find-mult done")
+        (message "find-mult done")
       (find-file (car list-of-files))
       (find-mult (cdr list-of-files))))
   (find-mult (completing-read-multiple "Find recent files: " recentf-list)))
@@ -498,26 +505,26 @@ tokens, and DELIMITED as prefix arg."
   (interactive)
   (if (= (count-windows) 2)
       (let* ((this-win-buffer (window-buffer))
-	     (next-win-buffer (window-buffer (next-window)))
-	     (this-win-edges (window-edges (selected-window)))
-	     (next-win-edges (window-edges (next-window)))
-	     (this-win-2nd (not (and (<= (car this-win-edges)
-					 (car next-win-edges))
-				     (<= (cadr this-win-edges)
-					 (cadr next-win-edges)))))
-	     (splitter
-	      (if (= (car this-win-edges)
-		     (car (window-edges (next-window))))
-		  'split-window-horizontally
-		'split-window-vertically)))
-	(delete-other-windows)
-	(let ((first-win (selected-window)))
-	  (funcall splitter)
-	  (if this-win-2nd (other-window 1))
-	  (set-window-buffer (selected-window) this-win-buffer)
-	  (set-window-buffer (next-window) next-win-buffer)
-	  (select-window first-win)
-	  (if this-win-2nd (other-window 1))))))
+             (next-win-buffer (window-buffer (next-window)))
+             (this-win-edges (window-edges (selected-window)))
+             (next-win-edges (window-edges (next-window)))
+             (this-win-2nd (not (and (<= (car this-win-edges)
+                                         (car next-win-edges))
+                                     (<= (cadr this-win-edges)
+                                         (cadr next-win-edges)))))
+             (splitter
+              (if (= (car this-win-edges)
+                     (car (window-edges (next-window))))
+                  'split-window-horizontally
+                'split-window-vertically)))
+        (delete-other-windows)
+        (let ((first-win (selected-window)))
+          (funcall splitter)
+          (if this-win-2nd (other-window 1))
+          (set-window-buffer (selected-window) this-win-buffer)
+          (set-window-buffer (next-window) next-win-buffer)
+          (select-window first-win)
+          (if this-win-2nd (other-window 1))))))
 
 ;; ;; Enable transparency
 ;; (set-frame-parameter (selected-frame) 'alpha '(85 . 50)) ;; other 3rd arguments: <both> '(<active> . <inactive>)
@@ -539,8 +546,8 @@ tokens, and DELIMITED as prefix arg."
   "modify the transparency of the emacs frame; if DEC is t,
     decrease the transparency, otherwise increase it in 10%-steps"
   (let* ((alpha-or-nil (frame-parameter nil 'alpha)) ; nil before setting
-          (oldalpha (if alpha-or-nil alpha-or-nil 100))
-          (newalpha (if dec (- oldalpha 10) (+ oldalpha 10))))
+         (oldalpha (if alpha-or-nil alpha-or-nil 100))
+         (newalpha (if dec (- oldalpha 10) (+ oldalpha 10))))
     (when (and (>= newalpha frame-alpha-lower-limit) (<= newalpha 100))
       (modify-frame-parameters nil (list (cons 'alpha newalpha))))))
 
@@ -696,7 +703,7 @@ tokens, and DELIMITED as prefix arg."
          ("\\.js$" . js-mode)
          ("\\.json$" . js-mode)
          ("\\.lua$" . lua-mode)
-	 ("\\.ly$" . LilyPond-mode)
+         ("\\.ly$" . LilyPond-mode)
          ("\\Makefile$" . makefile-mode)
          ("\\makefile$" . makefile-mode)
          ("\\.md$" . markdown-mode)
@@ -748,4 +755,3 @@ tokens, and DELIMITED as prefix arg."
 
 (display-time)
 (diary)
-
