@@ -41,7 +41,6 @@
  '(python-shell-interpreter "python3")
  '(require-final-newline 'ask)
  '(scheme-program-name "mit-scheme")
- '(show-trailing-whitespace t)
  '(sml-program-name "poly")
  '(tab-width 4)
  '(tcl-application "tclsh")

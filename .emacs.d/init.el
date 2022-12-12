@@ -215,6 +215,14 @@
 (add-hook 'LilyPond-mode-hook (lambda () (turn-on-font-lock)))
 (add-hook 'find-file-hook 'make-large-file-read-only-hook)
 
+(add-hook 'after-change-major-mode-hook
+          (lambda ()
+            (if (or (eq major-mode 'eww-mode)
+                    (eq major-mode 'calendar-mode)
+                    (eq major-mode 'Buffer-menu-mode))
+                (setq show-trailing-whitespace nil)
+              (setq show-trailing-whitespace t))))
+
 ;; Draw tabs with the same color as trailing whitespace
 (add-hook 'font-lock-mode-hook
           (lambda ()
