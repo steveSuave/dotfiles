@@ -746,12 +746,6 @@ tokens, and DELIMITED as prefix arg."
 (require 'server)
 (unless (server-running-p) (server-start))
 
-;; make sure the diary file exists
-((lambda ()
-   (let ((diary-file
-          (expand-file-name "diary" user-emacs-directory)))
-     (unless (file-exists-p diary-file)
-       (write-region "" nil diary-file)))))
-
 (display-time)
 (diary)
+
