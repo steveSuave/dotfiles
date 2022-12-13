@@ -951,17 +951,17 @@ at point."
     (indent-according-to-mode)))
 
 
-(defun oberon-insert-procedure-skeleton (name &optional reciever-type)
+(defun oberon-insert-procedure-skeleton (name &optional receiver-type)
   "Insert a procedure skeleton at point."
-  (interactive "sProcedure name: \nsReciever type name (default none): ")
-  (let ((reciever "self"))
+  (interactive "sProcedure name: \nsReceiver type name (default none): ")
+  (let ((receiver "self"))
     (insert "PROCEDURE ")
-    (when (not (string-equal reciever-type ""))
-      (if (save-excursion              ;pointer or reference reciever?
+    (when (not (string-equal receiver-type ""))
+      (if (save-excursion              ;pointer or reference receiver?
             (obn-re-search-backward
-             (concat "\\<" reciever-type "\\>\\s-*=\\s-*RECORD\\>") nil t))
-          (insert (concat "(VAR " reciever ": " reciever-type ") "))
-        (insert (concat "(" reciever ": " reciever-type ") "))))
+             (concat "\\<" receiver-type "\\>\\s-*=\\s-*RECORD\\>") nil t))
+          (insert (concat "(VAR " receiver ": " receiver-type ") "))
+        (insert (concat "(" receiver ": " receiver-type ") "))))
     (insert (concat name ";"))
     (indent-according-to-mode)
     (newline)

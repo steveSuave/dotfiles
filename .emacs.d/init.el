@@ -636,12 +636,14 @@ tokens, and DELIMITED as prefix arg."
 ;; C-0 will returns the state to normal
 (global-set-key (kbd "C-8") #'(lambda()(interactive)(djcb-opacity-modify)))
 (global-set-key (kbd "C-9") #'(lambda()(interactive)(djcb-opacity-modify t)))
-(global-set-key (kbd "C-0") #'(lambda()(interactive) (modify-frame-parameters nil `((alpha . 100)))))
+(global-set-key (kbd "C-0") #'(lambda()(interactive)(modify-frame-parameters nil `((alpha . 100)))))
 (global-set-key (kbd "C-c ct") 'toggle-transparency)
 
 (global-set-key "\C-ccw" (lambda () (interactive)
                            (setq show-trailing-whitespace (not show-trailing-whitespace))
                            (redraw-display)))
+
+(global-set-key "\C-ccb" (lambda ()(interactive)(setq indent-tabs-mode (not indent-tabs-mode))))
 
 ;; (global-set-key (kbd "s-x") '(lambda () (interactive) (message "hello")))
 ;; another key notation: [(meta insert)]
