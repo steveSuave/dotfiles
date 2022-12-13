@@ -214,21 +214,8 @@
 (add-hook 'sql-interactive-mode-hook 'my-sql-save-history-hook)
 (add-hook 'LilyPond-mode-hook (lambda () (turn-on-font-lock)))
 (add-hook 'find-file-hook 'make-large-file-read-only-hook)
-
-(add-hook 'after-change-major-mode-hook
-          (lambda ()
-            (if (or (eq major-mode 'eww-mode)
-                    (eq major-mode 'calendar-mode)
-                    (eq major-mode 'Buffer-menu-mode))
-                (setq show-trailing-whitespace nil)
-              (setq show-trailing-whitespace t))))
-
-;; Draw tabs with the same color as trailing whitespace
-(add-hook 'font-lock-mode-hook
-          (lambda ()
-            (font-lock-add-keywords
-             nil
-             '(("\t" 0 'trailing-whitespace prepend)))))
+(add-hook 'after-change-major-mode-hook 'check-and-set-whitespace-trail)
+(add-hook 'font-lock-mode-hook 'color-tabs)
 
 ;; ---------
 ;; FUNCTIONS
@@ -559,6 +546,28 @@ tokens, and DELIMITED as prefix arg."
     (when (and (>= newalpha frame-alpha-lower-limit) (<= newalpha 100))
       (modify-frame-parameters nil (list (cons 'alpha newalpha))))))
 
+(defun color-tabs (&optional remove)
+  "Draw tabs with the same color as trailing whitespace"
+  (let ((tab-handle '(("\t" 0 'trailing-whitespace prepend))))
+    (if remove
+        (font-lock-remove-keywords nil tab-handle)
+      (font-lock-add-keywords nil tab-handle))))
+
+(defun color-whitespace ()
+  (interactive)
+  (setq show-trailing-whitespace (not show-trailing-whitespace))
+  (color-tabs (not show-trailing-whitespace))
+  (font-lock-flush)
+  (font-lock-ensure)
+  (redraw-display))
+
+(defun check-and-set-whitespace-trail ()
+  (if (or (eq major-mode 'eww-mode)
+          (eq major-mode 'calendar-mode)
+          (eq major-mode 'Buffer-menu-mode))
+      (setq show-trailing-whitespace nil)
+    (setq show-trailing-whitespace t)))
+
 ;; --------
 ;; BINDINGS
 ;; --------
@@ -638,12 +647,8 @@ tokens, and DELIMITED as prefix arg."
 (global-set-key (kbd "C-9") #'(lambda()(interactive)(djcb-opacity-modify t)))
 (global-set-key (kbd "C-0") #'(lambda()(interactive)(modify-frame-parameters nil `((alpha . 100)))))
 (global-set-key (kbd "C-c ct") 'toggle-transparency)
-
-(global-set-key "\C-ccw" (lambda () (interactive)
-                           (setq show-trailing-whitespace (not show-trailing-whitespace))
-                           (redraw-display)))
-
 (global-set-key "\C-ccb" (lambda ()(interactive)(setq indent-tabs-mode (not indent-tabs-mode))))
+(global-set-key "\C-ccw" 'color-whitespace)
 
 ;; (global-set-key (kbd "s-x") '(lambda () (interactive) (message "hello")))
 ;; another key notation: [(meta insert)]
