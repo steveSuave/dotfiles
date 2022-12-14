@@ -568,6 +568,19 @@ tokens, and DELIMITED as prefix arg."
       (setq show-trailing-whitespace nil)
     (setq show-trailing-whitespace t)))
 
+(defun bind-white-clean ()
+  (interactive)
+  (let ((region
+         (if (use-region-p)
+             (cons (region-beginning) (region-end))
+           (cons (point-min) (point-max)))))
+    (whitespace-cleanup-region (car region) (cdr region))))
+
+(defun toggle-indent-tabs-mode ()
+  (interactive)
+  (setq indent-tabs-mode (not indent-tabs-mode))
+  (message "set indent-tabs-mode to %s for this buffer" indent-tabs-mode))
+
 ;; --------
 ;; BINDINGS
 ;; --------
@@ -647,8 +660,9 @@ tokens, and DELIMITED as prefix arg."
 (global-set-key (kbd "C-9") #'(lambda()(interactive)(djcb-opacity-modify t)))
 (global-set-key (kbd "C-0") #'(lambda()(interactive)(modify-frame-parameters nil `((alpha . 100)))))
 (global-set-key (kbd "C-c ct") 'toggle-transparency)
-(global-set-key "\C-ccb" (lambda ()(interactive)(setq indent-tabs-mode (not indent-tabs-mode))))
+(global-set-key "\C-ccb" 'toggle-indent-tabs-mode)
 (global-set-key "\C-ccw" 'color-whitespace)
+(global-set-key "\C-ccc" 'bind-white-clean)
 
 ;; (global-set-key (kbd "s-x") '(lambda () (interactive) (message "hello")))
 ;; another key notation: [(meta insert)]
