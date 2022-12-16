@@ -3,18 +3,25 @@
 dotfiles="$HOME/Documents/dotfiles"
 
 cd $dotfiles || exit 1
-printf "\n\nopen/continue/abort? (Return/Space/Ctrl-C)\n\n"
+local_dotfiles=()
+remote_dotfiles=()
 for gdotfile in $(git ls-files); do
     homedotfile="$HOME/$gdotfile"
     if [[ -f "$homedotfile" ]] &&
            ! diff "$homedotfile" "$gdotfile" &>/dev/null; then
-        echo "$gdotfile $homedotfile"
-        read -s -n1
-        if [[ "$REPLY" == " " ]]; then continue
-        else
-            emacs -Q --eval "(ediff-files \"$homedotfile\" \"$gdotfile\")" 2>/dev/null;
-        fi
+        local_dotfiles+=("$homedotfile")
+        remote_dotfiles+=("$gdotfile")
     fi
 done
-echo
 
+for menu in $(seq "${#local_dotfiles[@]}"); do
+    echo $((menu - 1)) ${remote_dotfiles[$((menu - 1))]}
+done
+
+echo
+echo "enter index"
+while true; do
+    read idx
+    emacs -Q -nw --eval "(progn (load-theme 'whiteboard) (ediff-files \"${local_dotfiles[$idx]}\" \"${remote_dotfiles[$idx]}\" '(ediff-toggle-split)))" 2>/dev/null;
+done
+echo
