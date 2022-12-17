@@ -22,6 +22,7 @@ echo
 echo "enter index"
 while true; do
     read idx
+    if [[ ! "$idx" =~ ^[[:digit:]]+$ ]]; then exit 1; fi
     emacs -Q -nw --eval "(progn (load-theme 'whiteboard) (ediff-files \"${local_dotfiles[$idx]}\" \"${remote_dotfiles[$idx]}\" '(ediff-toggle-split)))" 2>/dev/null;
 done
 echo
