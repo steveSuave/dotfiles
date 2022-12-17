@@ -408,7 +408,8 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
            t)
           ((or (string-equal "diary" the-buff)
                (string-equal major-mode "dired-mode")
-               (string-match "\\*.+\\*$" the-buff))
+               (string-match "\\*.+\\*$" the-buff)
+               (string-match "magit.*$" the-buff))
            nil)
           (t t))))
 
@@ -666,6 +667,15 @@ tokens, and DELIMITED as prefix arg."
 
 ;; (global-set-key (kbd "s-x") '(lambda () (interactive) (message "hello")))
 ;; another key notation: [(meta insert)]
+
+(with-eval-after-load 'magit
+  (define-key magit-mode-map (kbd "<C-tab>") nil)
+  (define-key magit-mode-map (kbd "<M-tab>") nil)
+  (define-key magit-mode-map (kbd "<backtab>") nil)
+  (define-key magit-mode-map (kbd "C-`") 'magit-section-cycle)
+  (define-key magit-mode-map (kbd "M-`") 'magit-section-cycle-diffs)
+  (define-key magit-mode-map "~" 'magit-section-cycle-global)
+  )
 
 (when (display-graphic-p)
   ;; or (global-set-key (kbd "C-z") nil)
