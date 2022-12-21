@@ -10,6 +10,7 @@
  '(display-time-24hr-format t)
  '(ediff-split-window-function 'split-window-horizontally)
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
+ '(font-lock-global-modes '(not elfeed-search-mode elfeed-show-mode))
  '(holiday-bahai-holidays nil)
  '(holiday-christian-holidays nil)
  '(holiday-general-holidays nil)

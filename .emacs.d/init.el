@@ -409,7 +409,7 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
           ((or (string-equal "diary" the-buff)
                (string-equal major-mode "dired-mode")
                (string-match "\\*.+\\*$" the-buff)
-               (string-match "magit.*$" the-buff))
+               (string-match "magit[^[:space:]]*:.*$" the-buff))
            nil)
           (t t))))
 
@@ -559,7 +559,7 @@ tokens, and DELIMITED as prefix arg."
   (setq show-trailing-whitespace (not show-trailing-whitespace))
   (color-tabs (not show-trailing-whitespace))
   (font-lock-flush)
-  (font-lock-ensure)
+  ;; (font-lock-ensure)
   (redraw-display))
 
 (defun check-and-set-whitespace-trail ()
@@ -627,7 +627,6 @@ tokens, and DELIMITED as prefix arg."
 (global-set-key (kbd "<S-mouse-4>") (lambda () (interactive) (scroll-right 10)))
 (global-set-key (kbd "<S-triple-wheel-up>") (lambda () (interactive) (scroll-left 10)))
 (global-set-key (kbd "<S-triple-wheel-down>") (lambda () (interactive) (scroll-right 10)))
-(global-set-key "\C-c\C-w" #'met-with-prefix-arg)
 
 (global-set-key (kbd "<C-tab>") 'move-front-end-window)
 (global-set-key (kbd "<C-iso-lefttab>") 'move-front-end-window-back)
@@ -640,6 +639,7 @@ tokens, and DELIMITED as prefix arg."
 
 (global-set-key "\C-cw" (lambda () (interactive) (metaar)))
 (global-set-key "\C-cW" (lambda () (interactive) (taaf)))
+;; (global-set-key "\C-c\C-w" #'met-with-prefix-arg)
 (global-set-key "\C-x52" (lambda () (interactive) (switch-to-buffer-other-frame "*Messages*")))
 ;; (global-set-key "\C-x\C-b" (lambda () (interactive) (progn (list-buffers) (other-window 1))))
 (global-set-key (kbd "C-h j") 'javadoc-lookup)
