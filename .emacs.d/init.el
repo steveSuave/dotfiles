@@ -216,6 +216,10 @@
 (add-hook 'find-file-hook 'make-large-file-read-only-hook)
 (add-hook 'after-change-major-mode-hook 'check-and-set-whitespace-trail)
 (add-hook 'font-lock-mode-hook 'color-tabs)
+(add-hook 'ibuffer-mode-hook
+      '(lambda ()
+         (ibuffer-auto-mode 1)
+         (ibuffer-switch-to-saved-filter-groups "BF")))
 
 ;; ---------
 ;; FUNCTIONS
@@ -565,6 +569,7 @@ tokens, and DELIMITED as prefix arg."
 (defun check-and-set-whitespace-trail ()
   (if (or (eq major-mode 'eww-mode)
           (eq major-mode 'calendar-mode)
+          (eq major-mode 'ibuffer-mode)
           (eq major-mode 'Buffer-menu-mode))
       (setq show-trailing-whitespace nil)
     (setq show-trailing-whitespace t)))
@@ -697,6 +702,7 @@ tokens, and DELIMITED as prefix arg."
       helm-buffer-max-length nil
       recentf-max-saved-items 150
       lsp-modeline-diagnostics-enable nil
+      ibuffer-show-empty-filter-groups nil
       read-buffer-completion-ignore-case t
       read-file-name-completion-ignore-case t
       custom-file "~/.emacs.d/lisp/custom.el"

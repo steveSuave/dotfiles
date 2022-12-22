@@ -30,6 +30,13 @@
      (holiday-fixed 12 25 "Christougenna")
      (holiday-fixed 12 26 "Synaxi")))
  '(holiday-solar-holidays nil)
+ '(ibuffer-saved-filter-groups
+   '(("BF"
+      ("FE"
+       (predicate front-bufsp))
+      ("BE"
+       (predicate not
+                  (front-bufsp))))))
  '(magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
  '(minions-mode-line-lighter "etc")
  '(minions-prominent-modes '(vlf-mode))
