@@ -11,7 +11,6 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-(straight-use-package 'magit)
 (straight-use-package 'diff-hl)
 (straight-use-package 'go-mode)
 (straight-use-package 'lua-mode)
@@ -146,6 +145,16 @@
     '(orderless-literal . ""))
    ((string-prefix-p "!" pattern)
     `(orderless-without-literal . ,(substring pattern 1)))))
+
+(straight-use-package 'magit)
+(with-eval-after-load 'magit
+  (define-key magit-mode-map (kbd "<C-tab>") nil)
+  (define-key magit-mode-map (kbd "<M-tab>") nil)
+  (define-key magit-mode-map (kbd "<backtab>") nil)
+  (define-key magit-mode-map (kbd "C-`") 'magit-section-cycle)
+  (define-key magit-mode-map (kbd "M-`") 'magit-section-cycle-diffs)
+  (define-key magit-mode-map "~" 'magit-section-cycle-global)
+  )
 
 ;; A few more useful configurations...
 (use-package emacs

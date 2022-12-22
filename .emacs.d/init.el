@@ -611,7 +611,7 @@ tokens, and DELIMITED as prefix arg."
 (global-set-key "\C-\M-f" 'find-file-at-point)
 (global-set-key "\C-cf" 'find-dired)
 (global-set-key "\C-cF" 'rgrep)
-(global-set-key (kbd "<C-S-return>") 'completion-at-point)
+(global-set-key (kbd "<C-return>") 'completion-at-point)
 ;;(global-set-key "\C-cq" 'sql-db-local)
 (global-set-key (kbd "C-c c s") 'scratch-with-prefix-arg)
 (global-set-key "\C-c$" 'toggle-truncate-lines)
@@ -646,6 +646,7 @@ tokens, and DELIMITED as prefix arg."
 (global-set-key "\C-cW" (lambda () (interactive) (taaf)))
 ;; (global-set-key "\C-c\C-w" #'met-with-prefix-arg)
 (global-set-key "\C-x52" (lambda () (interactive) (switch-to-buffer-other-frame "*Messages*")))
+(global-set-key "\C-x\C-b" 'ibuffer)
 ;; (global-set-key "\C-x\C-b" (lambda () (interactive) (progn (list-buffers) (other-window 1))))
 (global-set-key (kbd "C-h j") 'javadoc-lookup)
 (global-set-key (kbd "C-c a") 'my-increment-number-at-point)
@@ -672,15 +673,6 @@ tokens, and DELIMITED as prefix arg."
 
 ;; (global-set-key (kbd "s-x") '(lambda () (interactive) (message "hello")))
 ;; another key notation: [(meta insert)]
-
-(with-eval-after-load 'magit
-  (define-key magit-mode-map (kbd "<C-tab>") nil)
-  (define-key magit-mode-map (kbd "<M-tab>") nil)
-  (define-key magit-mode-map (kbd "<backtab>") nil)
-  (define-key magit-mode-map (kbd "C-`") 'magit-section-cycle)
-  (define-key magit-mode-map (kbd "M-`") 'magit-section-cycle-diffs)
-  (define-key magit-mode-map "~" 'magit-section-cycle-global)
-  )
 
 (when (display-graphic-p)
   ;; or (global-set-key (kbd "C-z") nil)

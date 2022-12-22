@@ -43,7 +43,8 @@ alias diprune='docker image prune --all --filter "until=4320h"'
 alias ytd='youtube-dl -o "%(title)s.%(ext)s"'
 alias ytdv='youtube-dl -o "%(title)s.%(ext)s" -f mp4'
 alias ytda='youtube-dl -o "%(title)s.%(ext)s" -x --audio-format mp3'
-alias ytdp='youtube-dl -o "%(playlist_index)s - %(title)s.%(ext)s"' # -f mp4
+#alias ytdp='youtube-dl -o "%(playlist_index)s - %(title)s.%(ext)s"' # -f mp4
+alias ytdp='yt-dlp -o "%(playlist_index)s - %(title)s.%(ext)s" -f mp4'
 alias ytds='youtube-dl --write-sub --write-auto-sub --sub-lang en --skip-download' # --sub-format ass/srt/best
 
 alias mpvl='mpv --af=pan="[stereo|c0=c0|c1=c0]"'
@@ -60,7 +61,7 @@ alias irc='screen -S irc irssi;'
 alias cafrc='caffeinate -w $(pgrep irssi)&'
 
 alias w3im="startx" # $HOME/.config/i3/xinit"
-alias emacs='emacsclient -n --create-frame --alternate-editor=""'
+#alias emacs='emacsclient -n --create-frame --alternate-editor=""'
 alias magit="emacs --eval='(magit-status)'"
 alias remacsp='rm ~/.emacs.d/.lsp-session-v1 && rm -r ~/.emacs.d/workspace/'
 alias relsp='rm ~/.emacs.d/.lsp-session-v1 &&

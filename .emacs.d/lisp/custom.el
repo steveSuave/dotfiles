@@ -30,11 +30,22 @@
      (holiday-fixed 12 25 "Christougenna")
      (holiday-fixed 12 26 "Synaxi")))
  '(holiday-solar-holidays nil)
+ '(ibuffer-formats
+   '((mark modified read-only locked " "
+           (name 35 35 :left :elide)
+           " "
+           (size 9 -1 :right)
+           " "
+           (mode 16 16 :left :elide)
+           " " filename-and-process)
+     (mark " "
+           (name 16 -1)
+           " " filename)))
  '(ibuffer-saved-filter-groups
    '(("BF"
-      ("FE"
+      ("user"
        (predicate front-bufsp))
-      ("BE"
+      ("system"
        (predicate not
                   (front-bufsp))))))
  '(magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
