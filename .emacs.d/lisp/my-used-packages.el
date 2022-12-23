@@ -184,4 +184,31 @@
   ;; (setq enable-recursive-minibuffers t)
   )
 
+
+;; (use-package company
+;;   :straight t
+;;   :config
+;;   (global-company-mode)
+;;   (global-set-key (kbd "<C-return>") 'company-complete)
+;;   )
+
+;; (use-package projectile
+;;   :straight t
+;;   :config
+;;   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+;;   (add-hook 'lsp-mode-hook 'projectile-mode)
+;;   )
+
+;; (use-package lsp-mode
+;;   :straight t
+;;   :commands (lsp lsp-deferred)
+;;   :init
+;;   (setq lsp-keymap-prefix "C-c l")
+;;   :config
+;;   (setq lsp-headerline-breadcrumb-enable nil)
+;;   (lsp-enable-which-key-integration t)
+;; )
+
+;; (use-package lsp-java :straight t :config (add-hook 'java-mode-hook 'lsp))
+
 (provide 'my-used-packages)
