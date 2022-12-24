@@ -44,16 +44,14 @@
 ;; PACKAGES
 ;; --------
 
+(add-to-list 'load-path "/Applications/LilyPond.app/Contents/Resources/share/emacs/site-lisp/")
+(autoload 'LilyPond-mode "lilypond-mode")
+
+(autoload 'oberon-mode "oberon" nil t)
+(autoload 'scratch "scratch" nil t)
+
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (require 'my-used-packages)
-(require 'scratch)
-(require 'oberon)
-
-;; (require 'frame-bufs)
-;; (frame-bufs-mode t)
-
-;; (add-to-list 'load-path "/Applications/LilyPond.app/Contents/Resources/share/emacs/site-lisp/")
-;; (autoload 'LilyPond-mode "lilypond-mode")
 
 ;; ---------------
 ;; MODES AND HOOKS
@@ -162,20 +160,22 @@
     (local-set-key "\C-c\C-c" #'haskell-compile-command))
   (add-hook 'haskell-mode-hook 'my-haskell-hooks))
 
-;; Set up before-save hooks to format buffer and add/delete imports.
-;; Make sure you don't have other gofmt/goimports hooks enabled.
-(defun lsp-go-install-save-hooks ()
-  (add-hook 'before-save-hook #'lsp-format-buffer t t)
-  (add-hook 'before-save-hook #'lsp-organize-imports t t))
-(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
-(add-hook 'go-mode-hook #'lsp-deferred)
-
 (defun make-tramp-file-read-only-hook ()
   (when (file-remote-p (buffer-file-name))
     (setq buffer-read-only t)
     (hl-line-mode)
     (view-mode)))
 (add-hook 'find-file-hook 'make-tramp-file-read-only-hook)
+
+(defun make-large-file-read-only-hook ()
+  "If a file is over a given size, make the buffer read only."
+  (when (and (file-exists-p (buffer-name))
+             (< (* 1024 1024 2) ;2M
+                (file-attribute-size (file-attributes (buffer-file-name)))))
+    (setq buffer-read-only t)
+    (hl-line-mode)
+    (view-mode)))
+(add-hook 'find-file-hook 'make-large-file-read-only-hook)
 
 (with-eval-after-load 'dired
   (require 'dired-x)
@@ -211,26 +211,16 @@
 (add-hook 'calendar-today-visible-hook 'calendar-mark-today)
 (add-hook 'sql-interactive-mode-hook 'my-sql-save-history-hook)
 (add-hook 'LilyPond-mode-hook (lambda () (turn-on-font-lock)))
-(add-hook 'find-file-hook 'make-large-file-read-only-hook)
 (add-hook 'after-change-major-mode-hook 'check-and-set-whitespace-trail)
 (add-hook 'font-lock-mode-hook 'color-tabs)
 (add-hook 'ibuffer-mode-hook
-      #'(lambda ()
-         (ibuffer-auto-mode 1)
-         (ibuffer-switch-to-saved-filter-groups "BF")))
+          #'(lambda ()
+              (ibuffer-auto-mode 1)
+              (ibuffer-switch-to-saved-filter-groups "BF")))
 
 ;; ---------
 ;; FUNCTIONS
 ;; ---------
-
-(defun make-large-file-read-only-hook ()
-  "If a file is over a given size, make the buffer read only."
-  (when (and (file-exists-p (buffer-name))
-             (< (* 1024 1024 2) ;2M
-                (file-attribute-size (file-attributes (buffer-file-name)))))
-    (setq buffer-read-only t)
-    (hl-line-mode)
-    (view-mode)))
 
 (defun annot (num char)
   (interactive "nColumn to send cursor? \nsComment symbol to insert? ")

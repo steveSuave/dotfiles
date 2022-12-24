@@ -1,11 +1,11 @@
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
+      (bootstrap-version 6))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
         (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
          'silent 'inhibit-cookies)
       (goto-char (point-max))
       (eval-print-last-sexp)))
@@ -24,6 +24,7 @@
 (straight-use-package 'haskell-mode)
 (straight-use-package 'feature-mode)
 (straight-use-package 'markdown-mode)
+(straight-use-package 'darcula-theme)
 (straight-use-package 'expand-region)
 (straight-use-package 'smalltalk-mode)
 (straight-use-package 'javadoc-lookup)
@@ -126,8 +127,7 @@
   ;; Grow and shrink the Vertico minibuffer
   ;; (setq vertico-resize t)
   ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
-  (setq vertico-cycle t)
-  )
+  (setq vertico-cycle t))
 
 (use-package orderless
   :straight t
@@ -172,9 +172,7 @@
   ;;       '(read-only t cursor-intangible t face minibuffer-prompt))
   ;; (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
-  ;; Enable recursive minibuffers
-  (setq enable-recursive-minibuffers t)
-  )
+  (setq enable-recursive-minibuffers t))
 
 (straight-use-package 'magit)
 (with-eval-after-load 'magit
@@ -183,8 +181,7 @@
   (define-key magit-mode-map (kbd "<backtab>") nil)
   (define-key magit-mode-map (kbd "C-`") 'magit-section-cycle)
   (define-key magit-mode-map (kbd "M-`") 'magit-section-cycle-diffs)
-  (define-key magit-mode-map "~" 'magit-section-cycle-global)
-  )
+  (define-key magit-mode-map "~" 'magit-section-cycle-global))
 
 (defun setup-lsp ()
   (interactive)
@@ -210,8 +207,20 @@
     (setq lsp-keymap-prefix "C-c l")
     :config
     (setq lsp-headerline-breadcrumb-enable nil)
+    (setq lsp-modeline-code-actions-enable nil)
     (lsp-enable-which-key-integration t)))
 
+;; Set up before-save hooks to format buffer and add/delete imports.
+;; Make sure you don't have other gofmt/goimports hooks enabled.
+(defun lsp-go-install-save-hooks ()
+  (add-hook 'before-save-hook #'lsp-organize-imports t t)
+  (add-hook 'before-save-hook #'lsp-format-buffer t t))
+
+(defun setup-lsp-go ()
+  (interactive)
+  (setup-lsp)
+  (add-hook 'go-mode-hook #'lsp-deferred)
+  (add-hook 'go-mode-hook #'lsp-go-install-save-hooks))
 
 (defun setup-lsp-java ()
   (interactive)
@@ -220,5 +229,13 @@
     :straight t
     :config (add-hook 'java-mode-hook 'lsp)))
 
+(defun toggle-wombat-darcula ()
+  (interactive)
+  (let ((curr-theme (car custom-enabled-themes)))
+    (dolist (theme custom-enabled-themes)
+      (disable-theme theme))
+    (if (eq curr-theme 'wombat)
+        (load-theme 'darcula)
+      (load-theme 'wombat))))
 
 (provide 'my-used-packages)
