@@ -22,10 +22,12 @@
 (straight-use-package 'use-package)
 (straight-use-package 'racket-mode)
 (straight-use-package 'haskell-mode)
+(straight-use-package 'feature-mode)
 (straight-use-package 'markdown-mode)
 (straight-use-package 'expand-region)
 (straight-use-package 'smalltalk-mode)
 (straight-use-package 'javadoc-lookup)
+(straight-use-package 'dockerfile-mode)
 
 (use-package esup
   :straight t
@@ -146,16 +148,6 @@
    ((string-prefix-p "!" pattern)
     `(orderless-without-literal . ,(substring pattern 1)))))
 
-(straight-use-package 'magit)
-(with-eval-after-load 'magit
-  (define-key magit-mode-map (kbd "<C-tab>") nil)
-  (define-key magit-mode-map (kbd "<M-tab>") nil)
-  (define-key magit-mode-map (kbd "<backtab>") nil)
-  (define-key magit-mode-map (kbd "C-`") 'magit-section-cycle)
-  (define-key magit-mode-map (kbd "M-`") 'magit-section-cycle-diffs)
-  (define-key magit-mode-map "~" 'magit-section-cycle-global)
-  )
-
 ;; A few more useful configurations...
 (use-package emacs
   :init
@@ -181,34 +173,52 @@
   ;; (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
   ;; Enable recursive minibuffers
-  ;; (setq enable-recursive-minibuffers t)
+  (setq enable-recursive-minibuffers t)
   )
 
+(straight-use-package 'magit)
+(with-eval-after-load 'magit
+  (define-key magit-mode-map (kbd "<C-tab>") nil)
+  (define-key magit-mode-map (kbd "<M-tab>") nil)
+  (define-key magit-mode-map (kbd "<backtab>") nil)
+  (define-key magit-mode-map (kbd "C-`") 'magit-section-cycle)
+  (define-key magit-mode-map (kbd "M-`") 'magit-section-cycle-diffs)
+  (define-key magit-mode-map "~" 'magit-section-cycle-global)
+  )
 
-;; (use-package company
-;;   :straight t
-;;   :config
-;;   (global-company-mode)
-;;   (global-set-key (kbd "<C-return>") 'company-complete)
-;;   )
+(defun setup-lsp ()
+  (interactive)
 
-;; (use-package projectile
-;;   :straight t
-;;   :config
-;;   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-;;   (add-hook 'lsp-mode-hook 'projectile-mode)
-;;   )
+  (use-package company
+    :straight t
+    :config
+    (global-company-mode)
+    (global-set-key (kbd "<C-return>") 'company-complete))
 
-;; (use-package lsp-mode
-;;   :straight t
-;;   :commands (lsp lsp-deferred)
-;;   :init
-;;   (setq lsp-keymap-prefix "C-c l")
-;;   :config
-;;   (setq lsp-headerline-breadcrumb-enable nil)
-;;   (lsp-enable-which-key-integration t)
-;; )
+  (use-package projectile
+    :straight t
+    :config
+    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+    (add-hook 'lsp-mode-hook 'projectile-mode))
 
-;; (use-package lsp-java :straight t :config (add-hook 'java-mode-hook 'lsp))
+  (straight-use-package 'flycheck)
+
+  (use-package lsp-mode
+    :straight t
+    :commands (lsp lsp-deferred)
+    :init
+    (setq lsp-keymap-prefix "C-c l")
+    :config
+    (setq lsp-headerline-breadcrumb-enable nil)
+    (lsp-enable-which-key-integration t)))
+
+
+(defun setup-lsp-java ()
+  (interactive)
+  (setup-lsp)
+  (use-package lsp-java
+    :straight t
+    :config (add-hook 'java-mode-hook 'lsp)))
+
 
 (provide 'my-used-packages)
