@@ -137,7 +137,7 @@
   ;;       orderless-component-separator #'orderless-escapable-split-on-space)
   (setq completion-styles '(orderless basic partial-completion)
         completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion)))
+        completion-category-overrides '((file (styles basic partial-completion)))
         ;; orderless-matching-styles '(orderless-regexp orderless-literal orderless-flex)
         orderless-style-dispatchers '(without-if-bang)))
 
@@ -229,13 +229,5 @@
     :straight t
     :config (add-hook 'java-mode-hook 'lsp)))
 
-(defun toggle-wombat-darcula ()
-  (interactive)
-  (let ((curr-theme (car custom-enabled-themes)))
-    (dolist (theme custom-enabled-themes)
-      (disable-theme theme))
-    (if (eq curr-theme 'wombat)
-        (load-theme 'darcula)
-      (load-theme 'wombat))))
 
 (provide 'my-used-packages)

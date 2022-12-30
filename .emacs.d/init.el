@@ -575,6 +575,26 @@ tokens, and DELIMITED as prefix arg."
   (setq indent-tabs-mode (not indent-tabs-mode))
   (message "set indent-tabs-mode to %s for this buffer" indent-tabs-mode))
 
+;; disable other themes before loading new one
+(defadvice load-theme (before theme-dont-propagate activate)
+  "Disable theme before loading new one."
+  (mapc #'disable-theme custom-enabled-themes))
+
+(defun toggle-wombat-darcula ()
+  (interactive)
+  (let ((curr-theme (car custom-enabled-themes)))
+    (if (eq curr-theme 'wombat)
+        (load-theme 'darcula)
+      (load-theme 'wombat))))
+
+(defun check-themes ()
+  (interactive)
+  (dolist (checktheme (custom-available-themes))
+    (load-theme checktheme)
+    (read-string
+     (format "RET to proceed, Ctrl-g to use current theme. %s? " checktheme))))
+
+
 ;; --------
 ;; BINDINGS
 ;; --------
