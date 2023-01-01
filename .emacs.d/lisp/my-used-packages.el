@@ -61,45 +61,6 @@
   (yas--define-parents 'minibuffer-inactive-mode '(fundamental-mode)))
 (add-hook 'minibuffer-setup-hook 'yas-minor-mode)
 
-(use-package elfeed
-  :straight t
-  :bind ("C-c N" . elfeed)
-  :config
-  (setq elfeed-feeds
-        '(("http://anaskafi.blogspot.com/feeds/posts/default" anaskafi archaeo)
-          ("http://rss.slashdot.org/Slashdot/slashdotMain" slashdot tech)
-          ("https://sarantakos.wordpress.com/feed" sarantakos fun)
-          ("https://www.reutersagency.com/feed/" reuters news)
-          ("http://feeds2.feedburner.com/MarksDailyApple/" marksapple health)
-          ("https://eli.thegreenplace.net/feeds/all.atom.xml" eli tech)
-          ("https://binarycoders.dev/feed/" binarycoders tech)
-          ("https://greatnavigators.com/feed" navigators sea fun)
-          ("https://mostlydeadlanguages.tumblr.com/rss" deadlang archaeo)
-          ("https://www.youtube.com/feeds/videos.xml?channel_id=UC6fZpuI4-W4jAyEquo7A-Sw" youtube marcelofinco capoeira)
-          ("https://www.youtube.com/feeds/videos.xml?channel_id=UCbNpPBMvCHr-TeJkkezog7Q" youtube davidbeazley tech)
-          ("https://www.youtube.com/feeds/videos.xml?channel_id=UCDdKVro-7hS8cMjBrcqaAMQ" youtube tilf music)
-          ("https://www.youtube.com/feeds/videos.xml?channel_id=UCqq3PZwp8Ob8_jN0esCunIw" youtube justforlaughs comedy)
-          ("https://www.youtube.com/feeds/videos.xml?channel_id=UCrgLfFlVsszE1JSzYCmj9Yg" youtube tomcunliffe sea)))
-  (defun elfeed-view-entry-mpv ()
-    "Watch a video from URL in MPV"
-    (interactive)
-    (async-shell-command
-     (format "mpv %s" (mapconcat #'identity (mapcar #'elfeed-entry-link (elfeed-search-selected)) " "))))
-  (define-key elfeed-search-mode-map (kbd "v") 'elfeed-view-entry-mpv)
-
-  (defun elfeed-msg-title ()
-    (interactive)
-    (let ((entry (elfeed-search-selected :ignore-region)))
-      (message (or (elfeed-meta entry :title) (elfeed-entry-title entry) ""))))
-  (define-key elfeed-search-mode-map (kbd "w") 'elfeed-msg-title)
-
-  (defun elfeed-view-article-mpv ()
-    "Watch a video from URL in MPV"
-    (interactive)
-    (async-shell-command
-     (format "mpv %s" (elfeed-entry-link elfeed-show-entry))))
-  (define-key elfeed-show-mode-map (kbd "v") 'elfeed-view-article-mpv))
-
 (use-package hideshow
   :bind (("C-c TAB" . hs-toggle-hiding)
          ("M-+" . hs-show-all))
@@ -228,6 +189,73 @@
   (use-package lsp-java
     :straight t
     :config (add-hook 'java-mode-hook 'lsp)))
+
+
+;; RSS
+(use-package elfeed
+  :straight t
+  :bind ("C-c N" . elfeed)
+  :config
+  (setq elfeed-feeds
+        '(("http://anaskafi.blogspot.com/feeds/posts/default" fun anaskafi archaeology)
+          ("http://rss.slashdot.org/Slashdot/slashdotMain" slashdot tech)
+          ("https://sarantakos.wordpress.com/feed" sarantakos fun)
+          ("https://www.reutersagency.com/feed/" reuters news)
+          ("http://feeds2.feedburner.com/MarksDailyApple/" marksapple health)
+          ("https://eli.thegreenplace.net/feeds/all.atom.xml" eli tech)
+          ("https://binarycoders.dev/feed/" binarycoders tech)
+          ("https://greatnavigators.com/feed" navigators sea fun)
+          ("https://mostlydeadlanguages.tumblr.com/rss" deadlang archaeology)
+          ("https://www.youtube.com/feeds/videos.xml?channel_id=UC6fZpuI4-W4jAyEquo7A-Sw" youtube marcelofinco capoeira)
+          ("https://www.youtube.com/feeds/videos.xml?channel_id=UCbNpPBMvCHr-TeJkkezog7Q" youtube davidbeazley tech)
+          ("https://www.youtube.com/feeds/videos.xml?channel_id=UCDdKVro-7hS8cMjBrcqaAMQ" youtube tilf music)
+          ("https://www.youtube.com/feeds/videos.xml?channel_id=UCqq3PZwp8Ob8_jN0esCunIw" youtube justforlaughs comedy)
+          ("https://www.youtube.com/feeds/videos.xml?channel_id=UCrgLfFlVsszE1JSzYCmj9Yg" youtube tomcunliffe sea)))
+
+  (defun elfeed-view-entry-mpv ()
+    "Watch a video from URL in MPV"
+    (interactive)
+    (async-shell-command
+     (format "mpv %s" (mapconcat #'identity (mapcar #'elfeed-entry-link (elfeed-search-selected)) " "))))
+  (define-key elfeed-search-mode-map (kbd "v") 'elfeed-view-entry-mpv)
+
+  (defun elfeed-msg-title ()
+    (interactive)
+    (let ((entry (elfeed-search-selected :ignore-region)))
+      (message (or (elfeed-meta entry :title) (elfeed-entry-title entry) ""))))
+  (define-key elfeed-search-mode-map (kbd "w") 'elfeed-msg-title)
+
+  (defun elfeed-view-article-mpv ()
+    "Watch a video from URL in MPV"
+    (interactive)
+    (async-shell-command
+     (format "mpv %s" (elfeed-entry-link elfeed-show-entry))))
+  (define-key elfeed-show-mode-map (kbd "v") 'elfeed-view-article-mpv))
+
+
+;; GNUS configuration is a nightmare
+(setq gnus-summary-line-format "%U%R %-18,18&user-date; %4L:%-25,25f %B%s\n"
+      gnus-sum-thread-tree-indent " "
+      gnus-sum-thread-tree-root "■ "
+      gnus-sum-thread-tree-false-root "□ "
+      gnus-sum-thread-tree-single-indent "▣ "
+      gnus-sum-thread-tree-leaf-with-other "├─▶ "
+      gnus-sum-thread-tree-vertical "│"
+      gnus-sum-thread-tree-single-leaf "└─▶ ")
+
+(setq gnus-article-sort-functions
+      '((not gnus-article-sort-by-number)
+        (not gnus-article-sort-by-date)))
+(setq gnus-thread-sort-functions
+      '((not gnus-thread-sort-by-date)
+        (not gnus-thread-sort-by-number)))
+(setq gnus-subthread-sort-functions
+      'gnus-thread-sort-by-date)
+
+(setq gnus-user-date-format-alist
+      '(((gnus-seconds-today) . "Today at %R")
+        ((+ (* 60 60 24) (gnus-seconds-today)) . "Yesterday, %R")
+        (t . "%Y-%m-%d %R")))
 
 
 (provide 'my-used-packages)

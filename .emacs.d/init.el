@@ -142,13 +142,23 @@
     (compile (concat "cc "
                      (file-truename buffer-file-name)
                      " -o "
-                     (file-name-sans-extension ( file-name-nondirectory buffer-file-name))
+                     (file-name-sans-extension (file-name-nondirectory buffer-file-name))
                      " && "
                      (file-name-sans-extension buffer-file-name))))
   (defun my-c-hooks ()
     "For use in `c-mode-hook'."
     (local-set-key "\C-c\C-c" #'c-compile-command))
   (add-hook 'c-mode-hook 'my-c-hooks))
+
+(when (fboundp 'go-mode)
+  (defun go-compile-command ()
+    (interactive)
+    (compile (concat "go run "
+                     (file-truename buffer-file-name))))
+  (defun my-go-hooks ()
+    "For use in `go-mode-hook'."
+    (local-set-key "\C-c\C-c" #'go-compile-command))
+  (add-hook 'go-mode-hook 'my-go-hooks))
 
 (when (fboundp 'haskell-mode)
   (defun haskell-compile-command ()
@@ -401,6 +411,7 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
           ((or (string-equal "diary" the-buff)
                ;; (string-equal major-mode "dired-mode")
                (string-match "\\*.+\\*$" the-buff)
+               (string-match "irc.libera.chat.*$" the-buff)
                (string-match "magit[^[:space:]]*:.*$" the-buff))
            nil)
           (t t))))
@@ -594,6 +605,21 @@ tokens, and DELIMITED as prefix arg."
     (read-string
      (format "RET to proceed, Ctrl-g to use current theme. %s? " checktheme))))
 
+(defun hline()
+  (interactive)
+    (beginning-of-line)
+    (set-mark (point))
+    (end-of-line))
+
+(defun toggle-char-case ()
+  (interactive)
+  ;; actually delete and replace the character
+  (let ((c (following-char)))
+    (if (eq c (upcase c))
+        (insert-char (downcase c) 1 t)
+      (insert-char (upcase c) 1 t))
+    (delete-char 1 nil)
+    (backward-char)))
 
 ;; --------
 ;; BINDINGS
@@ -678,6 +704,8 @@ tokens, and DELIMITED as prefix arg."
 (global-set-key "\C-ccb" 'toggle-indent-tabs-mode)
 (global-set-key "\C-ccw" 'color-whitespace)
 (global-set-key "\C-ccc" 'bind-white-clean)
+(global-set-key "\C-\M-g" 'hline)
+(global-set-key (kbd "C-c C-`") 'toggle-char-case)
 
 ;; (global-set-key (kbd "s-x") '(lambda () (interactive) (message "hello")))
 ;; another key notation: [(meta insert)]
@@ -706,6 +734,7 @@ tokens, and DELIMITED as prefix arg."
       read-buffer-completion-ignore-case t
       read-file-name-completion-ignore-case t
       custom-file "~/.emacs.d/lisp/custom.el"
+      gnus-select-method '(nntp "news.gmane.io")
       mouse-wheel-scroll-amount '(1 ((shift) . 1))
       ring-bell-function (lambda nil (message ""))
       ;; initial-scratch-message ";; let's do dis\n\n"
