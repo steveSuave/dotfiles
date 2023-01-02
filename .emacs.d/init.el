@@ -569,6 +569,8 @@ tokens, and DELIMITED as prefix arg."
   (if (or (eq major-mode 'eww-mode)
           (eq major-mode 'calendar-mode)
           (eq major-mode 'ibuffer-mode)
+          (eq major-mode 'gnus-summary-mode)
+          (eq major-mode 'gnus-article-mode)
           (eq major-mode 'Buffer-menu-mode))
       (setq show-trailing-whitespace nil)
     (setq show-trailing-whitespace t)))

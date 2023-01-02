@@ -74,6 +74,16 @@ preexec() {
     fi
 }
 
+if [[ "$TERM" == "dumb" ]]
+then
+    unsetopt zle
+    unsetopt prompt_cr
+    unsetopt prompt_subst
+    unfunction precmd
+    unfunction preexec
+    PS1='$ '
+fi
+
 PATH="$PATH:~/Projects/apache-maven-3.6.1/bin"
 export PATH="$(go env GOPATH)/bin:$PATH"
 export PATH="/Users/duamba/.bin:$PATH"
