@@ -97,7 +97,7 @@
     (setq dap-auto-configure-features '(locals)) ;controls tooltip sessions
     (setq lsp-ui-doc-enable nil)
     (setq lsp-ui-sideline-enable nil)
-    (when scratch-buffer
+    (when (and (boundp 'scratch-buffer) scratch-buffer)
       (goto-char (point-min))
       (insert "public class LetsDoDis {\n\n\n\n}")
       (forward-line -2)))
@@ -623,6 +623,16 @@ tokens, and DELIMITED as prefix arg."
     (delete-char 1 nil)
     (backward-char)))
 
+(defun delete-file-and-buffer ()
+  "Kill the current buffer and deletes the file it is visiting."
+  (interactive)
+  (let ((filename (buffer-file-name)))
+    (when filename
+      (read-string "Delete buffer and file? C-g to abort ")
+      (delete-file filename)
+      (message "Deleted file %s" filename)
+      (kill-buffer))))
+
 ;; --------
 ;; BINDINGS
 ;; --------
@@ -708,6 +718,7 @@ tokens, and DELIMITED as prefix arg."
 (global-set-key "\C-ccc" 'bind-white-clean)
 (global-set-key "\C-\M-g" 'hline)
 (global-set-key (kbd "C-c C-`") 'toggle-char-case)
+(global-set-key (kbd "C-c D")  #'delete-file-and-buffer)
 
 ;; (global-set-key (kbd "s-x") '(lambda () (interactive) (message "hello")))
 ;; another key notation: [(meta insert)]
