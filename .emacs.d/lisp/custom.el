@@ -10,7 +10,8 @@
  '(display-time-24hr-format t)
  '(ediff-split-window-function 'split-window-horizontally)
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
- '(font-lock-global-modes '(not elfeed-search-mode elfeed-show-mode gnus-summary-mode gnus-article-mode))
+ '(font-lock-global-modes
+   '(not elfeed-search-mode elfeed-show-mode gnus-summary-mode gnus-article-mode))
  '(holiday-bahai-holidays nil)
  '(holiday-christian-holidays nil)
  '(holiday-general-holidays nil)
@@ -71,5 +72,5 @@
  ;; If there is more than one, they won't work right.
  '(erc-input-face ((t (:foreground "salmon"))))
  '(erc-my-nick-face ((t (:foreground "goldenrod" :weight bold))))
- '(hl-line ((t (:inherit highlight :extend t :underline nil))))
- '(trailing-whitespace ((t (:background "gray37")))))
+ '(hl-line ((t (:inherit nil :extend t :background "gray21" :underline nil))))
+ '(trailing-whitespace ((t (:background "gray45")))))

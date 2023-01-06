@@ -40,6 +40,7 @@
       (setenv "PATH" (concat my-path (getenv "PATH")))
       (setq exec-path (append (split-string my-path path-separator) exec-path)))))
 
+
 ;; --------
 ;; PACKAGES
 ;; --------
@@ -53,6 +54,7 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (require 'my-used-packages)
 
+
 ;; ---------------
 ;; MODES AND HOOKS
 ;; ---------------
@@ -228,6 +230,7 @@
               (ibuffer-auto-mode 1)
               (ibuffer-switch-to-saved-filter-groups "BF")))
 
+
 ;; ---------
 ;; FUNCTIONS
 ;; ---------
@@ -633,6 +636,7 @@ tokens, and DELIMITED as prefix arg."
       (message "Deleted file %s" filename)
       (kill-buffer))))
 
+
 ;; --------
 ;; BINDINGS
 ;; --------
@@ -727,6 +731,7 @@ tokens, and DELIMITED as prefix arg."
   ;; or (global-set-key (kbd "C-z") nil)
   (global-unset-key (kbd "C-z")))
 
+
 ;; ---------
 ;; VARIABLES
 ;; ---------
@@ -823,6 +828,7 @@ tokens, and DELIMITED as prefix arg."
          ("\\.Mod$" . oberon-mode)
          ("\\.mod$" . oberon-mode))))
 
+
 ;; -------
 ;; FINALLY
 ;; -------

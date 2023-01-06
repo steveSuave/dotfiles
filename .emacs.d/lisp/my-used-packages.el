@@ -51,6 +51,13 @@
   :config
   (add-hook 'compilation-filter-hook 'my/ansi-colorize-buffer))
 
+(use-package undo-tree
+  :straight t
+  :init
+  (global-undo-tree-mode)
+  :custom ;; customizable variable: undo-tree-auto-save-history
+  (undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))))
+
 ;; (straight-use-package 'yasnippet-snippets)
 (use-package yasnippet
   :straight t
