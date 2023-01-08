@@ -55,21 +55,19 @@ PROMPT="$status_host_user: %{$fg[yellow]%}%1~ %{$reset_color%}%# "
 thePrompt=1
 chprmt() {
     if (( thePrompt == 1 )); then
+        # print a new line before the prompt
         precmd()  { print "" }
-        # preexec() { print "" }
         PROMPT=$'%{$fg[yellow]%}%/%{$reset_color%}\n${status_host_user}`__git_ps1` %# '
         thePrompt=2
     elif ((thePrompt == 2 )); then
         precmd() {}
-        # preexec() {}
         PROMPT="$status_host_user: %{$fg[yellow]%}%1~ %{$reset_color%}%# "
         thePrompt=1
     fi
 }
 
 preexec() {
-    if [[ $PWD == *"repo"* ]]; then
-        thePrompt=1
+    if [[ $PWD == *"repo"* ]] && (( $thePrompt != 2 )); then
         chprmt
     fi
 }

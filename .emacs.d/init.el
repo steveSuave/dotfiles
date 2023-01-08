@@ -757,6 +757,14 @@ tokens, and DELIMITED as prefix arg."
       initial-scratch-message ";; ready, set, go\n\n"
       find-function-C-source-directory "~/.emacs.d/emacs-master/src")
 
+(setq org-todo-keywords '((sequence "TODO" "IN-PROGRESS" "CANCELLED" "WAITING" "DONE"))
+      org-todo-keyword-faces
+      '(("TODO" . "blue")
+        ("IN-PROGRESS" . "yellow")
+        ("WAITING" . "orange")
+        ("CANCELLED" . "red")
+        ("DONE" . "green")))
+
 ;; (setq sql-connection-alist
 ;;       '((db-local
 ;;          (sql-product 'postgres)
