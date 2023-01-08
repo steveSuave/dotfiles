@@ -11,7 +11,6 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-(straight-use-package 'diff-hl)
 (straight-use-package 'go-mode)
 (straight-use-package 'lua-mode)
 (straight-use-package 'sml-mode)
@@ -151,6 +150,11 @@
   (define-key magit-mode-map (kbd "M-`") 'magit-section-cycle-diffs)
   (define-key magit-mode-map "~" 'magit-section-cycle-global))
 
+(straight-use-package 'diff-hl)
+(global-diff-hl-mode)
+(diff-hl-flydiff-mode)
+(diff-hl-margin-mode)
+
 (defun setup-lsp ()
   (interactive)
 
@@ -196,7 +200,6 @@
   (use-package lsp-java
     :straight t
     :config (add-hook 'java-mode-hook 'lsp)))
-
 
 ;; RSS
 (use-package elfeed

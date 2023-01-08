@@ -59,10 +59,6 @@
 ;; MODES AND HOOKS
 ;; ---------------
 
-(global-diff-hl-mode)
-(diff-hl-flydiff-mode)
-(diff-hl-margin-mode)
-
 (when (fboundp 'java-mode)
   (defun j-compile-command ()
     "run current program (that requires no input)"
@@ -654,7 +650,9 @@ tokens, and DELIMITED as prefix arg."
 (global-set-key (kbd "<M-down>") 'scroll-up-line)
 (global-set-key (kbd "<M-up>") 'scroll-down-line)
 (global-set-key (kbd "ESC <up>") 'scroll-down-line)
+(global-set-key "\M-P" 'scroll-down-line)
 (global-set-key (kbd "ESC <down>") 'scroll-up-line)
+(global-set-key "\M-N" 'scroll-up-line)
 (global-set-key "\C-x\C-n" 'other-window)
 (global-set-key "\C-x\C-p" 'other-window-backward)
 (global-set-key "\C-cA" 'display-ansi-colors)
@@ -746,7 +744,7 @@ tokens, and DELIMITED as prefix arg."
       ;; frame-background-mode nil
       Buffer-menu-name-width 35
       helm-buffer-max-length nil
-      recentf-max-saved-items 150
+      recentf-max-saved-items 999
       lsp-modeline-diagnostics-enable nil
       ibuffer-show-empty-filter-groups nil
       read-buffer-completion-ignore-case t
