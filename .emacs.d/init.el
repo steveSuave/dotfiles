@@ -667,6 +667,7 @@ tokens, and DELIMITED as prefix arg."
 ;; (global-set-key "\C-cN" #'newsticker-show-news)
 (global-set-key "\C-c\C-e" #'myerc)
 (global-set-key "\C-cC" #'calendar)
+(global-set-key (kbd "C-c g")  #'org-agenda-list)
 ;;(global-set-key (kbd "M-i") 'change-inner)
 ;;(global-set-key (kbd "M-o") 'change-outer)
 (global-set-key (kbd "C-\\") 'er/expand-region)
@@ -757,7 +758,8 @@ tokens, and DELIMITED as prefix arg."
       initial-scratch-message ";; ready, set, go\n\n"
       find-function-C-source-directory "~/.emacs.d/emacs-master/src")
 
-(setq org-todo-keywords '((sequence "TODO" "IN-PROGRESS" "CANCELLED" "WAITING" "DONE"))
+(setq org-agenda-include-diary t
+      org-todo-keywords '((sequence "TODO" "IN-PROGRESS" "CANCELLED" "WAITING" "DONE"))
       org-todo-keyword-faces
       '(("TODO" . "blue")
         ("IN-PROGRESS" . "yellow")

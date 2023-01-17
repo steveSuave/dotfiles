@@ -1,5 +1,9 @@
+%%(diary-anniversary 1969 12 31) Before Unix Epoch
 %%(diary-cyclic 365 2022 11 07) yearly sexp entry reminder (%d%s time)
 
+;; leaves
+%%(diary-block 2023 02 22 2023 02 28) Six days of rest
+
 2022-08-26
-		Course registration etc.
+        Meeting 15.00 - 15.30
 
