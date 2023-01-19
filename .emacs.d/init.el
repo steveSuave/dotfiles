@@ -221,6 +221,15 @@
 (add-hook 'LilyPond-mode-hook (lambda () (turn-on-font-lock)))
 (add-hook 'after-change-major-mode-hook 'check-and-set-whitespace-trail)
 (add-hook 'font-lock-mode-hook 'color-tabs)
+(add-hook 'diary-list-entries-hook 'diary-sort-entries t)
+
+;; commenting out because instead of shrinking I went with full-screen in the display-buffer-alist
+;; (add-hook 'diary-fancy-display-mode-hook
+;;        (lambda ()
+;;          (save-selected-window
+;;            (pop-to-buffer "*Fancy Diary Entries*")
+;;            (fit-window-to-buffer))))
+
 (add-hook 'ibuffer-mode-hook
           #'(lambda ()
               (ibuffer-auto-mode 1)
@@ -667,6 +676,7 @@ tokens, and DELIMITED as prefix arg."
 ;; (global-set-key "\C-cN" #'newsticker-show-news)
 (global-set-key "\C-c\C-e" #'myerc)
 (global-set-key "\C-cC" #'calendar)
+(global-set-key (kbd "C-c C-s")  #'diary-show-all-entries)
 (global-set-key (kbd "C-c g")  #'org-agenda-list)
 ;;(global-set-key (kbd "M-i") 'change-inner)
 ;;(global-set-key (kbd "M-o") 'change-outer)
@@ -759,6 +769,8 @@ tokens, and DELIMITED as prefix arg."
       find-function-C-source-directory "~/.emacs.d/emacs-master/src")
 
 (setq org-agenda-include-diary t
+      org-sort-agenda-notime-is-late nil
+      ;; org-agenda-files (directory-files-recursively "~/.emacs.d/org/" "\\.org$")
       org-todo-keywords '((sequence "TODO" "IN-PROGRESS" "CANCELLED" "WAITING" "DONE"))
       org-todo-keyword-faces
       '(("TODO" . "blue")
@@ -776,12 +788,10 @@ tokens, and DELIMITED as prefix arg."
 ;;          (sql-port 5432))))
 
 (setq display-buffer-alist
-      '(("\\*\\(grep\\|log-edit-files\\|vc-log\\)\\*"
-         (display-buffer-below-selected))
-        ("\\*\\(java\\|sql\\|js\\|SQL: <db>\\|Buffer List\\)\\*"
-         (display-buffer-same-window))
-        ("*Async Shell Command*"
-         display-buffer-no-window (nil))))
+      '(("\\*\\(grep\\|log-edit-files\\|vc-log\\)\\*"            (display-buffer-below-selected))
+        ("\\*\\(java\\|sql\\|js\\|SQL: <db>\\|Buffer List\\)\\*" (display-buffer-same-window))
+        ("diary"                                                 (display-buffer-same-window))
+        ("*Async Shell Command*"                                  display-buffer-no-window (nil))))
 
 (setq auto-mode-alist
       (append
