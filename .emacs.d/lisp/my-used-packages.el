@@ -81,6 +81,7 @@
                   (js-mode "{" "}" "/[*/]" nil)
                   (json-mode "{" "}" "/[*/]" nil)
                   (javascript-mode  "{" "}" "/[*/]" nil)))))
+(setcdr (assoc 'js-mode hs-special-modes-alist) '("[{[]" "[}\\]]" "/[*/]" nil))
 
 ;; Enable vertico
 (use-package vertico
