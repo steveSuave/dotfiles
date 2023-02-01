@@ -78,10 +78,9 @@
                 '((c-mode "{" "}" "/[*/]" nil nil)
                   (c++-mode "{" "}" "/[*/]" nil nil)
                   (java-mode "{" "}" "/[*/]" nil nil)
-                  (js-mode "{" "}" "/[*/]" nil)
+                  (js-mode "[{[]" "[}\\]]" "/[*/]" nil)
                   (json-mode "{" "}" "/[*/]" nil)
                   (javascript-mode  "{" "}" "/[*/]" nil)))))
-(setcdr (assoc 'js-mode hs-special-modes-alist) '("[{[]" "[}\\]]" "/[*/]" nil))
 
 ;; Enable vertico
 (use-package vertico
