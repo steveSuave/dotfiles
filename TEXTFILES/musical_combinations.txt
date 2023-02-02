@@ -101,3 +101,25 @@
 [1, 9, 10, 12, 13]     [8, 9, 10, 12, 13]
 >>> len(_)
 32
+
+
+def combine(ls, n):
+    if n == 0:
+        return [[]]
+    if ls == []:
+        return []
+    ret = combine(ls[1:], n)
+    for combination in combine(ls[1:], n-1):      #*
+        ret.append(ls[:1] + combination)
+    return ret
+
+
+def permute_repeat(ls, n):
+    if n == 0:
+        return [[]]
+    ret = []
+    for i in range(len(ls)):
+        for permutation in permute_repeat(ls, n-1):            #*
+            ret.append([ls[i]] + permutation)
+    return ret
+
