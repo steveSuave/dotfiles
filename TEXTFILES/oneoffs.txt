@@ -286,3 +286,6 @@ Would like to print unique lines based on first field , keep the first occurrenc
 
 awk -F, '!seen[$1]++' Input.csv
 
+================================================================
+SAMBA mount from command line
+sudo mount -t cifs -o rw,vers=3.0,credentials=/root/.smbcredentials //192.168.1.9/hdshare ~/samba-hdshare/
