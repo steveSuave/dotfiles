@@ -1,14 +1,18 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import random
 
-def tabulatekeys():
-    keys=['a','b','c','d','e','f','g','ab','bb','c#','eb', 'f#']
-    random.shuffle(keys)
-    for i,j in enumerate(keys):
-        print(j+"\t", end="")
-        if (i+1) % 4 == 0:
-            print()
+keys=['a','b','c','d','e','f','g',
+      random.choice(['g#','ab']),
+      random.choice(['a#','bb']),
+      random.choice(['c#','db']),
+      random.choice(['d#','eb']),
+      random.choice(['f#','gb'])]
 
-tabulatekeys()
+random.shuffle(keys)
+for i,j in enumerate(keys):
+    print(j+"\t", end="")
+    if (i+1) % 4 == 0:
+        print()
+
 
