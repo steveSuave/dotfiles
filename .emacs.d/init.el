@@ -9,6 +9,7 @@
 (show-paren-mode t)
 (delete-selection-mode t)
 (setq-default word-wrap t)
+(setq-default abbrev-mode t)
 (setenv "LANG" "en_US.UTF-8")
 (set-default 'truncate-lines t)
 (put 'scroll-left 'disabled nil)
@@ -744,6 +745,10 @@ tokens, and DELIMITED as prefix arg."
 (global-set-key (kbd "C-c C-`") 'toggle-char-case)
 (global-set-key (kbd "C-c D") #'delete-file-and-buffer)
 (global-set-key (kbd "C-c t") #'insert-date)
+;; a quick way to insert unicode characters by code point or name
+(global-set-key [f8] 'insert-char)
+;; call 'expand-abbrev', especially in the 'insert-char' input minibuffer
+(global-set-key [f9] 'expand-abbrev)
 
 ;; (global-set-key (kbd "s-x") '(lambda () (interactive) (message "hello")))
 ;; another key notation: [(meta insert)]
@@ -805,6 +810,48 @@ tokens, and DELIMITED as prefix arg."
         ("diary"                                                 (display-buffer-same-window))
         ("*Async Shell Command*"                                  display-buffer-no-window (nil))))
 
+;; abbreviate unicode symbols
+(define-abbrev-table 'global-abbrev-table '(
+    ("forall"  "∀")
+    ("texs"    "∃")
+    ("dexs"    "∄")
+    ("logand"  "∧")
+    ("logor"   "∨")
+    ("lognt"   "¬")
+    ("dotop"   "⋅")
+    ("multx"   "✕")
+    ("implz"   "⇒")
+    ("ifff"    "⇔")
+    ("up2"     "²")
+    ("up3"     "³")
+    ("upn"     "ⁿ")
+    ("dn1"     "₁")
+    ("dn2"     "₂")
+    ("dn3"     "₃")
+    ("dnn"     "ₙ")
+    ("sqrt"    "√")
+    ("bln"     "∈")
+    ("nbln"    "∉")
+    ("nset"    "ℕ")
+    ("zset"    "ℤ")
+    ("rset"    "ℝ")
+    ("qset"    "ℚ")
+    ("cset"    "ℂ")
+    ("leq"     "≤")
+    ("geq"     "≥")
+    ("deg"     "°")
+    ("crcl"    "◯")
+    ("trng"    "△")
+    ("prlg"    "⊡")
+    ("prll"    "∥")
+    ("perp"    "⟂")
+    ("cmps"    "⊕")
+    ("smlr"    "∼")
+    ("cngr"    "≅")
+    ))
+;; see .emacs.d/abbrev_defs
+;; M-x edit-abbrevs
+
 (setq auto-mode-alist
       (append
        '(("\\.awk\\'" . awk-mode)
@@ -820,6 +867,7 @@ tokens, and DELIMITED as prefix arg."
          ("\\.el\\'"  . emacs-lisp-mode)
          ("\\.emacs\\'" . emacs-lisp-mode)
          ("\\.go\\'" . go-mode)
+         ("\\.hs\\'" . haskell-mode)
          ("\\.htm\\'" . html-mode)
          ("\\.html\\'" . html-mode)
          ("\\.java$" . java-mode)
