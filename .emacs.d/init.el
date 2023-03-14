@@ -825,10 +825,13 @@ tokens, and DELIMITED as prefix arg."
     ("up2"     "²")
     ("up3"     "³")
     ("upn"     "ⁿ")
+    ("up-"     "⁻")
     ("dn1"     "₁")
     ("dn2"     "₂")
     ("dn3"     "₃")
     ("dnn"     "ₙ")
+    ("dni"     "ᵢ")
+    ("dn-"     "₋")
     ("sqrt"    "√")
     ("bln"     "∈")
     ("nbln"    "∉")
@@ -848,6 +851,7 @@ tokens, and DELIMITED as prefix arg."
     ("cmps"    "⊕")
     ("smlr"    "∼")
     ("cngr"    "≅")
+    ("plmn"    "±")
     ))
 ;; see .emacs.d/abbrev_defs
 ;; M-x edit-abbrevs
