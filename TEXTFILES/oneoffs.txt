@@ -158,6 +158,13 @@ sudo cfdisk /dev/sdX
 sudo fdisk -l # to see if partition is created
 
 sudo mkfs.vfat -n 'SomeLabel' /dev/sdX1
+----------------------------------------------------------------
+lsblk -f
+umount /dev/sd[:alpha:][:digit:]
+
+mkfs -t ext4 /dev/sdb1 || mkfs.ext4 /dev/sdb1
+
+mount -t auto /dev/sdb1 [mountpoint]
 
 ================================================================
 

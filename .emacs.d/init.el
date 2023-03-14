@@ -653,6 +653,16 @@ tokens, and DELIMITED as prefix arg."
         (system-time-locale "de_DE"))
     (insert (format-time-string format))))
 
+(defun sg-toggle-fold ()
+  "Toggle code folding according to indentation of current line."
+  (interactive)
+  (set-selective-display
+   (if selective-display
+       nil
+     (save-excursion
+       (back-to-indentation)
+       (1+ (current-column))))))
+
 
 ;; --------
 ;; BINDINGS
@@ -727,6 +737,7 @@ tokens, and DELIMITED as prefix arg."
 (global-set-key "\C-ccx" (lambda () (interactive) (xml-format)))
 (global-set-key "\C-ccX" (lambda () (interactive) (xml-format t)))
 (global-set-key (kbd "C-c C-f") 'recentf-open-files-compl)
+(global-set-key (kbd "C-c c f") 'recentf-open-files-compl)
 (global-set-key "\C-cL" 'hl-line-mode)
 (global-set-key (kbd "C-c ^") 'toggle-window-split)
 (global-set-key (kbd "C-c %") 'window-swap-states)
@@ -825,14 +836,15 @@ tokens, and DELIMITED as prefix arg."
     ("up2"     "²")
     ("up3"     "³")
     ("upn"     "ⁿ")
-    ("up-"     "⁻")
+    ("upmn"    "⁻")
     ("dn1"     "₁")
     ("dn2"     "₂")
     ("dn3"     "₃")
     ("dnn"     "ₙ")
     ("dni"     "ᵢ")
-    ("dn-"     "₋")
+    ("dnmn"    "₋")
     ("sqrt"    "√")
+    ("cbrt"    "∛")
     ("bln"     "∈")
     ("nbln"    "∉")
     ("nset"    "ℕ")
@@ -852,6 +864,7 @@ tokens, and DELIMITED as prefix arg."
     ("smlr"    "∼")
     ("cngr"    "≅")
     ("plmn"    "±")
+    ("trnstl"  "⊢")
     ))
 ;; see .emacs.d/abbrev_defs
 ;; M-x edit-abbrevs
