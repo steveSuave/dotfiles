@@ -268,4 +268,22 @@
         (t . "%Y-%m-%d %R")))
 
 
+;; ================================================================
+
+(use-package copilot
+  :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
+  :ensure t)
+;; you can utilize :map :hook and :config to customize copilot
+
+
+(with-eval-after-load 'company
+  ;; disable inline previews
+  (delq 'company-preview-if-just-one-frontend company-frontends))
+
+(define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+(define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
+
+;; Login to Copilot by M-x copilot-login. You can also check the
+;; status by M-x copilot-diagnose.
+
 (provide 'my-used-packages)

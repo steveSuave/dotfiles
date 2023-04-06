@@ -831,6 +831,7 @@ tokens, and DELIMITED as prefix arg."
     ("lognt"   "¬")
     ("dotop"   "⋅")
     ("multx"   "✕")
+    ("divf"    "÷")
     ("implz"   "⇒")
     ("ifff"    "⇔")
     ("up2"     "²")
