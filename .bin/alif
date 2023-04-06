@@ -223,15 +223,6 @@ on() {
     unset v
 }
 
-strap() {
-    while read -r line; do
-        if [[ $1 == *gtronic* ]]; then
-            line="$(original-awk '$NF ~ /\[.*\]/ {$NF="";print}' <<< "$line")"
-        fi
-        sap 1 "$line";
-    done < <(sort --random-sort "$1")
-}
-
 ediff() {
     emacs --eval "(ediff-files \"$1\" \"$2\")" 2>/dev/null & disown
 }
@@ -246,21 +237,6 @@ gre() { grep --exclude-dir='target' --exclude-dir='.git' --exclude-dir='node_mod
 
 gree() { grep --exclude-dir='target' --exclude-dir='.git' --exclude-dir='node_modules' -rn "$@" . ; }
 
-greef() {
-    grep --exclude-dir='target' --exclude-dir='.git' --exclude-dir='node_modules' -r "$@" . |
-        original-awk '$1!="Binary"{print}' |
-        original-awk -F':' '{print $1}' |
-        sort -u |
-        less -iSRN
-}
-
-gref() {
-    grep --exclude-dir='target' --exclude-dir='.git' --exclude-dir='node_modules' -r "$@" . |
-        original-awk '$1!="Binary"{print}' |
-        original-awk -F':' '{print $1}' |
-        sort -u
-}
-
 fixup() {
     SHA=$(git rev-parse HEAD)
     git commit --fixup $SHA &&
@@ -271,62 +247,4 @@ fixup() {
 # RADIO #
 #########
 
-reporadionotes=$HOME/Documents/dotfiles/TEXTFILES/radio-notes
-hostradionotes="${HOME}/TEXTFILES/radio-notes"
-mkdir -p "$hostradionotes"
-
-radio_play() {
-    mpv "$1" 2>/dev/null |
-       original-awk -v lg="$2" '/icy-title/ && ! /ad\|main - Commercial Break/ {$1=""; print; print >> lg; fflush()}'
-}
-
-save_last_song() {
-    tail -1 "$1" >> "$2"
-}
-
-rsap() {
-    sap 1 "$(sort --random-sort "$1" | head -1)"
-}
-
-hits() {
-    # while true; do rsap "$reporadionotes/$1.txt"; sleep 1; done
-    strap "$reporadionotes/$1.txt"
-}
-
-init_radio() {
-    alias ${1}="radio_play $2 ${hostradionotes}/${1}Log.txt"
-    alias ${1}save="save_last_song ${hostradionotes}/${1}Log.txt ${hostradionotes}/${1}.txt"
-    alias r${1}="rsap ${hostradionotes}/${1}.txt"
-}
-
-init_radio jazz24 "https://live.wostreaming.net/direct/ppm-jazz24mp3-ibc1"
-init_radio salsa "https://onlineradiobox.com/json/us/rumbaysalsa/play"
-init_radio comedy "http://www.star104.net/stream/comedy-mp3.pls"
-init_radio gtronic "http://nap.casthost.net:8878/stream"
-init_radio classical "https://cms.stream.publicradio.org/cms.aac"
-#http://playerservices.streamtheworld.com/api/livestream-redirect/WCPE_FMAAC128.aac
-
-# non logged radio
-alias trito='mpv https://radiostreaming.ert.gr/ert-trito &>/dev/null &'
-alias ecc='mpv http://85.10.206.222:8002/stream &>/dev/null &'
-alias spo='mpv https://sportfm.live24.gr/sportfm7712 &>/dev/null &'
-
-# sortjoin destination ...sources
-# sortjoin list1 list1 list2
-sortjoin() {
-    tmp="$(mktemp)"
-    dest="$1"
-    shift
-    cat "$@" | sort -u > "$tmp"
-    cat "$tmp" > "$dest"
-}
-
-updateradio() { # hostradionotes reporadionotes
-    for i in `find "$1" -type f -not -iname '*log.txt'`; do
-        dotsaves="$2/${i##*/}"
-        sortjoin "$dotsaves" "$dotsaves" "$i"
-    done
-}
-
-alias upradio="LC_ALL=C updateradio \"$hostradionotes\" \"$reporadionotes\""
-
+. ~/.bin/radio

@@ -38,7 +38,7 @@ title=$(curl "$theLink" 2>/dev/null |
 
 if [[ "$title" == "" ]]; then exit; fi
 
-history="$HOME/TEXTFILES/sap-history.txt"
+history="$HOME/Documents/TEXTFILES/sap-history.txt"
 
 echo               | tee -a "$history"
 echo "$videoParam" | tee -a "$history"
