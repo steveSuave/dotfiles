@@ -37,6 +37,7 @@ init_radio() {
 
 init_radio jazz24 "https://live.wostreaming.net/direct/ppm-jazz24mp3-ibc1"
 init_radio salsa "https://onlineradiobox.com/json/us/rumbaysalsa/play"
+init_radio salsa2 "https://pstnet5.shoutcastnet.com:50384/stream"
 init_radio comedy "http://www.star104.net/stream/comedy-mp3.pls"
 init_radio gtronic "http://nap.casthost.net:8878/stream"
 init_radio classical "https://cms.stream.publicradio.org/cms.aac"
