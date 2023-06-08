@@ -11,6 +11,7 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
+(straight-use-package 'gptel)
 (straight-use-package 'go-mode)
 (straight-use-package 'lua-mode)
 (straight-use-package 'sml-mode)
