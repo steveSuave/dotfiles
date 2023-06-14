@@ -73,4 +73,4 @@
  '(erc-input-face ((t (:foreground "salmon"))))
  '(erc-my-nick-face ((t (:foreground "goldenrod" :weight bold))))
  '(hl-line ((t (:inherit nil :extend t :background "gray21" :underline nil))))
- '(trailing-whitespace ((t (:background "gray45")))))
+ '(trailing-whitespace ((t (:background "gray74")))))
