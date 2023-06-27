@@ -33,14 +33,16 @@
 ;; mac specific settings
 (when (eq system-type 'darwin)
   (setq dired-use-ls-dired nil)
+  (let ((my-path "/Users/duamba/Applications/apache-maven-3.6.1/bin:/usr/local/mysql/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:"))
+    (setenv "PATH" (concat my-path (getenv "PATH")))
+    (setq exec-path (append (split-string my-path path-separator) exec-path)))
   (when (display-graphic-p)
-    (setq mac-option-modifier 'control)
-    (setq mac-command-modifier 'meta)
+    ;; (setq mac-option-modifier 'control)
+    ;; (setq mac-command-modifier 'meta)
     ;; values can be 'control, 'alt, 'meta, 'super, 'hyper, nil
     ;; (setting to nil allows the OS to assign values)
-    (let ((my-path "/usr/local/mysql/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:"))
-      (setenv "PATH" (concat my-path (getenv "PATH")))
-      (setq exec-path (append (split-string my-path path-separator) exec-path)))))
+    )
+  )
 
 
 ;; --------
@@ -416,7 +418,8 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
   (interactive)
   (let ((the-buff (buffer-name buff)))
     (cond ((or (string-equal "*scratch*" the-buff)
-               (string-equal "*SQL: <db>*" the-buff))
+               (string-equal "*SQL: <db>*" the-buff)
+               (string-equal "*ChatGPT*" the-buff))
            t)
           ((or (string-equal "diary" the-buff)
                ;; (string-equal major-mode "dired-mode")
@@ -664,6 +667,16 @@ tokens, and DELIMITED as prefix arg."
        (back-to-indentation)
        (1+ (current-column))))))
 
+(defun mactopify ()
+  (interactive)
+  (setq mac-option-modifier 'control)
+  (setq mac-command-modifier 'meta))
+
+(defun unmactopify ()
+    (interactive)
+    (setq mac-option-modifier 'meta)
+    (setq mac-command-modifier 'super))
+
 
 ;; --------
 ;; BINDINGS
@@ -823,7 +836,7 @@ tokens, and DELIMITED as prefix arg."
 
 (setq display-buffer-alist
       '(("\\*\\(grep\\|log-edit-files\\|vc-log\\)\\*"            (display-buffer-below-selected))
-        ("\\*\\(java\\|sql\\|js\\|SQL: <db>\\|Buffer List\\)\\*" (display-buffer-same-window))
+        ("\\*\\(java\\|sql\\|js\\|SQL: <db>\\|Buffer List\\|ChatGPT\\)\\*" (display-buffer-same-window))
         ("diary"                                                 (display-buffer-same-window))
         ("*Async Shell Command*"                                  display-buffer-no-window (nil))))
 
