@@ -194,7 +194,7 @@ gif() {
 
 # mpv with subtitles
 mpvs() {
-    mpv --sub-auto=exact --sub-font-size=33 "$1";
+    mpv --sub-auto=exact --sub-font-size=33 "$@"
 }
 
 # lo-fi
@@ -255,6 +255,17 @@ fixup() {
     git commit --fixup $SHA &&
         git rebase -i --autosquash $SHA~
 }
+
+bsyncn() {
+  # bsync fromDir toDir errorLogFile
+  # fromDir/ (with slash) will copy only file contents, not directory.
+  time caffeinate rsync -Pavuthn "$1" "$2" 2> "$3"
+}
+
+bsync() {
+  time caffeinate rsync -Pavuth "$1" "$2" 2> "$3"
+}
+
 
 #########
 # RADIO #

@@ -878,6 +878,7 @@ tokens, and DELIMITED as prefix arg."
     ("rset"    "ℝ")
     ("qset"    "ℚ")
     ("cset"    "ℂ")
+    ("sbset"   "⊂")
     ("leq"     "≤")
     ("geq"     "≥")
     ("deg"     "°")

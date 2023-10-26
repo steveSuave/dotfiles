@@ -369,6 +369,8 @@ ignores = (
   { level = "JOINS PARTS QUITS NICKS"; channels = ( "#regex" ); },
   { level = "JOINS PARTS QUITS NICKS"; channels = ( "#racket" ); },
   { level = "JOINS PARTS QUITS NICKS"; channels = ( "#lisp" ); },
+  { level = "JOINS PARTS QUITS NICKS"; channels = ( "#git" ); },
+  { level = "JOINS PARTS QUITS NICKS"; channels = ( "#ruby" ); },
   { level = "JOINS PARTS QUITS NICKS"; channels = ( "#lua" ); },
   { level = "JOINS PARTS QUITS NICKS"; channels = ( "#ruby" ); },
   { level = "JOINS PARTS QUITS NICKS"; channels = ( "#go-nuts" ); },
