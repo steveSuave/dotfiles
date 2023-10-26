@@ -159,6 +159,7 @@ chatnets = {
 };
 
 channels = (
+  { name = "#cb7"; chatnet = "libera"; autojoin = "Yes"; },
   { name = "#lobby"; chatnet = "EsperNet"; autojoin = "No"; },
   { name = "#freenode"; chatnet = "Freenode"; autojoin = "No"; },
   { name = "#irssi"; chatnet = "Freenode"; autojoin = "No"; },
@@ -175,14 +176,13 @@ channels = (
   { name = "#lua"; chatnet = "freenode"; autojoin = "No"; },
   { name = "##networking"; chatnet = "freenode"; autojoin = "No"; },
   { name = "#go-nuts"; chatnet = "freenode"; autojoin = "No"; },
-  { name = "##thinking"; chatnet = "libera"; autojoin = "Yes"; },
-  { name = "#java"; chatnet = "libera"; autojoin = "Yes"; },
-  { name = "#scheme"; chatnet = "libera"; autojoin = "Yes"; },
-  { name = "#bash"; chatnet = "libera"; autojoin = "Yes"; },
-  { name = "#zsh"; chatnet = "libera"; autojoin = "Yes"; },
-  { name = "#emacs"; chatnet = "libera"; autojoin = "Yes"; },
-  { name = "#oberon"; chatnet = "libera"; autojoin = "Yes"; },
-  { name = "#cb7"; chatnet = "libera"; autojoin = "Yes"; }
+  { name = "##thinking"; chatnet = "libera"; autojoin = "No"; },
+  { name = "#java"; chatnet = "libera"; autojoin = "No"; },
+  { name = "#scheme"; chatnet = "libera"; autojoin = "No"; },
+  { name = "#bash"; chatnet = "libera"; autojoin = "No"; },
+  { name = "#zsh"; chatnet = "libera"; autojoin = "No"; },
+  { name = "#emacs"; chatnet = "libera"; autojoin = "No"; },
+  { name = "#oberon"; chatnet = "libera"; autojoin = "No"; }
 );
 
 aliases = {

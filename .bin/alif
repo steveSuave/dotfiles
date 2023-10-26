@@ -36,7 +36,12 @@ alias 1='kill %1'
 
 alias temp='echo $(bc <<< "$(cat /sys/devices/platform/coretemp.0/hwmon/hwmon*/temp*_input | sort -nr | head -1) / 1000")°C'
 alias sysus='systemctl suspend'
+
 alias dstop='docker stop $(docker ps -a -q)'
+alias drm='docker rm $(docker ps -a -q)'
+alias dri='docker rmi $(docker images -q)'
+alias drv='docker volume prune'
+alias drall='docker system prune --all --volumes' # --force
 # delete images older than 6 months ago; 4320h = 24 hour/day * 30 days/month * 6 months
 alias diprune='docker image prune --all --filter "until=4320h"'
 
@@ -59,6 +64,7 @@ alias pbpaste="xclip -selection clipboard -o"
 
 alias irc='screen -S irc irssi;'
 alias cafrc='caffeinate -w $(pgrep irssi)&'
+alias caf='screen -dmS caf caffeinate -d'
 
 alias w3im="startx" # $HOME/.config/i3/xinit"
 #alias emacs='emacsclient -n --create-frame --alternate-editor=""'
@@ -236,6 +242,10 @@ gret() { git grep -i "$@" $(git rev-list --all); }
 gre() { grep --exclude-dir='target' --exclude-dir='.git' --exclude-dir='node_modules' --color=always -rn "$@" . | less -iSRN; }
 
 gree() { grep --exclude-dir='target' --exclude-dir='.git' --exclude-dir='node_modules' -rn "$@" . ; }
+
+bull() {
+    git pull origin "$(git branch --show-current)"
+}
 
 fixup() {
     SHA=$(git rev-parse HEAD)
