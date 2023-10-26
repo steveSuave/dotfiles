@@ -388,7 +388,14 @@ ignores = (
   { level = "JOINS PARTS QUITS NICKS"; channels = ( "#sml" ); },
   { level = "JOINS PARTS QUITS NICKS"; channels = ( "##news" ); },
   { level = "JOINS PARTS QUITS NICKS"; channels = ( "##math" ); },
-  { level = "JOINS PARTS QUITS NICKS"; channels = ( "#oberon" ); }
+  { level = "JOINS PARTS QUITS NICKS"; channels = ( "#oberon" ); },
+  { 
+    level = "JOINS PARTS QUITS NICKS";
+    channels = ( "#raspberrypi" );
+  },
+  { mask = "joins"; level = "PARTS QUITS NICKS"; },
+  { level = "JOINS PARTS QUITS NICKS"; channels = ( "#haskell" ); },
+  { level = "JOINS PARTS QUITS NICKS"; channels = ( "##general" ); }
 );
 hilights = (
   { text = "greycat!*@*"; nick = "yes"; word = "yes"; mask = "yes"; },

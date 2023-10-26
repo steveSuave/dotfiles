@@ -56,6 +56,8 @@ alias mpvl='mpv --af=pan="[stereo|c0=c0|c1=c0]"'
 alias mpvr='mpv --af=pan="[stereo|c0=c1|c1=c1]"'
 alias mpvm='mpv --audio-channels=1'
 
+alias mpv360='mpv --ytdl-format="[height<=360]/best"'
+
 alias cup='nmcli --ask con up id client'
 alias cdown='nmcli con down id client'
 alias pull='git pull --tags --rebase origin master'
@@ -200,6 +202,7 @@ mpvlf() {
     mpv --ytdl-format=93 "$1"
 }
 
+#mpv --http-header-fields="Referer: https://www.nolive.me/sd0embed" https://ed-t5.edghst.me/plyvivo/so9e9okiledu7e3imew0/chunklist.m3u8
 # temporary (!) workaround used for streams
 # copy headers from network dev tools for chunk.m*
 mpvc() {
