@@ -1,4 +1,4 @@
-reporadionotes=$HOME/Documents/dotfiles/TEXTFILES/radio-notes
+reporadionotes="${HOME}/Documents/dotfiles/TEXTFILES/radio-notes"
 hostradionotes="${HOME}/Documents/TEXTFILES/radio-notes"
 mkdir -p "$hostradionotes"
 

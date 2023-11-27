@@ -58,6 +58,9 @@
      ("anaskafi" "http://anaskafi.blogspot.com/feeds/posts/default" nil nil nil)
      ("slashdot" "http://rss.slashdot.org/Slashdot/slashdotMain" nil nil nil)
      ("eli-bendersky" "https://eli.thegreenplace.net/feeds/all.atom.xml" nil nil nil)))
+ '(org-format-latex-options
+   '(:foreground default :background default :scale 2.0 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
+                 ("begin" "$1" "$" "$$" "\\(" "\\[")))
  '(python-shell-interpreter "python3")
  '(require-final-newline 'ask)
  '(scheme-program-name "mit-scheme")

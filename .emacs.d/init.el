@@ -146,7 +146,7 @@
                      " -o "
                      (file-name-sans-extension (file-name-nondirectory buffer-file-name))
                      " && "
-                     (file-name-sans-extension buffer-file-name))))
+                     (file-name-sans-extension buffer-file-name)) t))
   (defun my-c-hooks ()
     "For use in `c-mode-hook'."
     (local-set-key "\C-c\C-c" #'c-compile-command))
@@ -156,7 +156,7 @@
   (defun go-compile-command ()
     (interactive)
     (compile (concat "go run "
-                     (file-truename buffer-file-name))))
+                     (file-truename buffer-file-name)) t))
   (defun my-go-hooks ()
     "For use in `go-mode-hook'."
     (local-set-key "\C-c\C-c" #'go-compile-command))
@@ -166,7 +166,7 @@
   (defun haskell-compile-command ()
     (interactive)
     (compile (concat "runhaskell "
-                     (file-truename buffer-file-name))))
+                     (file-truename buffer-file-name)) t))
   (defun my-haskell-hooks ()
     "For use in `haskell-mode-hook'."
     (local-set-key "\C-c\C-c" #'haskell-compile-command))
@@ -816,6 +816,8 @@ tokens, and DELIMITED as prefix arg."
       find-function-C-source-directory "~/.emacs.d/emacs-master/src")
 
 (setq org-agenda-include-diary t
+      org-startup-with-inline-images t
+      org-startup-with-latex-preview t
       org-sort-agenda-notime-is-late nil
       ;; org-agenda-files (directory-files-recursively "~/.emacs.d/org/" "\\.org$")
       org-todo-keywords '((sequence "TODO" "IN-PROGRESS" "CANCELLED" "WAITING" "DONE"))
