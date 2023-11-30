@@ -816,6 +816,8 @@ tokens, and DELIMITED as prefix arg."
       find-function-C-source-directory "~/.emacs.d/emacs-master/src")
 
 (setq org-agenda-include-diary t
+      org-startup-with-inline-images t
+      org-startup-with-latex-preview t
       org-sort-agenda-notime-is-late nil
       ;; org-agenda-files (directory-files-recursively "~/.emacs.d/org/" "\\.org$")
       org-todo-keywords '((sequence "TODO" "IN-PROGRESS" "CANCELLED" "WAITING" "DONE"))
@@ -835,7 +837,7 @@ tokens, and DELIMITED as prefix arg."
 ;;          (sql-port 5432))))
 
 (setq display-buffer-alist
-      '(("\\*\\(grep\\|log-edit-files\\|vc-log\\)\\*"            (display-buffer-below-selected))
+      '(("\\*\\(grep\\|log-edit-files\\|HTTP Response\\|vc-log\\)\\*"            (display-buffer-below-selected))
         ("\\*\\(java\\|sql\\|js\\|SQL: <db>\\|Buffer List\\|ChatGPT\\)\\*" (display-buffer-same-window))
         ("diary"                                                 (display-buffer-same-window))
         ("*Async Shell Command*"                                  display-buffer-no-window (nil))))
