@@ -13,7 +13,7 @@ os.environ["OPENAI_API_KEY"] = constants.APIKEY
 import sys
 project = sys.argv[1]
 question = sys.argv[2]
-langs = [".java",".groovy"]
+langs = [".java", ".groovy", ".sql", ".yml"]
 
 # Clone
 # from git import Repo
@@ -32,14 +32,14 @@ loader = GenericLoader.from_filesystem(
     parser=LanguageParser(language=Language.PYTHON, parser_threshold=500),
 )
 documents = loader.load()
-# print(len(documents))
+print(len(documents))
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 python_splitter = RecursiveCharacterTextSplitter.from_language(
     language=Language.PYTHON, chunk_size=2000, chunk_overlap=200
 )
 texts = python_splitter.split_documents(documents)
-# print(len(texts))
+print(len(texts))
 
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import Chroma
@@ -54,7 +54,7 @@ from langchain.chains import ConversationalRetrievalChain
 from langchain.chat_models import ChatOpenAI
 from langchain.memory import ConversationSummaryMemory
 
-llm = ChatOpenAI(model_name="gpt-4")
+llm = ChatOpenAI(model_name="gpt-3.5-turbo") #gpt-4
 memory = ConversationSummaryMemory(
     llm=llm, memory_key="chat_history", return_messages=True
 )

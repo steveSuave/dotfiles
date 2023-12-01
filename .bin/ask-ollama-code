@@ -11,13 +11,12 @@ question = sys.argv[2]
 # from git import Repo
 # repo = Repo.clone_from("https://github.com/langchain-ai/langchain", to_path=repo_path)
 repo_path = os.path.expanduser("~/Code/")
-langs = [".java",".groovy"]
+langs = [".java", ".groovy", ".sql", ".yml"]
 
 from langchain.document_loaders.generic import GenericLoader
 from langchain.document_loaders.parsers import LanguageParser
 from langchain.text_splitter import Language
 
-print(repo_path + project)
 # Load
 loader = GenericLoader.from_filesystem(
     repo_path + project,
@@ -26,6 +25,7 @@ loader = GenericLoader.from_filesystem(
     parser=LanguageParser(language=Language.PYTHON, parser_threshold=500),
 )
 documents = loader.load()
+print(repo_path + project)
 print(len(documents))
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter
