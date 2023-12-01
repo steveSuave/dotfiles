@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+
+# git clone https://github.com/run-llama/llama_index.git
+# cd llama_index
+# poetry install --with dev
+# poetry run python3 $ask-ll-index $data_dir $query
+
+import os
+import sys
+import constants
+from llama_index import VectorStoreIndex, SimpleDirectoryReader
+
+data_dir = sys.argv[1]
+query = sys.argv[2]
+
+os.environ["OPENAI_API_KEY"] = constants.APIKEY
+
+documents = SimpleDirectoryReader(data_dir).load_data()
+index = VectorStoreIndex.from_documents(documents)
+query_engine = index.as_query_engine()
+print(query_engine.query(query))
