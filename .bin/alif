@@ -202,17 +202,6 @@ mpvlf() {
     mpv --ytdl-format=93 "$1"
 }
 
-#mpv --http-header-fields="Referer: https://www.nolive.me/sd0embed" https://ed-t5.edghst.me/plyvivo/so9e9okiledu7e3imew0/chunklist.m3u8
-# temporary (!) workaround used for streams
-# copy headers from network dev tools for chunk.m*
-mpvc() {
-    headers=$1
-    host=$(grep 'Host:' <<< $headers | awk '{print $2}')
-    resource=$(grep 'GET ' <<< $headers | awk '{print $2}')
-    referer=$(grep 'Referer:' <<< $headers)
-    mpv --http-header-fields="$referer" "https://${host}${resource}"
-}
-
 ran() {
     if [[ $2 ]]; then
         v="-v"
