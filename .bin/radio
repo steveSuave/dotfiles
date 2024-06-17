@@ -46,8 +46,9 @@ init_radio funk "https://funkyradio.streamingmedia.it/play.mp3"
 
 # non logged radio
 alias trito='mpv https://radiostreaming.ert.gr/ert-trito &>/dev/null &'
-alias ecc='mpv http://85.10.206.222:8002/stream &>/dev/null &'
+alias ecc='mpv https://loki.mental-media.gr:8038/ &>/dev/null &'
 alias spo='mpv https://sportfm.live24.gr/sportfm7712 &>/dev/null &'
+alias skai='mpv https://skai.live24.gr/skai1003 &>/dev/null &'
 
 # sortjoin destination ...sources
 # sortjoin list1 list1 list2

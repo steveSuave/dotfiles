@@ -117,6 +117,14 @@
    ((string-prefix-p "!" pattern)
     `(orderless-without-literal . ,(substring pattern 1)))))
 
+(use-package reverse-im
+  :straight t
+  :custom
+  (reverse-im-input-methods '("greek"))
+  ;; (reverse-im-activate "ukrainian-computer") ; the legacy way
+  :config
+  (reverse-im-mode t))
+
 ;; A few more useful configurations...
 (use-package emacs
   :init
@@ -269,12 +277,17 @@
         ((+ (* 60 60 24) (gnus-seconds-today)) . "Yesterday, %R")
         (t . "%Y-%m-%d %R")))
 
+;; (gptel-make-ollama
+;;  "Ollama"                  ;Any name of your choosing
+;;  :host "localhost:11434"   ;Where it's running
+;;  :models '("codellama" "llama2" "orca-mini" "llama3" "mistral" "gemma" "codegemma" "wizard-math" "meditron" "llama-pro" "llama2-uncensored" "ilsp/meltemi-instruct") ;Installed models
+;;  :stream t)
 
 ;; ================================================================
 ;; (use-package copilot
-;;   :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
+;;   :straight (:host github :repo "copilot-emacs/copilot.el" :files ("*.el"))
 ;;   :ensure t)
-;; ;; you can utilize :map :hook and :config to customize copilot
+;; you can utilize :map :hook and :config to customize copilot
 
 ;; (with-eval-after-load 'company
 ;;   ;; disable inline previews

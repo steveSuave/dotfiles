@@ -149,6 +149,7 @@
                      (file-name-sans-extension buffer-file-name)) t))
   (defun my-c-hooks ()
     "For use in `c-mode-hook'."
+    ;;(setq lsp-clangd-binary-path "/usr/local/opt/llvm/bin/clangd")
     (local-set-key "\C-c\C-c" #'c-compile-command))
   (add-hook 'c-mode-hook 'my-c-hooks))
 
