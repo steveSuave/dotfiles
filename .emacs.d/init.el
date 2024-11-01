@@ -153,6 +153,16 @@
     (local-set-key "\C-c\C-c" #'c-compile-command))
   (add-hook 'c-mode-hook 'my-c-hooks))
 
+(when (fboundp 'dart-mode)
+  (defun dart-compile-command ()
+    (interactive)
+    (compile (concat "~/development/flutter/bin/dart run "
+                     (file-truename buffer-file-name)) t))
+  (defun my-dart-hooks ()
+    "For use in `dart-mode-hook'."
+    (local-set-key "\C-c\C-c" #'dart-compile-command))
+  (add-hook 'dart-mode-hook 'my-dart-hooks))
+
 (when (fboundp 'go-mode)
   (defun go-compile-command ()
     (interactive)
@@ -426,6 +436,7 @@ User buffer will be defined as not enwrapped in stars '*', with some exceptions.
                ;; (string-equal major-mode "dired-mode")
                (string-match "\\*.+\\*$" the-buff)
                (string-match "irc.libera.chat.*$" the-buff)
+               (string-match "Libera.Chat" the-buff)
                (string-match "magit[^[:space:]]*:.*$" the-buff))
            nil)
           (t t))))
@@ -678,6 +689,31 @@ tokens, and DELIMITED as prefix arg."
     (setq mac-option-modifier 'meta)
     (setq mac-command-modifier 'super))
 
+(defun tmpf ()
+  (interactive)
+  (find-file (make-temp-file "tmpf")))
+
+(defun set-region-writeable (begin end)
+  "Removes the read-only text property from the marked region."
+  ;; See http://stackoverflow.com/questions/7410125
+  (interactive "r")
+  (let ((modified (buffer-modified-p))
+        (inhibit-read-only t))
+    (remove-text-properties begin end '(read-only t))
+    (set-buffer-modified-p modified)))
+
+(defun +erc-quit ()
+    "Kill ERC buffers and terminate any child processes."
+    (interactive)
+    (let ((kill-buffer-query-functions nil)
+          (erc-buffers (erc-buffer-list)))
+      (if (not erc-buffers)
+          (message "There are no ERC buffers to kill."))
+      (progn
+        (dolist (buffer erc-buffers)
+          (kill-buffer buffer))
+        (message "Killed all ERC buffers."))))
+
 
 ;; --------
 ;; BINDINGS
@@ -711,7 +747,7 @@ tokens, and DELIMITED as prefix arg."
 (global-set-key "\C-c$" 'toggle-truncate-lines)
 (global-set-key (kbd "C-S-s") 'isearch-forward-symbol-at-point)
 ;; (global-set-key "\C-cN" #'newsticker-show-news)
-(global-set-key "\C-c\C-e" #'myerc)
+(global-set-key (kbd "C-c c e") #'myerc)
 (global-set-key "\C-cC" #'calendar)
 (global-set-key (kbd "C-c C-s")  #'diary-show-all-entries)
 (global-set-key (kbd "C-c g")  #'org-agenda-list)
@@ -817,6 +853,7 @@ tokens, and DELIMITED as prefix arg."
       find-function-C-source-directory "~/.emacs.d/emacs-master/src")
 
 (setq org-agenda-include-diary t
+      org-startup-folded t
       org-startup-with-inline-images t
       org-startup-with-latex-preview t
       org-sort-agenda-notime-is-late nil
@@ -856,24 +893,28 @@ tokens, and DELIMITED as prefix arg."
     ("divf"    "÷")
     ("implz"   "⇒")
     ("ifff"    "⇔")
-    ("up0"     "⁰")
-    ("up1"     "¹")
-    ("up2"     "²")
-    ("up3"     "³")
-    ("up4"     "⁴")
-    ("up5"     "⁵")
-    ("up6"     "⁶")
-    ("upn"     "ⁿ")
-    ("upmn"    "⁻")
-    ("dn0"     "₀")
-    ("dn1"     "₁")
-    ("dn2"     "₂")
-    ("dn3"     "₃")
-    ("dnn"     "ₙ")
-    ("dni"     "ᵢ")
-    ("dnmn"    "₋")
+    ("sup0"    "⁰")
+    ("sup1"    "¹")
+    ("sup2"    "²")
+    ("sup3"    "³")
+    ("sup4"    "⁴")
+    ("sup5"    "⁵")
+    ("sup6"    "⁶")
+    ("supi"    "ⁱ")
+    ("supn"    "ⁿ")
+    ("supmn"   "⁻")
+    ("suppls"  "⁺")
+    ("sub0"    "₀")
+    ("sub1"    "₁")
+    ("sub2"    "₂")
+    ("sub3"    "₃")
+    ("subi"    "ᵢ")
+    ("subn"    "ₙ")
+    ("subm"    "ₘ")
+    ("subj"    "ⱼ")
     ("sqrt"    "√")
     ("cbrt"    "∛")
+    ("scht"    "϶")
     ("bln"     "∈")
     ("nbln"    "∉")
     ("nset"    "ℕ")
@@ -898,6 +939,11 @@ tokens, and DELIMITED as prefix arg."
     ("plmn"    "±")
     ("mnpl"    "∓")
     ("trnstl"  "⊢")
+    ("intsct"  "∩")
+    ("uion"    "∪")
+    ("fnc"     "𝑓")
+    ("lngl"    "⟨")
+    ("rngl"    "⟩")
     ))
 ;; see .emacs.d/abbrev_defs
 ;; M-x edit-abbrevs
@@ -911,6 +957,7 @@ tokens, and DELIMITED as prefix arg."
          ("\\.conf\\'" . conf-mode)
          ("\\.config\\'" . conf-mode)
          ("\\.css\\'" . css-mode)
+         ("\\.dart$" . dart-mode)
          ("diary" . diary-mode)
          ("\\.diff\\'" . diff-mode)
          ("Dockerfile" . dockerfile-mode)

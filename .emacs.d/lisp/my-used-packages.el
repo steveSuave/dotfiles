@@ -15,9 +15,11 @@
 (straight-use-package 'go-mode)
 (straight-use-package 'lua-mode)
 (straight-use-package 'sml-mode)
+;;(straight-use-package 'dart-mode)
 (straight-use-package 'sqlformat)
 (straight-use-package 'yaml-mode)
 (straight-use-package 'rust-mode)
+;;(straight-use-package 'impostman)
 (straight-use-package 'restclient)
 (straight-use-package 'groovy-mode)
 (straight-use-package 'use-package)
@@ -125,6 +127,14 @@
   :config
   (reverse-im-mode t))
 
+(use-package flutter
+  :straight t
+  :after dart-mode
+  :bind (:map dart-mode-map
+              ("C-M-x" . #'flutter-run-or-hot-reload))
+  :custom
+  (flutter-sdk-path "/Users/stefanoslevantis/development/flutter/"))
+
 ;; A few more useful configurations...
 (use-package emacs
   :init
@@ -211,6 +221,14 @@
     :straight t
     :config (add-hook 'java-mode-hook 'lsp)))
 
+(defun setup-lsp-dart ()
+  (interactive)
+  (setup-lsp)
+  (use-package lsp-dart
+    :straight t
+    :config (add-hook 'dart-mode-hook 'lsp)))
+
+
 ;; RSS
 (use-package elfeed
   :straight t
@@ -221,7 +239,11 @@
           ("http://rss.slashdot.org/Slashdot/slashdotMain" slashdot tech)
           ("https://sarantakos.wordpress.com/feed" sarantakos fun)
           ;; https://codarium.substack.com/p/returning-the-killed-rss-of-reuters
+<<<<<<< HEAD
           ("https://news.google.com/rss/search?q=when:24h+allinurl:reuters.com&ceid=US:en&hl=en-US&gl=US" reuters news)
+=======
+          ("https://news.google.com/rss/search?q=when:6h+allinurl:reuters.com&ceid=US:en&hl=en-US&gl=US" reuters news)
+>>>>>>> 5dcd4caa04eabe8e81def47a03ceb18cf9e0215f
           ("http://feeds2.feedburner.com/MarksDailyApple/" marksapple health)
           ("https://eli.thegreenplace.net/feeds/all.atom.xml" eli tech)
           ("https://binarycoders.dev/feed/" binarycoders tech)
@@ -299,5 +321,40 @@
 ;; ;; Login to Copilot by M-x copilot-login. You can also check the
 ;; ;; status by M-x copilot-diagnose.
 ;; ================================================================
+
+;; (use-package ellama
+;;   :straight t
+;;   :init
+;;   ;; setup key bindings
+;;   (setopt ellama-keymap-prefix "C-c e")
+;;   ;; language you want ellama to translate to
+;;   (setopt ellama-language "English")
+;;   ;; could be llm-openai for example
+;;   (require 'llm-ollama)
+;;   (setopt ellama-provider
+;;           (make-llm-ollama
+;;            ;; this model should be pulled to use it
+;;            ;; value should be the same as you print in terminal during pull
+;;            :chat-model "mistral"
+;;            :embedding-model "mistral"))
+;;   ;; Predefined llm providers for interactive switching.
+;;   ;; You shouldn't add ollama providers here - it can be selected interactively
+;;   ;; without it. It is just example.
+;;   (setopt ellama-providers
+;;           '(("zephyr" . (make-llm-ollama
+;;                          :chat-model "zephyr"
+;;                          :embedding-model "zephyr"))
+;;             ))
+;;   ;; Naming new sessions with llm
+;;   (setopt ellama-naming-provider
+;;           (make-llm-ollama
+;;            :chat-model "mistral"
+;;            :embedding-model "mistral"))
+;;   (setopt ellama-naming-scheme 'ellama-generate-name-by-llm)
+;;   ;; Translation llm provider
+;;   (setopt ellama-translation-provider (make-llm-ollama
+;;                                        :chat-model "openchat"
+;;                                        :embedding-model "nomic-embed-text")))
+
 
 (provide 'my-used-packages)

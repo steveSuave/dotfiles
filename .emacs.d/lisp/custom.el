@@ -10,8 +10,13 @@
  '(display-time-24hr-format t)
  '(ediff-split-window-function 'split-window-horizontally)
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
+ '(erc-autojoin-channels-alist '((Libera.Chat "#cb7")))
+ '(erc-nick-uniquifier "+")
+ '(erc-scrolltobottom-mode t)
+ '(flutter-sdk-path '~/development/flutter/ t)
  '(font-lock-global-modes
    '(not elfeed-search-mode elfeed-show-mode gnus-summary-mode gnus-article-mode))
+ '(gptel-model "gpt-4o-mini")
  '(holiday-bahai-holidays nil)
  '(holiday-christian-holidays nil)
  '(holiday-general-holidays nil)
@@ -49,6 +54,9 @@
       ("system"
        (predicate not
                   (front-bufsp))))))
+ '(lsp-dart-flutter-executable "~/development/flutter/bin/flutter")
+ '(lsp-dart-flutter-sdk-dir "~/development/flutter/")
+ '(lsp-dart-sdk-dir "~/development/flutter/bin/cache/dart-sdk/")
  '(magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
  '(minions-mode-line-lighter "etc")
  '(minions-prominent-modes '(vlf-mode))

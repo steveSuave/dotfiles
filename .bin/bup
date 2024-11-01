@@ -7,8 +7,8 @@ today="$(date +%y%m%d)"
 loc="$PWD"
 cd ~ || exit 1
 
-all=(
-    .bin/*
+everything=(
+    .bin/
     .bashrc
     .profile
     .bash_profile
@@ -17,23 +17,29 @@ all=(
     .bash_logout
     .inputrc
     .Xdefaults
-    .hammerspoon/*
-    .emacs.d/{init.el,lisp/*}
+    .hammerspoon/
+    .emacs.d/{init.el,lisp/}
     .newsboat/{,yt}{config,urls}
-    .config/{karabiner/*,i3/{config,status.conf,xinit}}
-    TEXTFILES/*
+    .config/{karabiner/,i3/{config,status.conf,xinit}}
+    TEXTFILES
+
+    Accumulator/
+    Code/
+    Desktop/
+    Documents/
+    Downloads/
+    Movies/
+    Music/
+    Pictures/
+    Projects/
 )
 
 ACTUAL_UPDATE=()
 
-for file in "${all[@]}"; do
-    if [[ -f "$file" ]]; then
-        ACTUAL_UPDATE+=("$file")
+for the_file in "${everything[@]}"; do
+    if [[ -e "$the_file" ]]; then
+        ACTUAL_UPDATE+=("$the_file")
     fi
 done
 
 tar czvf "${loc}/bup--${today}.tgz" "${ACTUAL_UPDATE[@]}"
-
-if [[ -d Projects ]]; then
-    find Projects -type f -size -10M -print0 | xargs -0 tar czvf "${loc}/jub--${today}.tgz"
-fi
