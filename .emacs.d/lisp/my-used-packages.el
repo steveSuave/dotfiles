@@ -220,7 +220,8 @@
         '(("http://anaskafi.blogspot.com/feeds/posts/default" fun anaskafi archaeology)
           ("http://rss.slashdot.org/Slashdot/slashdotMain" slashdot tech)
           ("https://sarantakos.wordpress.com/feed" sarantakos fun)
-          ("https://www.reutersagency.com/feed/" reuters news)
+          ;; https://codarium.substack.com/p/returning-the-killed-rss-of-reuters
+          ("https://news.google.com/rss/search?q=when:24h+allinurl:reuters.com&ceid=US:en&hl=en-US&gl=US" reuters news)
           ("http://feeds2.feedburner.com/MarksDailyApple/" marksapple health)
           ("https://eli.thegreenplace.net/feeds/all.atom.xml" eli tech)
           ("https://binarycoders.dev/feed/" binarycoders tech)
