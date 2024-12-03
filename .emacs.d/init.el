@@ -33,16 +33,14 @@
 ;; mac specific settings
 (when (eq system-type 'darwin)
   (setq dired-use-ls-dired nil)
-  (let ((my-path "/Users/duamba/Applications/apache-maven-3.6.1/bin:/usr/local/mysql/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:"))
-    (setenv "PATH" (concat my-path (getenv "PATH")))
-    (setq exec-path (append (split-string my-path path-separator) exec-path)))
   (when (display-graphic-p)
-    ;; (setq mac-option-modifier 'control)
-    ;; (setq mac-command-modifier 'meta)
+    (setq mac-option-modifier 'control)
+    (setq mac-command-modifier 'meta)
     ;; values can be 'control, 'alt, 'meta, 'super, 'hyper, nil
     ;; (setting to nil allows the OS to assign values)
-    )
-  )
+    (let ((my-path "/usr/local/mysql/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:"))
+      (setenv "PATH" (concat my-path (getenv "PATH")))
+      (setq exec-path (append (split-string my-path path-separator) exec-path)))))
 
 
 ;; --------
@@ -989,6 +987,7 @@ tokens, and DELIMITED as prefix arg."
          ("\\.sml\\'" . sml-mode)
          ("\\.sql\\'" . sql-mode)
          ("\\.text\\'" . text-mode)
+         ("\\.tex\\'" . tex-mode)
          ("\\.txt\\'" . text-mode)
          ("\\.xml$" . xml-mode) ;; psgml-mode, nxml-mode
          ("\\.xsd$" . nxml-mode) ;; xsl-mode

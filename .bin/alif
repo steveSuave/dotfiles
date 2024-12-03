@@ -159,6 +159,12 @@ joinpdf () {
     gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=joined.pdf "$@"
 }
 
+pdftrunc() {
+    thefile=$1
+    lastpagetokeep=$2
+    qpdf "$thefile" --pages . 1-"$lastpagetokeep" -- "split-${thefile}"
+}
+
 # current airport weather report in a codified format
 # metar LGAV gets data from El.Venizelos Athens airport
 metar() {

@@ -45,6 +45,11 @@
   :straight t
   :config (which-key-mode))
 
+(use-package texfrag
+  :straight t
+  :config
+  (add-hook 'markdown-mode-hook #'texfrag-mode))
+
 (defun my/ansi-colorize-buffer ()
   (let ((buffer-read-only nil))
     (ansi-color-apply-on-region (point-min) (point-max))))
@@ -239,11 +244,7 @@
           ("http://rss.slashdot.org/Slashdot/slashdotMain" slashdot tech)
           ("https://sarantakos.wordpress.com/feed" sarantakos fun)
           ;; https://codarium.substack.com/p/returning-the-killed-rss-of-reuters
-<<<<<<< HEAD
           ("https://news.google.com/rss/search?q=when:24h+allinurl:reuters.com&ceid=US:en&hl=en-US&gl=US" reuters news)
-=======
-          ("https://news.google.com/rss/search?q=when:6h+allinurl:reuters.com&ceid=US:en&hl=en-US&gl=US" reuters news)
->>>>>>> 5dcd4caa04eabe8e81def47a03ceb18cf9e0215f
           ("http://feeds2.feedburner.com/MarksDailyApple/" marksapple health)
           ("https://eli.thegreenplace.net/feeds/all.atom.xml" eli tech)
           ("https://binarycoders.dev/feed/" binarycoders tech)
