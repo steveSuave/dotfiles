@@ -301,6 +301,10 @@
         ((+ (* 60 60 24) (gnus-seconds-today)) . "Yesterday, %R")
         (t . "%Y-%m-%d %R")))
 
+(gptel-make-anthropic "Claude"          ;Any name you want
+  :stream t                             ;Streaming responses
+  :key "")
+
 ;; (gptel-make-ollama
 ;;  "Ollama"                  ;Any name of your choosing
 ;;  :host "localhost:11434"   ;Where it's running
@@ -308,19 +312,19 @@
 ;;  :stream t)
 
 ;; ================================================================
-;; (use-package copilot
-;;   :straight (:host github :repo "copilot-emacs/copilot.el" :files ("*.el"))
-;;   :ensure t)
+(use-package copilot
+  :straight (:host github :repo "copilot-emacs/copilot.el" :files ("*.el"))
+  :ensure t)
 ;; you can utilize :map :hook and :config to customize copilot
 
-;; (with-eval-after-load 'company
-;;   ;; disable inline previews
-;;   (delq 'company-preview-if-just-one-frontend company-frontends))
+(with-eval-after-load 'company
+  ;; disable inline previews
+  (delq 'company-preview-if-just-one-frontend company-frontends))
 
-;; (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
-;; (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
-;; ;; Login to Copilot by M-x copilot-login. You can also check the
-;; ;; status by M-x copilot-diagnose.
+(define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+(define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
+;; Login to Copilot by M-x copilot-login. You can also check the
+;; status by M-x copilot-diagnose.
 ;; ================================================================
 
 ;; (use-package ellama
