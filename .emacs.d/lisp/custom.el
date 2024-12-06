@@ -16,7 +16,6 @@
  '(flutter-sdk-path '~/development/flutter/ t)
  '(font-lock-global-modes
    '(not elfeed-search-mode elfeed-show-mode gnus-summary-mode gnus-article-mode))
- '(gptel-model "gpt-4o-mini")
  '(holiday-bahai-holidays nil)
  '(holiday-christian-holidays nil)
  '(holiday-general-holidays nil)
