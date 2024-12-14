@@ -20,7 +20,7 @@ HISTFILE=~/.histfile
 HISTSIZE=10000
 SAVEHIST=10000
 
-setopt autocd extendedglob notify correct 
+setopt autocd extendedglob notify correct
 setopt EXTENDED_HISTORY          # Write the history file in the ':start:elapsed;command' format.
 setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
 setopt SHARE_HISTORY             # Share history between all sessions.
@@ -82,10 +82,5 @@ then
     PS1='$ '
 fi
 
-PATH="$PATH:~/Projects/apache-maven-3.6.1/bin"
-export PATH="$(go env GOPATH)/bin:$PATH"
+# export PATH="$(go env GOPATH)/bin:$PATH"
 export PATH="$HOME/.bin:$PATH"
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
