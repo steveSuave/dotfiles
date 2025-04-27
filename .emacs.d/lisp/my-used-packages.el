@@ -48,7 +48,8 @@
 (use-package texfrag
   :straight t
   :config
-  (add-hook 'markdown-mode-hook #'texfrag-mode))
+  (add-hook 'markdown-mode-hook #'texfrag-mode)
+  (add-hook 'org-mode-hook #'texfrag-mode))
 
 (defun my/ansi-colorize-buffer ()
   (let ((buffer-read-only nil))
@@ -131,6 +132,13 @@
   ;; (reverse-im-activate "ukrainian-computer") ; the legacy way
   :config
   (reverse-im-mode t))
+
+(use-package conda
+  :straight t
+  :init
+  (setq conda-anaconda-home (expand-file-name "/usr/local/anaconda3"))
+  (setq conda-env-home-directory (expand-file-name "/usr/local/anaconda3")))
+;; M-x conda-env-activate
 
 (use-package flutter
   :straight t
