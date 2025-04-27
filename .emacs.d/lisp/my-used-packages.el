@@ -305,6 +305,10 @@
   :stream t                             ;Streaming responses
   :key "")
 
+;; :key can be a function that returns the API key.
+(gptel-make-gemini "Gemini" :key "" :stream t)
+
+
 ;; (gptel-make-ollama
 ;;  "Ollama"                  ;Any name of your choosing
 ;;  :host "localhost:11434"   ;Where it's running
