@@ -758,6 +758,18 @@ tokens, and DELIMITED as prefix arg."
           (kill-buffer buffer))
         (message "Killed all ERC buffers."))))
 
+(defun search-selection (beg end)
+  "search for selected text"
+  (interactive "r")
+  (let (
+        (selection (buffer-substring-no-properties beg end))
+        )
+    (deactivate-mark)
+    (isearch-mode t nil nil nil)
+    (isearch-yank-string selection)
+    )
+  )
+
 
 ;; --------
 ;; BINDINGS
@@ -860,6 +872,8 @@ tokens, and DELIMITED as prefix arg."
 (global-set-key [f8] 'insert-char)
 ;; call 'expand-abbrev', especially in the 'insert-char' input minibuffer
 (global-set-key [f9] 'expand-abbrev)
+
+(define-key global-map (kbd "<C-f3>") 'search-selection)
 
 ;; (global-set-key (kbd "s-x") '(lambda () (interactive) (message "hello")))
 ;; another key notation: [(meta insert)]
