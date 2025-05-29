@@ -262,6 +262,19 @@ bsync() {
 }
 
 
+# This command will synchronize the contents of `/local/directory/` on your local machine with `/remote/directory/` on the remote host.
+# The `-avz` options stand for 'archive' mode, 'verbose' output and 'compress' respectively, and `-e ssh` specifies to use SSH for the data transfer.
+# The trailing slash in `/local/directory/` is necessary to indicate you want the contents of the directory, not the directory itself.
+remsync() {
+    local_dir=$1
+    user=$2
+    remote_host=$3
+    remote_dir=$4
+    # rsync -avz -e ssh /local/directory/ user@remotehost:/remote/directory/
+    rsync -avz -e ssh "$local_dir" "$user"@"$remote_host":"$remote_dir"
+}
+
+
 #########
 # RADIO #
 #########

@@ -34,13 +34,12 @@
 (when (eq system-type 'darwin)
   (setq dired-use-ls-dired nil)
   (when (display-graphic-p)
-    (setq mac-option-modifier 'control)
-    (setq mac-command-modifier 'meta)
     ;; values can be 'control, 'alt, 'meta, 'super, 'hyper, nil
     ;; (setting to nil allows the OS to assign values)
-    (let ((my-path "/usr/local/mysql/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:"))
-      (setenv "PATH" (concat my-path (getenv "PATH")))
-      (setq exec-path (append (split-string my-path path-separator) exec-path)))))
+    (setq mac-option-modifier 'control)
+    (setq mac-command-modifier 'meta)))
+
+(setenv "JAVA_HOME" (expand-file-name "~/.sdkman/candidates/java/current"))
 
 
 ;; --------
