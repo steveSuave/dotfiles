@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: testaki
-# key: t
+# key: testsnippet
 # --
 $0
 Point will start at 1 and end at 0

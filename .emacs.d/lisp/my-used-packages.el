@@ -77,20 +77,27 @@
   (yas--define-parents 'minibuffer-inactive-mode '(fundamental-mode)))
 (add-hook 'minibuffer-setup-hook 'yas-minor-mode)
 
-(use-package hideshow
-  :bind (("C-c TAB" . hs-toggle-hiding)
-         ("M-+" . hs-show-all))
-  :init (add-hook #'prog-mode-hook #'hs-minor-mode)
-  :diminish hs-minor-mode
+(use-package treesit-fold
+  :straight (treesit-fold :type git :host github :repo "emacs-tree-sitter/treesit-fold")
   :config
-  (setq hs-special-modes-alist
-        (mapcar 'purecopy
-                '((c-mode "{" "}" "/[*/]" nil nil)
-                  (c++-mode "{" "}" "/[*/]" nil nil)
-                  (java-mode "{" "}" "/[*/]" nil nil)
-                  (js-mode "[{[]" "[}\\]]" "/[*/]" nil)
-                  (json-mode "{" "}" "/[*/]" nil)
-                  (javascript-mode  "{" "}" "/[*/]" nil)))))
+  (setq treesit-fold-line-count-show t)
+  (define-key treesit-fold-mode-map (kbd "C-c <tab>") 'treesit-fold-toggle)
+  (global-treesit-fold-mode))
+
+;; (use-package hideshow
+;;   :bind (("C-c TAB" . hs-toggle-hiding)
+;;          ("M-+" . hs-show-all))
+;;   :init (add-hook #'prog-mode-hook #'hs-minor-mode)
+;;   :diminish hs-minor-mode
+;;   :config
+;;   (setq hs-special-modes-alist
+;;         (mapcar 'purecopy
+;;                 '((c-mode "{" "}" "/[*/]" nil nil)
+;;                   (c++-mode "{" "}" "/[*/]" nil nil)
+;;                   (java-mode "{" "}" "/[*/]" nil nil)
+;;                   (js-mode "[{[]" "[}\\]]" "/[*/]" nil)
+;;                   (json-mode "{" "}" "/[*/]" nil)
+;;                   (javascript-mode  "{" "}" "/[*/]" nil)))))
 
 ;; Enable vertico
 (use-package vertico
@@ -315,6 +322,84 @@
 
 ;; :key can be a function that returns the API key.
 (gptel-make-gemini "Gemini" :key "" :stream t)
+
+(gptel-make-openai "OpenRouter"               ;Any name you want
+  :host "openrouter.ai"
+  :endpoint "/api/v1/chat/completions"
+  :stream t
+  :key "" ;can be a function that returns the key
+  :models '(anthropic/claude-2
+            anthropic/claude-3-5-haiku
+            anthropic/claude-3-5-haiku-20241022
+            anthropic/claude-3-haiku
+            anthropic/claude-3-haiku-20240307
+            anthropic/claude-3-opus
+            anthropic/claude-3-sonnet
+            anthropic/claude-3.5-sonnet
+            anthropic/claude-3.5-sonnet:beta
+            anthropic/claude-3.7-sonnet
+            anthropic/claude-3.7-sonnet:beta
+            anthropic/claude-instant-v1
+            cognitivecomputations/dolphin-mixtral-8x7b
+            cohere/command-r-plus
+            databricks/dbrx-instruct
+            deepseek/deepseek-chat
+            deepseek/deepseek-chat-v3-0324
+            deepseek/deepseek-chat-v3-0324:free
+            deepseek/deepseek-chat:free
+            deepseek/deepseek-coder
+            deepseek/deepseek-r1
+            deepseek/deepseek-r1:free
+            fireworks/firellava-13b
+            google/gemini-2.0-flash-001
+            google/gemini-2.0-flash-exp:free
+            google/gemini-2.5-pro-exp-03-25:free
+            google/gemini-2.5-pro-preview-03-25
+            google/gemini-pro-1.5
+            google/gemini-pro-vision
+            google/palm-2-chat-bison
+            google/palm-2-codechat-bison
+            gryphe/mythomax-l2-13b
+            jondurbin/airoboros-l2-70b-2.1
+            mancer/weaver
+            meta-llama/codellama-34b-instruct
+            meta-llama/llama-2-13b-chat
+            meta-llama/llama-2-70b-chat
+            meta-llama/llama-3-70b-instruct
+            meta-llama/llama-3-70b-instruct:nitro
+            meta-llama/llama-3-8b-instruct:extended
+            meta-llama/llama-3-8b-instruct:free
+            microsoft/wizardlm-2-8x22b:nitro
+            mistralai/mistral-7b-instruct
+            mistralai/mistral-7b-instruct:free
+            mistralai/mistral-large
+            mistralai/mistral-small-3.1-24b-instruct
+            mistralai/mixtral-8x22b-instruct
+            nousresearch/nous-hermes-llama2-13b
+            openai/gpt-3.5-turbo
+            openai/gpt-3.5-turbo-16k
+            openai/gpt-4
+            openai/gpt-4-vision-preview
+            openai/gpt-4o
+            openai/gpt-4o-2024-05-13
+            openai/gpt-4o-mini
+            openai/o1
+            openai/o1-mini
+            openai/o1-mini-2024-09-12
+            openai/o1-preview
+            openai/o1-preview-2024-09-12
+            openai/o3-mini
+            openai/o3-mini-high
+            openrouter/optimus-alpha
+            openrouter/quasar-alpha
+            pygmalionai/mythalion-13b
+            qwen/qwen-2.5-coder-32b-instruct
+            undi95/remm-slerp-l2-13b
+            x-ai/grok-3-beta
+            x-ai/grok-3-fast-beta
+            x-ai/grok-3-mini-beta
+            x-ai/grok-3-mini-fast-beta
+            google/gemini-2.5-pro-preview-03-25))
 
 
 ;; (gptel-make-ollama
