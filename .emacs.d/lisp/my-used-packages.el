@@ -12,26 +12,26 @@
   (load bootstrap-file nil 'nomessage))
 
 (straight-use-package 'gptel)
-(straight-use-package 'go-mode)
-(straight-use-package 'lua-mode)
-(straight-use-package 'sml-mode)
+;; (straight-use-package 'go-mode)
+;; (straight-use-package 'lua-mode)
+;; (straight-use-package 'sml-mode)
 ;;(straight-use-package 'dart-mode)
-(straight-use-package 'sqlformat)
-(straight-use-package 'yaml-mode)
-(straight-use-package 'rust-mode)
+;; (straight-use-package 'sqlformat)
+;; (straight-use-package 'yaml-mode)
+;; (straight-use-package 'rust-mode)
 ;;(straight-use-package 'impostman)
-(straight-use-package 'restclient)
-(straight-use-package 'groovy-mode)
+;; (straight-use-package 'restclient)
+;; (straight-use-package 'groovy-mode)
 (straight-use-package 'use-package)
-(straight-use-package 'racket-mode)
-(straight-use-package 'haskell-mode)
-(straight-use-package 'feature-mode)
+;; (straight-use-package 'racket-mode)
+;; (straight-use-package 'haskell-mode)
+;; (straight-use-package 'feature-mode)
 (straight-use-package 'markdown-mode)
-(straight-use-package 'darcula-theme)
+;; (straight-use-package 'darcula-theme)
 (straight-use-package 'expand-region)
-(straight-use-package 'smalltalk-mode)
-(straight-use-package 'javadoc-lookup)
-(straight-use-package 'dockerfile-mode)
+;; (straight-use-package 'smalltalk-mode)
+;; (straight-use-package 'javadoc-lookup)
+;; (straight-use-package 'dockerfile-mode)
 
 (use-package esup
   :straight t
@@ -140,20 +140,20 @@
   :config
   (reverse-im-mode t))
 
-(use-package conda
-  :straight t
-  :init
-  (setq conda-anaconda-home (expand-file-name "/usr/local/anaconda3"))
-  (setq conda-env-home-directory (expand-file-name "/usr/local/anaconda3")))
-;; M-x conda-env-activate
+;; (use-package conda
+;;   :straight t
+;;   :init
+;;   (setq conda-anaconda-home (expand-file-name "/usr/local/anaconda3"))
+;;   (setq conda-env-home-directory (expand-file-name "/usr/local/anaconda3")))
+;; ;; M-x conda-env-activate
 
-(use-package flutter
-  :straight t
-  :after dart-mode
-  :bind (:map dart-mode-map
-              ("C-M-x" . #'flutter-run-or-hot-reload))
-  :custom
-  (flutter-sdk-path "/Users/stefanoslevantis/development/flutter/"))
+;; (use-package flutter
+;;   :straight t
+;;   :after dart-mode
+;;   :bind (:map dart-mode-map
+;;               ("C-M-x" . #'flutter-run-or-hot-reload))
+;;   :custom
+;;   (flutter-sdk-path "/Users/stefanoslevantis/development/flutter/"))
 
 ;; A few more useful configurations...
 (use-package emacs
