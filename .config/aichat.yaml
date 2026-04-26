@@ -1,0 +1,96 @@
+# see https://github.com/sigoden/aichat/blob/main/config.example.yaml
+
+model: openrouter:openai/gpt-4.1
+clients:
+- type: openai-compatible
+  name: openrouter
+  api_base: https://openrouter.ai/api/v1
+  api_key: changeme
+
+- type: openai
+  api_key: changeme
+
+
+# See https://ai.google.dev/docs
+- type: gemini
+  # api_base: https://generativelanguage.googleapis.com/v1beta
+  api_key: changeme
+  patch:
+    chat_completions:
+      '.*':
+        body:
+          safetySettings:
+            - category: HARM_CATEGORY_HARASSMENT
+              threshold: BLOCK_NONE
+            - category: HARM_CATEGORY_HATE_SPEECH
+              threshold: BLOCK_NONE
+            - category: HARM_CATEGORY_SEXUALLY_EXPLICIT
+              threshold: BLOCK_NONE
+            - category: HARM_CATEGORY_DANGEROUS_CONTENT
+              threshold: BLOCK_NONE
+
+
+# See https://docs.anthropic.com/claude/reference/getting-started-with-the-api
+- type: claude
+  # api_base: https://api.anthropic.com/v1            # Optional
+  api_key: changeme
+
+
+# For any platform compatible with OpenAI's API
+# - type: openai-compatible
+#   name: local
+#   api_base: http://localhost:8080/v1
+#   models:
+#     - name: jina/jina-embeddings-v2-base-en
+#       type: embedding
+#       default_chunk_size: 1500
+#       max_batch_size: 100
+#    - name: jina-reranker-v2-base-multilingual
+#      type: reranker
+
+
+# light_theme: false
+# left_prompt: '{model}{!session >} '
+left_prompt:
+  '{model}{color.green}{?session {?agent {agent}>}{session}{?role /}}{!session {?agent {agent}>}}{role}{?rag @{rag}}{color.cyan}{?session )}{!session >}{color.reset} '
+right_prompt:
+  '{color.purple}{?session {?consume_tokens {consume_tokens}({consume_percent}%)}{!consume_tokens {consume_tokens}}}{color.reset}'
+
+
+# ---- RAG ----
+# See [RAG-Guide](https://github.com/sigoden/aichat/wiki/RAG-Guide) for more details.
+rag_embedding_model: null
+rag_reranker_model: null
+rag_top_k: 5                                # Specifies the number of documents to retrieve
+rag_chunk_size: null                        # Specifies the chunk size
+rag_chunk_overlap: null                     # Specifies the chunk overlap
+rag_min_score_vector_search: 0              # Specifies the minimum relevance score for vector-based searching
+rag_min_score_keyword_search: 0             # Specifies the minimum relevance score for keyword-based searching
+# Defines the query structure using variables like __CONTEXT__ and __INPUT__ to tailor searches to specific needs
+rag_template: |
+  Answer the query based on the context while respecting the rules. (user query, some textual context and rules, all inside xml tags)
+
+  <context>
+  __CONTEXT__
+  </context>
+
+  <rules>
+  - If you don't know, just say so.
+  - If you are not sure, ask for clarification.
+  - Answer in the same language as the user query.
+  - If the context appears unreadable or of poor quality, tell the user then answer as best as you can.
+  - If the answer is not in the context but you think you know the answer, explain that to the user then answer with your own knowledge.
+  - Answer directly and without using xml tags.
+  </rules>
+
+  <user_query>
+  __INPUT__
+  </user_query>
+
+# Define document loaders to control how RAG and `.file`/`--file` load files of specific formats.
+document_loaders:
+  # You can add custom loaders using the following syntax:
+  #   <file-extension>: <command-to-load-the-file>
+  # Note: Use `$1` for input file and `$2` for output file. If `$2` is omitted, use stdout as output.
+  pdf: 'pdftotext $1 -'                         # Load .pdf file, see https://poppler.freedesktop.org to set up pdftotext
+  docx: 'pandoc --to plain $1'                  # Load .docx file, see https://pandoc.org to set up pandoc
