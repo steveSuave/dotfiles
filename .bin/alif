@@ -12,6 +12,8 @@ alias mysql.stop="sudo /usr/local/mysql/support-files/mysql.server stop"
 alias mysql.restart="sudo /usr/local/mysql/support-files/mysql.server restart"
 alias mysql.status="sudo /usr/local/mysql/support-files/mysql.server status"
 
+alias disable_line_wrap="printf '\e[?7l'"
+alias enable_line_wrap="printf '\e[?7h'"
 alias kk='tput reset' #"clear && printf '\e[3J'"
 alias rt='cd;kk'
 alias ed='rlwrap ed'
@@ -272,6 +274,22 @@ remsync() {
     remote_dir=$4
     # rsync -avz -e ssh /local/directory/ user@remotehost:/remote/directory/
     rsync -avz -e ssh "$local_dir" "$user"@"$remote_host":"$remote_dir"
+}
+
+# Count lines of code
+# $1 = file extension
+linecount() {
+    echo "1M tokens ~ 40.000 lines, no room for thought"
+    find . -name "*.$1" -print0 | xargs -0 cat | wc -l
+}
+
+# Count lines of code, grouped by top level dir
+# $1 = file extension
+dirlinecount() {
+  for d in */; do
+    cnt=$(find "$d" -type f -name "*.$1" -print0 | xargs -0 cat 2>/dev/null | wc -l)
+    echo "${d%/}: $cnt"
+  done
 }
 
 

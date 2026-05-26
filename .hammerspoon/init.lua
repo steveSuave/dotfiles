@@ -85,11 +85,11 @@ local win = hs.window.focusedWindow()
 win:maximize()
 end)
 
--- app window to full screen
-hs.hotkey.bind({"cmd", "alt"}, "G", function()
-local win = hs.window.focusedWindow()
-win:toggleFullScreen()
-end)
+-- -- app window to full screen
+-- hs.hotkey.bind({"cmd", "alt"}, "G", function()
+-- local win = hs.window.focusedWindow()
+-- win:toggleFullScreen()
+-- end)
 
 -- bind window to left and right
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Left", function()

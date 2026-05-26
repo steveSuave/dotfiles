@@ -57,7 +57,7 @@
  '(lsp-dart-flutter-sdk-dir "~/development/flutter/")
  '(lsp-dart-sdk-dir "~/development/flutter/bin/cache/dart-sdk/")
  '(magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
- '(minions-mode-line-lighter "etc")
+ '(minions-mode-line-lighter " etc")
  '(minions-prominent-modes '(vlf-mode))
  '(mode-require-final-newline 'ask)
  '(newsticker-url-list
@@ -74,7 +74,8 @@
  '(sml-program-name "poly")
  '(tab-width 4)
  '(tcl-application "tclsh")
- '(treemacs-show-hidden-files nil))
+ '(treemacs-show-hidden-files nil)
+ '(treesit-auto-install t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -83,4 +84,6 @@
  '(erc-input-face ((t (:foreground "salmon"))))
  '(erc-my-nick-face ((t (:foreground "goldenrod" :weight bold))))
  '(hl-line ((t (:inherit nil :extend t :background "gray21" :underline nil))))
+ '(org-level-2 ((t (:inherit outline-3 :extend nil))))
+ '(org-level-3 ((t (:inherit outline-6 :extend nil))))
  '(trailing-whitespace ((t (:background "gray74")))))

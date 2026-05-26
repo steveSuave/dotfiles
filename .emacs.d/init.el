@@ -812,7 +812,6 @@ Interactively, POINT is point and KILL is the prefix argument."
     path))
 
 
-
 
 ;; --------
 ;; BINDINGS
@@ -1013,7 +1012,7 @@ Interactively, POINT is point and KILL is the prefix argument."
     ("subn"    "ₙ")
     ("subm"    "ₘ")
     ("subj"    "ⱼ")
-    ("sqrt"    "√")
+    ("sqrot"   "√")
     ("cbrt"    "∛")
     ("scht"    "϶")
     ("bln"     "∈")
@@ -1045,6 +1044,10 @@ Interactively, POINT is point and KILL is the prefix argument."
     ("fnc"     "𝑓")
     ("lngl"    "⟨")
     ("rngl"    "⟩")
+    ("gngl"    "∠")
+    ("rght"    "∟")
+    ("bkz"     "∵")
+    ("2rf"     "∴")
     ))
 ;; see .emacs.d/abbrev_defs
 ;; M-x edit-abbrevs
@@ -1058,19 +1061,24 @@ Interactively, POINT is point and KILL is the prefix argument."
          ("\\.conf\\'" . conf-mode)
          ("\\.config\\'" . conf-mode)
          ("\\.css\\'" . css-mode)
+         ("\\.dat$" . ledger-mode)
          ("\\.dart$" . dart-mode)
          ("diary" . diary-mode)
          ("\\.diff\\'" . diff-mode)
+         ("\\.dsrl\\'" . drools-mode)
+         ("\\.drl\\'" . drools-mode)
          ("Dockerfile" . dockerfile-mode)
          ("\\.el\\'"  . emacs-lisp-mode)
          ("\\.emacs\\'" . emacs-lisp-mode)
          ("\\.go\\'" . go-mode)
+         ("\\.gs\\'" . js-ts-mode)
          ("\\.hs\\'" . haskell-mode)
          ("\\.htm\\'" . html-mode)
          ("\\.html\\'" . html-mode)
          ("\\.java$" . java-mode)
          ("\\.js$" . js-mode)
-         ("\\.json$" . js-mode)
+         ("\\.json$" . json-ts-mode)
+         ("\\.ledger$" . ledger-mode)
          ("\\.lua$" . lua-mode)
          ("\\.ly$" . LilyPond-mode)
          ("\\Makefile$" . makefile-mode)
@@ -1087,6 +1095,7 @@ Interactively, POINT is point and KILL is the prefix argument."
          ("\\.scm\\'" . scheme-mode)
          ("\\.sed\\'" . sh-mode)
          ("\\.sh\\'" . sh-mode)
+         ("\\.rs\\'" . rust-mode)
          ("\\.sml\\'" . sml-mode)
          ("\\.sql\\'" . sql-mode)
          ("\\.text\\'" . text-mode)
@@ -1097,6 +1106,7 @@ Interactively, POINT is point and KILL is the prefix argument."
          ("\\.xsl$" . nxml-mode) ;; xsl-mode
          ("\\.yaml\\'" . yaml-mode)
          ("\\.yml\\'" . yaml-mode)
+         ("\\.vhd\\'" . vhdl-mode)
          ("github.*\\.txt$" . markdown-mode)
          ;; ("pom.xml" . nxml-mode)
          ("\\.http$" . restclient-mode)

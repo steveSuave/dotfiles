@@ -29,9 +29,37 @@
 (straight-use-package 'markdown-mode)
 ;; (straight-use-package 'darcula-theme)
 (straight-use-package 'expand-region)
-;; (straight-use-package 'smalltalk-mode)
-;; (straight-use-package 'javadoc-lookup)
-;; (straight-use-package 'dockerfile-mode)
+(straight-use-package 'smalltalk-mode)
+(straight-use-package 'javadoc-lookup)
+(straight-use-package 'dockerfile-mode)
+
+(use-package rust-mode
+  :straight t
+  :config
+  (add-hook 'rust-mode-hook 'eglot-ensure)
+  (defun run-cargo-bin ()
+    "Run the Rust binary specified in the current buffer's filename."
+    (interactive)
+    (let* ((file (file-name-base (buffer-file-name)))  ; Get current buffer's filename without extension
+           (default-directory (locate-dominating-file default-directory "Cargo.toml")))  ; Find Cargo project root
+      (if default-directory
+          (let ((compile-command (format "cargo run --bin %s" file)))
+            (compile compile-command))
+        (message "Not inside a Cargo project."))))
+
+  ;; Bind the function to a key shortcut, e.g., F5
+  (global-set-key (kbd "C-c C-r") 'run-cargo-bin))
+
+(use-package restclient
+  :straight t
+  :config
+  ;; temporary? fix for lost native function
+  (defsubst hash-table-contains-p (key table)
+    "Return non-nil if TABLE has an element with KEY."
+    (declare (side-effect-free t)
+             (important-return-value t))
+    (let ((missing (make-symbol "missing")))
+      (not (eq (gethash key table missing) missing)))))
 
 (use-package esup
   :straight t
@@ -48,6 +76,8 @@
 (use-package texfrag
   :straight t
   :config
+  (add-to-list 'texfrag-setup-alist '(texfrag-markdown agent-shell-mode))
+  (add-hook 'agent-shell-mode-hook #'texfrag-mode)
   (add-hook 'markdown-mode-hook #'texfrag-mode)
   (add-hook 'org-mode-hook #'texfrag-mode))
 
@@ -76,6 +106,11 @@
   (define-key minibuffer-local-map [tab] yas-maybe-expand)
   (yas--define-parents 'minibuffer-inactive-mode '(fundamental-mode)))
 (add-hook 'minibuffer-setup-hook 'yas-minor-mode)
+
+(use-package treesit-auto
+  :straight t
+  :config
+  (global-treesit-auto-mode))
 
 (use-package treesit-fold
   :straight (treesit-fold :type git :host github :repo "emacs-tree-sitter/treesit-fold")
@@ -401,6 +436,21 @@
             x-ai/grok-3-mini-fast-beta
             google/gemini-2.5-pro-preview-03-25))
 
+
+(use-package agent-shell
+    :straight t
+    :ensure-system-package
+    ;; Add agent installation configs here
+    ((claude-agent-acp . "npm install -g @agentclientprotocol/claude-agent-acp")))
+
+(setq agent-shell-anthropic-claude-environment
+      (agent-shell-make-environment-variables :inherit-env t))
+
+(setq agent-shell-anthropic-authentication
+      (agent-shell-anthropic-make-authentication :login t))
+
+(setq agent-shell-google-authentication
+      (agent-shell-google-make-authentication :login t))
 
 ;; (gptel-make-ollama
 ;;  "Ollama"                  ;Any name of your choosing
