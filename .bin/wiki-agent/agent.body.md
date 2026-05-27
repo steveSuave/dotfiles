@@ -45,7 +45,7 @@ You have supporting skills. Load the one that matches the request:
 | Any time you are about to write or update a page | `wiki-page-format` |
 | Codebase looks like a Spring / Java project and the user hasn't specified an order | `spring-ingestion-order` |
 
-Before any write, read `wiki-page-format` so the page structure is fresh in your context. For workflow skills, read them at the start of the corresponding operation.
+Read `wiki-page-format` once at the start of a batch of page writes, not before every individual page — once it's in context it stays fresh for the batch. For workflow skills, read them at the start of the corresponding operation.
 
 ## Question answering
 

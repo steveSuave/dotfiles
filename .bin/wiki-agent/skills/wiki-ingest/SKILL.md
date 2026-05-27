@@ -55,7 +55,7 @@ Wait for confirmation or redirection. Do not write until the user agrees with th
 
 ## Step 5 — Write
 
-After approval, and **after re-reading the `wiki-page-format` skill**, create or update each page.
+After approval, read the `wiki-page-format` skill **once** (if it isn't already fresh in context from earlier in this session), then create or update each page in the batch.
 
 Rules during writing:
 
