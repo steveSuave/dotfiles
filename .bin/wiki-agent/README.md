@@ -1,10 +1,20 @@
-# wiki-agent — centralized source for the wiki maintainer
+# wiki-agent — centralized source for the wiki agents
 
-This directory is the **single canonical source** for the code-wiki maintainer
-agent and its skills, kept centrally in `~/.bin/wiki-agent/` so it can be reused
-across every project rather than copied into each repo.
+This directory is the **single canonical source** for the code-wiki agents and
+their skills, kept centrally in `~/.bin/wiki-agent/` so they can be reused across
+every project rather than copied into each repo.
 
-The agent runs on two platforms with slightly different conventions:
+Two agents are generated, with complementary jobs:
+
+- **`code-wiki-maintainer`** — *builds and maintains* the `wiki/` knowledge base:
+  bootstraps an ingest plan, ingests packages, updates the wiki from a git diff,
+  and lints it. It owns `wiki/`.
+- **`wiki-onboarding-guide`** — *uses* that wiki to onboard a developer new to
+  the codebase, teaching the business logic in a learner-paced order, answering
+  questions, and tracking each learner's progress under `onboarding/`. It is
+  read-only on `wiki/` and `src/`.
+
+Each agent runs on two platforms with slightly different conventions:
 
 - **Claude Code** — reads `.claude/agents/` and `.claude/skills/`
 - **GitHub Copilot** — reads `.github/agents/` and `.github/skills/`
@@ -18,12 +28,19 @@ from here into whichever project you point the sync script at.
 
 ```
 ~/.bin/wiki-agent/
-  agent.body.md          shared agent prompt (markdown, no frontmatter)
-  skills/<name>/SKILL.md  shared, platform-agnostic skill bodies
-  sync.sh                generator (takes a target project path)
-  README.md              this file
+  agent.body.md           maintainer agent prompt (markdown, no frontmatter)
+  onboard.body.md         onboarding-guide agent prompt (markdown, no frontmatter)
+  skills/<name>/SKILL.md   shared, platform-agnostic skill bodies
+  sync.sh                 generator (takes a target project path)
+  README.md               this file
 ~/.bin/wiki-sync          launcher on PATH that calls sync.sh
 ```
+
+The maintainer routes to `wiki-bootstrap`, `wiki-ingest`, `wiki-diff-update`,
+`wiki-lint`, `wiki-page-format`, and `spring-ingestion-order`. The onboarding
+guide routes to `wiki-onboard`. `sync.sh` copies the union of both sets to each
+platform; the per-agent skill lists live in the `MAINTAINER_SKILLS` and
+`GUIDE_SKILLS` arrays in `sync.sh`.
 
 ## Usage
 
@@ -40,14 +57,34 @@ You can also call the script directly: `~/.bin/wiki-agent/sync.sh <project>`.
 
 ## Editing
 
-1. Edit `agent.body.md` or a file under `skills/` here in `~/.bin/wiki-agent/`.
-   **Never edit the generated files** under a project's `.claude/` or `.github/`
-   directly — `sync.sh` overwrites them.
+1. Edit `agent.body.md`, `onboard.body.md`, or a file under `skills/` here in
+   `~/.bin/wiki-agent/`. **Never edit the generated files** under a project's
+   `.claude/` or `.github/` directly — `sync.sh` overwrites them.
 2. Run `wiki-sync <project>` for each project you want to bring up to date.
-3. Commit the regenerated outputs in each project.
 
-To add a skill: create `skills/<name>/SKILL.md`, add `<name>` to the `SKILLS`
-array in `sync.sh` (order is the routing order), and re-run sync.
+To add a skill: create `skills/<name>/SKILL.md`, add `<name>` to the
+`MAINTAINER_SKILLS` or `GUIDE_SKILLS` array in `sync.sh` (order is the routing
+order for that agent), and re-run sync.
+
+## Local-only by default (`.git/info/exclude`)
+
+These files are generated per-project and shouldn't pollute the target repo's
+history, so `wiki-sync` keeps them **untracked locally** rather than asking you
+to commit them. On each run (not `--check`) it rewrites a marker-delimited block
+in the target project's `.git/info/exclude` listing the generated agent + skill
+paths *and* the `wiki/` and `onboarding/` trees:
+
+```
+# >>> wiki-agent (managed by wiki-sync) >>>
+...
+# <<< wiki-agent (managed by wiki-sync) <<<
+```
+
+The block is rewritten idempotently, preserving any of your own entries in that
+file. `.git/info/exclude` is per-clone and never committed, so each developer
+who wants the wiki agent runs `wiki-sync` themselves. If a project would rather
+track these files, delete the managed block (or commit the paths with
+`git add -f`). Non-git target directories are left untouched.
 
 ## CI guard
 
