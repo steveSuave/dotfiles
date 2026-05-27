@@ -1,0 +1,23 @@
+.bin/wiki-agent/agent.body.md
+  s_96abb81417cf92::t_8764d9cba15d17 48
+.bin/wiki-agent/skills/wiki-ingest/SKILL.md
+  s_96abb81417cf92::t_5f9f60c6fe7190 58
+.bin/wiki-agent/skills/wiki-page-format/SKILL.md
+  s_96abb81417cf92::t_1e4f1f3ce02448 3,8,10,12,16,35,46,58,60-61,65-67,70,72
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "56b2b6903d3431c03ad44cf9bb7cc4c053b95986",
+  "prompts": {},
+  "sessions": {
+    "s_96abb81417cf92": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fc908315-a38c-4564-a3fe-7e471dd552cf",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "SLevantis <stefanos.levantis@agileactors.com>"
+    }
+  }
+}
