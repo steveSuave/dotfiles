@@ -70,7 +70,7 @@ DESCRIPTION="Maintains a structured knowledge base (wiki/) that documents the bu
 
 # Skill directory names, in routing order. Drives both the copy step and the
 # Copilot agent's `skills:` frontmatter list.
-SKILLS=(wiki-ingest wiki-diff-update wiki-lint wiki-page-format spring-ingestion-order)
+SKILLS=(wiki-bootstrap wiki-ingest wiki-diff-update wiki-lint wiki-page-format spring-ingestion-order)
 
 STALE=0
 TMP="$(mktemp -d)"

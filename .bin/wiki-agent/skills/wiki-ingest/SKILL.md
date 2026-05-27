@@ -19,6 +19,8 @@ If the scope is fuzzy ("the service layer"), ask which folder(s). Don't guess.
 
 If this is the *first* ingest in the repo, also check whether `wiki/`, `wiki/index.md`, and `wiki/log.md` exist. Create them if not.
 
+If `wiki/plan.md` exists, this ingest should normally correspond to one of its unchecked tasks — confirm which task you're executing and use its scope. If the wiki is empty and there's no plan yet for a non-trivial codebase, prefer running `wiki-bootstrap` first so ingestion is sized and ordered rather than ad-hoc.
+
 If the project looks like a Spring / Java codebase and the user hasn't told you what to ingest first, also consult the `spring-ingestion-order` skill before recommending a starting point.
 
 ## Step 2 — Read
@@ -88,12 +90,21 @@ Add to `wiki/log.md`:
 - **Summary**: one paragraph — what was learned, what was changed, any corrections to earlier pages.
 ```
 
-## Step 8 — Report back
+## Step 8 — Update the plan (if one exists)
+
+If `wiki/plan.md` exists, now that the log entry is written:
+
+- Tick this task's checkbox (`[ ]` → `[x]`) and append the pages it produced to the task line.
+- Bump the `Status` count at the top of the plan.
+- If reading the scope revealed the plan was wrong (a package larger than its line count suggested, a split boundary that didn't hold, an unlisted sub-package), correct the affected task lines now while it's fresh — add, split, or re-scope tasks. The plan is a living map, not a frozen contract.
+
+## Step 9 — Report back
 
 Tell the user:
 
 - What pages were created and updated.
 - Any unresolved `[[links]]` they should be aware of (these are the natural next ingest candidates).
+- If a plan exists: progress so far and the next unchecked task.
 - Any open questions still on the table.
 
 ## Anti-patterns to avoid

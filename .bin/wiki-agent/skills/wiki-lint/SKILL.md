@@ -46,6 +46,7 @@ Scan `src/` and compare against the wiki:
 
 - Identify significant classes, services, or modules in `src/` that are not represented by any wiki page or referenced in any `Source` field.
 - Be selective — not every utility class deserves a page. Flag things that look like business concepts, services, or repositories.
+- If `wiki/plan.md` exists, cross-check: a missing package that has no plan task is the signal to add a `wiki-bootstrap` task for it (suggest this as the fix), not just to ingest it ad-hoc. A package covered by an unchecked task is simply pending, not missing.
 
 ### 6. Over-implementation detail
 

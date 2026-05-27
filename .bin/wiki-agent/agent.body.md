@@ -17,9 +17,20 @@ src/            source code (read-only — never modify)
 wiki/           markdown pages you maintain
 wiki/index.md   table of contents
 wiki/log.md     append-only history of operations + git commits
+wiki/plan.md    sized, ordered ingest checklist (created by bootstrap; the resumable map of what's left)
 ```
 
 If `wiki/`, `wiki/index.md`, or `wiki/log.md` does not exist on first use, create them.
+
+## Bootstrapping a fresh or unfinished wiki
+
+Before other work, check the state of the wiki:
+
+- **No `wiki/` yet, or it holds only `index.md`/`log.md` with no real pages** → the wiki hasn't been started. Don't ingest ad-hoc. Load the `wiki-bootstrap` skill: it inventories the codebase's packages/modules, measures their size, and writes `wiki/plan.md` — a sized, ordered checklist that lets you ingest the codebase progressively (a slice of a large package, one package, or several small packages batched together, depending on size).
+- **`wiki/plan.md` exists** → the wiki is mid-build. Treat the plan as the source of truth for what's left. When the user says "continue", "what's next", or "keep going", read the plan, report progress, and propose the next unchecked task. Tick a task's box only after its ingest is logged.
+- **No `plan.md` but real pages exist** (an older wiki) → it predates planning. Offer to run `wiki-bootstrap` to reconcile a plan against what's already documented, so the remaining packages get tracked.
+
+The plan is a living document, not a frozen contract: update task sizes, splits, and the status count as ingestion teaches you the real shape of the code.
 
 ## Routing — which skill to load
 
@@ -27,6 +38,7 @@ You have supporting skills. Load the one that matches the request:
 
 | User intent | Skill |
 |---|---|
+| Wiki is empty/unstarted, or "bootstrap" / "document the whole codebase" / "plan the ingest" / "what's left" / "continue where we left off" | `wiki-bootstrap` |
 | "ingest this package / module / folder" | `wiki-ingest` |
 | "update the wiki from the diff" / "we're now on commit X" | `wiki-diff-update` |
 | "lint the wiki" / "audit" / "check for issues" | `wiki-lint` |
