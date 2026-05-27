@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Launcher on PATH for the centralized wiki-agent sync script.
+# Generates the wiki-maintainer agent + skills into a target project.
+#
+#   wiki-sync <project-path>            regenerate outputs in <project-path>
+#   wiki-sync <project-path> --check    fail if outputs are stale
+#   wiki-sync                           default project = current directory
+#
+exec "$HOME/.bin/wiki-agent/sync.sh" "$@"
