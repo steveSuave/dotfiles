@@ -966,6 +966,10 @@ Interactively, POINT is point and KILL is the prefix argument."
         ("CANCELLED" . "red")
         ("DONE" . "green")))
 
+;; Add the textgreek package globally for all Org LaTeX previews
+(with-eval-after-load 'org
+  (add-to-list 'org-latex-packages-alist '("" "textgreek")))
+
 ;; (setq sql-connection-alist
 ;;       '((db-local
 ;;          (sql-product 'postgres)

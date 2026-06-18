@@ -79,7 +79,27 @@
   (add-to-list 'texfrag-setup-alist '(texfrag-markdown agent-shell-mode))
   (add-hook 'agent-shell-mode-hook #'texfrag-mode)
   (add-hook 'markdown-mode-hook #'texfrag-mode)
-  (add-hook 'org-mode-hook #'texfrag-mode))
+  (add-hook 'org-mode-hook #'texfrag-mode)
+
+  ;; Render LaTeX fragments in the current agent-shell buffer.
+  ;; The turn-complete callback already runs with this buffer current,
+  ;; so point-min/point-max refer to it. inhibit-read-only is needed
+  ;; because agent-shell marks rendered output read-only; with-demoted-errors
+  ;; keeps a render failure from breaking agent-shell's turn handling.
+  (defun my/agent-shell-render-latex (&rest _)
+    (with-demoted-errors "agent-shell texfrag: %S"
+      (let ((inhibit-read-only t))
+        (texfrag-region (point-min) (point-max)))))
+
+  ;; Subscribe once per agent-shell buffer: re-render on every completed turn
+  ;; (i.e. each time the `Claude>` prompt comes back ready for input).
+  (defun my/agent-shell-setup-latex-rendering ()
+    (agent-shell-subscribe-to
+     :shell-buffer (current-buffer)
+     :event 'turn-complete
+     :on-event #'my/agent-shell-render-latex))
+
+  (add-hook 'agent-shell-mode-hook #'my/agent-shell-setup-latex-rendering))
 
 (defun my/ansi-colorize-buffer ()
   (let ((buffer-read-only nil))
