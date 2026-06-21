@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.claude/latex-render/render_turn.py\""
+          }
+        ]
+      }
+    ]
+  }
+}

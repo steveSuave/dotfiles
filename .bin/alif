@@ -292,6 +292,18 @@ dirlinecount() {
   done
 }
 
+claude-tex() {
+  local dir="$HOME/.claude/latex-render"
+  # start the viewer server once, if it isn't already up
+  if ! curl -fs -o /dev/null "http://localhost:7777/index.html"; then
+    ( cd "$dir/web" && python3 -m http.server 7777 >/dev/null 2>&1 & )
+    sleep 0.4
+    command -v open >/dev/null && open "http://localhost:7777/" || command -v xdg-open >/dev/null && xdg-open "http://localhost:7777/"
+  fi
+  claude --settings "$dir/settings.json" "$@"
+}
+
+claude-tex-stop() { lsof -ti tcp:7777 | xargs kill 2>/dev/null; }
 
 #########
 # RADIO #
