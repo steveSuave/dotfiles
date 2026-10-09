@@ -1,0 +1,22 @@
+TEXTFILES/radio-notes/classical.txt
+  h_7b6bd6d3048c34 44
+TEXTFILES/radio-notes/fluxboom.txt
+  h_7b6bd6d3048c34 1,3
+TEXTFILES/radio-notes/hbop.txt
+  h_7b6bd6d3048c34 1-3,5,8-10
+TEXTFILES/radio-notes/rock.txt
+  h_7b6bd6d3048c34 1-3
+TEXTFILES/radio-notes/salsa.txt
+  h_7b6bd6d3048c34 5,54
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "7bcecf1889de38143a85d54ce0e0586449d42aa0",
+  "prompts": {},
+  "humans": {
+    "h_7b6bd6d3048c34": {
+      "author": "SLevantis <stefanos.levantis@agileactors.com>"
+    }
+  }
+}
