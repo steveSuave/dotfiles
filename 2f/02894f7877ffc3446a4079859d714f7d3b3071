@@ -1,0 +1,23 @@
+TEXTFILES/radio-notes/classical.txt
+  s_52301c0391d7e4::t_5260794df0b67b 17,23
+TEXTFILES/radio-notes/fluxboom.txt
+  s_52301c0391d7e4::t_864961a6a89b51 1-4,8
+TEXTFILES/radio-notes/salsa.txt
+  s_52301c0391d7e4::t_793a47cb358965 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "2f02894f7877ffc3446a4079859d714f7d3b3071",
+  "prompts": {},
+  "sessions": {
+    "s_52301c0391d7e4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a29b2173-8bf5-4f66-b3d9-da881a50f22c",
+        "model": "unknown"
+      },
+      "human_author": "SLevantis <stefanos.levantis@agileactors.com>"
+    }
+  }
+}
